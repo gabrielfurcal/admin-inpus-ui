@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Train } from "../../models/Train";
+import { Train } from "../../graphql/types";
 import { GET_TRAINS } from "../../graphql/queries";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";

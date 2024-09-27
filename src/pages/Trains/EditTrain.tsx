@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { Train, TrainInput } from '../../models/Train';
 import { GET_TRAIN_BY_ID } from '../../graphql/queries';
 import { SAVE_TRAIN } from '../../graphql/mutations';
 import { useMutation, useQuery } from '@apollo/client';
+import { TRAINS_TYPE, Train } from '../../graphql/types';
 
 const EditTrain: React.FC = () => {
     const { id } = useParams();
     const [train, setTrain] = useState<Train>();
-    const { loading, data, error } = useQuery<Train>(GET_TRAIN_BY_ID, {variables: { id: +id! }});
-    const [saveTrain, mutationObjects] = useMutation<Train, { train: TrainInput }>(SAVE_TRAIN);
+    const { loading, data, error } = useQuery<TRAINS_TYPE>(GET_TRAIN_BY_ID, {variables: { id: +id! }});
+    const [saveTrain, mutationObjects] = useMutation<Train, { train: Train }>(SAVE_TRAIN);
 
     useEffect(() => {
         if(data) {
-            setTrain(data);
+            setTrain(data.trainById);
         }
     }, [data])
 
     const handleChange: any = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        setTrain({
-            ...train,
+        setTrain((prevTrain) => ({
+            ...prevTrain,
             [name]: name === 'capacity' || name === 'maxSpeed' ? Number(value) : value,
-        });
+        }));
     }
 
     const handleSubmit: any = async (e: React.FormEvent<HTMLFormElement>) => {
