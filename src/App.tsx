@@ -1,25 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route, Outlet } from 'react-router-dom';
+import Trains from './pages/Trains/Trains';
+import Home from './pages/Home';
+import Menu from './components/Menu';
+import EditTrain from './pages/Trains/EditTrain';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <main>
+      <header>
+        <Menu></Menu>
       </header>
-    </div>
+        <Routes>
+          <Route path="/" element={<Home/>}></Route>
+          <Route path="/trains" element={<><h2>Trains</h2><Outlet/></>}>
+            <Route index element={<Trains/>}/>
+            <Route path="edit/:id" element={<EditTrain/>}/>
+          </Route>
+        </Routes> 
+    </main>
   );
 }
 
