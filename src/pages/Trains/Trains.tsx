@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Train } from "../../graphql/types";
-import { GET_TRAINS } from "../../graphql/queries";
+import { Train, useGetTrainsQuery } from "../../graphql/schema";
 import { Link } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { Table, Thead, Tbody, Tr, Th, Td } from "../../components/Table";
+import { PageHeader } from "../../components/PageHeader";
 
 const Trains: React.FC = () => {
     const [trains, setTrains] = useState<Train[]>([]);
-    const { loading, data, error } = useQuery<{trains: Train[]}>(GET_TRAINS);
+    const { loading, data, error } = useGetTrainsQuery();
 
     useEffect(() => {
+        // document.title+= " | Trains";
+
         if(data) {
             setTrains(data.trains);
         }
@@ -17,18 +19,17 @@ const Trains: React.FC = () => {
     const fetchTrains = (): any => {
         if(trains) {
             return trains.map((train: Train) => (
-                    <tr key={train.id?.toString()} className="[&>td]:border [&>td]:border-gray-500 [&>td]:px-4 [&>td]:py-2">
-                        <td>{train.id}</td>
-                        <td>{train.type}</td>
-                        <td>{train.capacity} passengers</td>
-                        <td>{train.maxSpeed} km/h</td>
-                        <td>
-                            <Link to={`edit/${train.id?.toString()}`}>View</Link> |
-                            <button>Delete</button>
-                        </td>
-                    </tr>
-                )
-            );
+                <Tr key={train.id}>
+                    <Td><span className="font-medium">{train.id}</span></Td>
+                    <Td>{train.type}</Td>
+                    <Td>{train.capacity} passengers</Td>
+                    <Td>{train.maxSpeed} km/h</Td>
+                    <Td>
+                        <Link to={`edit/${train.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
+                        <button className="font-medium underline">Delete</button>
+                    </Td>
+                </Tr>
+            ));
         }
     }
 
@@ -37,21 +38,27 @@ const Trains: React.FC = () => {
     if(error) return <p>Error: {error.message}</p>
 
     return (
-        <>
-            <table className="table-auto border border-collapse border-gray-500 w-[1000px]">
-                <thead>
-                    <tr className="[&>th]:border [&>th]:border-gray-500 [&>th]:px-4 [&>th]:py-2">
-                        <th>ID</th>
-                        <th>Type</th>
-                        <th>Capacity</th>
-                        <th>Max Speed</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <>  
+            <br/>
+            <PageHeader title="Trains"></PageHeader> 
+            <br/>
+            <Link to={`create`} type="button" className="inline-block rounded bg-neutral-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
+                Create New
+            </Link>
+            <Table>
+                <Thead>
+                    <Tr withStyle={false}>
+                        <Th>ID</Th>
+                        <Th>Type</Th>
+                        <Th>Capacity</Th>
+                        <Th>Max Speed</Th>
+                        <Th>Actions</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
                     {fetchTrains()}
-                </tbody>
-            </table>
+                </Tbody>
+            </Table>
         </>
     )
 }
