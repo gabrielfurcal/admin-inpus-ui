@@ -1,7 +1,7 @@
 import React from 'react'
-import { WrapperProps } from '../../types/WrapperProps'
+import { TableProps } from '../../types/TableProps'
 
-export const Tbody: React.FC<WrapperProps> = ({ children }) => {
+export const Tbody: React.FC<TableProps> = ({ children }) => {
     return (
         <tbody>
             {children}

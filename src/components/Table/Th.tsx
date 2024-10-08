@@ -1,7 +1,7 @@
 import React from 'react'
-import { WrapperProps } from '../../types/WrapperProps'
+import { TableProps } from '../../types/TableProps'
 
-export const Th: React.FC<WrapperProps> = ({ children }) => {
+export const Th: React.FC<TableProps> = ({ children }) => {
   return (
     <th scope="col" className="px-6 py-4">
         {children}

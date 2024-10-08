@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Train, useSaveTrainMutation } from '../../graphql/schema';
+import { Input } from '../../components/Form/Input';
+import { PageHeader } from '../../components/PageHeader';
+import { Button } from '../../components/Form/Button';
 
 const CreateTrain: React.FC = () => {
     const [train, setTrain] = useState<Train>();
@@ -34,24 +37,21 @@ const CreateTrain: React.FC = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} onChange={handleChange}>
-            <div className='form-input'>
-                <label htmlFor='type'>Type: </label>
-                <input name='type' type='text' defaultValue={train?.type}/>
-            </div>
-            <div className='form-input'>
-                <label htmlFor='capacity'>Capacity: </label>
-                <input name='capacity' type='number' defaultValue={train?.capacity} />
-            </div>
-            <div className='form-input'>
-                <label htmlFor='maxSpeed'>Max Speed (Km/h): </label>
-                <input name='maxSpeed' type='number' defaultValue={train?.maxSpeed} />
-            </div>
+        <>
+            <br/>
+            <PageHeader title="Create Train"></PageHeader> 
+            <br/>
+            <form onSubmit={handleSubmit}>
+            <Input value={train?.type} label='Type' placeholder='Insert a type' handleChange={handleChange} />
+            <Input value={train?.capacity} label='Capacity' placeholder='Insert capacity' handleChange={handleChange} />
+            <Input value={train?.capacity} label='Max Speed (Km/h)' placeholder='Insert max speed' handleChange={handleChange} />
+            
             <div className='form-buttons'>
-                <button type='submit' className='border-2 border-black'>Save</button>
+                <Button type='submit' text='Save'></Button>
                 {isSaved ? <label>Train saved</label> : <></>}
             </div>
         </form>
+        </>
     )
 }
 

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-export interface WrapperProps {
+export interface TableProps {
     children: ReactNode;
     withStyle?: boolean;
 }
