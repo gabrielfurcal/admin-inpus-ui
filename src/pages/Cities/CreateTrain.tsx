@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ApolloError } from '@apollo/client';
 
-export const CreateTrain: React.FC = () => {
+const CreateTrain: React.FC = () => {
     const [train, setTrain] = useState<TrainInput>({ type: '', capacity: 0, maxSpeed: 0 });
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
@@ -77,3 +77,5 @@ export const CreateTrain: React.FC = () => {
         </>
     )
 };
+
+export default CreateTrain;

@@ -1,5 +1,5 @@
 import React from 'react'
-import { TableProps } from '../../types/TableProps'
+import { TableProps } from '../props'
 
 export const Th: React.FC<TableProps> = ({ children }) => {
   return (

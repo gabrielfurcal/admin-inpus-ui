@@ -295,12 +295,45 @@ export type TrainInput = {
   type?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type SaveCityMutationVariables = Exact<{
+  city: CityInput;
+}>;
+
+
+export type SaveCityMutation = { __typename?: 'Mutation', saveCity?: { __typename?: 'City', id: string, city: string, province: string, country: string } | null };
+
+export type DeleteCityMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteCityMutation = { __typename?: 'Mutation', deleteCity?: boolean | null };
+
 export type SaveTrainMutationVariables = Exact<{
   train: TrainInput;
 }>;
 
 
 export type SaveTrainMutation = { __typename?: 'Mutation', saveTrain?: { __typename?: 'Train', id: string, type: string, capacity: number, maxSpeed: number } | null };
+
+export type DeleteTrainMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteTrainMutation = { __typename?: 'Mutation', deleteTrain?: boolean | null };
+
+export type GetCitiesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCitiesQuery = { __typename?: 'Query', cities: Array<{ __typename?: 'City', id: string, city: string, province: string, country: string }> };
+
+export type GetCityByIdQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type GetCityByIdQuery = { __typename?: 'Query', cityById?: { __typename?: 'City', id: string, city: string, province: string, country: string } | null };
 
 export type GetTrainByIdQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -315,6 +348,73 @@ export type GetTrainsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetTrainsQuery = { __typename?: 'Query', trains: Array<{ __typename?: 'Train', id: string, type: string, capacity: number, maxSpeed: number }> };
 
 
+export const SaveCityDocument = gql`
+    mutation saveCity($city: CityInput!) {
+  saveCity(city: $city) {
+    id
+    city
+    province
+    country
+  }
+}
+    `;
+export type SaveCityMutationFn = Apollo.MutationFunction<SaveCityMutation, SaveCityMutationVariables>;
+
+/**
+ * __useSaveCityMutation__
+ *
+ * To run a mutation, you first call `useSaveCityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveCityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveCityMutation, { data, loading, error }] = useSaveCityMutation({
+ *   variables: {
+ *      city: // value for 'city'
+ *   },
+ * });
+ */
+export function useSaveCityMutation(baseOptions?: Apollo.MutationHookOptions<SaveCityMutation, SaveCityMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SaveCityMutation, SaveCityMutationVariables>(SaveCityDocument, options);
+      }
+export type SaveCityMutationHookResult = ReturnType<typeof useSaveCityMutation>;
+export type SaveCityMutationResult = Apollo.MutationResult<SaveCityMutation>;
+export type SaveCityMutationOptions = Apollo.BaseMutationOptions<SaveCityMutation, SaveCityMutationVariables>;
+export const DeleteCityDocument = gql`
+    mutation deleteCity($id: Int!) {
+  deleteCity(id: $id)
+}
+    `;
+export type DeleteCityMutationFn = Apollo.MutationFunction<DeleteCityMutation, DeleteCityMutationVariables>;
+
+/**
+ * __useDeleteCityMutation__
+ *
+ * To run a mutation, you first call `useDeleteCityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCityMutation, { data, loading, error }] = useDeleteCityMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteCityMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCityMutation, DeleteCityMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCityMutation, DeleteCityMutationVariables>(DeleteCityDocument, options);
+      }
+export type DeleteCityMutationHookResult = ReturnType<typeof useDeleteCityMutation>;
+export type DeleteCityMutationResult = Apollo.MutationResult<DeleteCityMutation>;
+export type DeleteCityMutationOptions = Apollo.BaseMutationOptions<DeleteCityMutation, DeleteCityMutationVariables>;
 export const SaveTrainDocument = gql`
     mutation saveTrain($train: TrainInput!) {
   saveTrain(train: $train) {
@@ -351,6 +451,122 @@ export function useSaveTrainMutation(baseOptions?: Apollo.MutationHookOptions<Sa
 export type SaveTrainMutationHookResult = ReturnType<typeof useSaveTrainMutation>;
 export type SaveTrainMutationResult = Apollo.MutationResult<SaveTrainMutation>;
 export type SaveTrainMutationOptions = Apollo.BaseMutationOptions<SaveTrainMutation, SaveTrainMutationVariables>;
+export const DeleteTrainDocument = gql`
+    mutation deleteTrain($id: Int!) {
+  deleteTrain(id: $id)
+}
+    `;
+export type DeleteTrainMutationFn = Apollo.MutationFunction<DeleteTrainMutation, DeleteTrainMutationVariables>;
+
+/**
+ * __useDeleteTrainMutation__
+ *
+ * To run a mutation, you first call `useDeleteTrainMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTrainMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTrainMutation, { data, loading, error }] = useDeleteTrainMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteTrainMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTrainMutation, DeleteTrainMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTrainMutation, DeleteTrainMutationVariables>(DeleteTrainDocument, options);
+      }
+export type DeleteTrainMutationHookResult = ReturnType<typeof useDeleteTrainMutation>;
+export type DeleteTrainMutationResult = Apollo.MutationResult<DeleteTrainMutation>;
+export type DeleteTrainMutationOptions = Apollo.BaseMutationOptions<DeleteTrainMutation, DeleteTrainMutationVariables>;
+export const GetCitiesDocument = gql`
+    query getCities {
+  cities {
+    id
+    city
+    province
+    country
+  }
+}
+    `;
+
+/**
+ * __useGetCitiesQuery__
+ *
+ * To run a query within a React component, call `useGetCitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCitiesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCitiesQuery(baseOptions?: Apollo.QueryHookOptions<GetCitiesQuery, GetCitiesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCitiesQuery, GetCitiesQueryVariables>(GetCitiesDocument, options);
+      }
+export function useGetCitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCitiesQuery, GetCitiesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCitiesQuery, GetCitiesQueryVariables>(GetCitiesDocument, options);
+        }
+export function useGetCitiesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCitiesQuery, GetCitiesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCitiesQuery, GetCitiesQueryVariables>(GetCitiesDocument, options);
+        }
+export type GetCitiesQueryHookResult = ReturnType<typeof useGetCitiesQuery>;
+export type GetCitiesLazyQueryHookResult = ReturnType<typeof useGetCitiesLazyQuery>;
+export type GetCitiesSuspenseQueryHookResult = ReturnType<typeof useGetCitiesSuspenseQuery>;
+export type GetCitiesQueryResult = Apollo.QueryResult<GetCitiesQuery, GetCitiesQueryVariables>;
+export const GetCityByIdDocument = gql`
+    query getCityById($id: Int!) {
+  cityById(id: $id) {
+    id
+    city
+    province
+    country
+  }
+}
+    `;
+
+/**
+ * __useGetCityByIdQuery__
+ *
+ * To run a query within a React component, call `useGetCityByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCityByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCityByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetCityByIdQuery(baseOptions: Apollo.QueryHookOptions<GetCityByIdQuery, GetCityByIdQueryVariables> & ({ variables: GetCityByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCityByIdQuery, GetCityByIdQueryVariables>(GetCityByIdDocument, options);
+      }
+export function useGetCityByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCityByIdQuery, GetCityByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCityByIdQuery, GetCityByIdQueryVariables>(GetCityByIdDocument, options);
+        }
+export function useGetCityByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCityByIdQuery, GetCityByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCityByIdQuery, GetCityByIdQueryVariables>(GetCityByIdDocument, options);
+        }
+export type GetCityByIdQueryHookResult = ReturnType<typeof useGetCityByIdQuery>;
+export type GetCityByIdLazyQueryHookResult = ReturnType<typeof useGetCityByIdLazyQuery>;
+export type GetCityByIdSuspenseQueryHookResult = ReturnType<typeof useGetCityByIdSuspenseQuery>;
+export type GetCityByIdQueryResult = Apollo.QueryResult<GetCityByIdQuery, GetCityByIdQueryVariables>;
 export const GetTrainByIdDocument = gql`
     query getTrainById($id: Int!) {
   trainById(id: $id) {

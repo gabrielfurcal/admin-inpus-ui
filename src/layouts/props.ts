@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
 
-export interface TableProps {
+export interface LayoutProps {
     children: ReactNode;
-    withStyle?: boolean;
 }

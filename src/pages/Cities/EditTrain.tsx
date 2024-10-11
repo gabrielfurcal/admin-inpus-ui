@@ -6,7 +6,7 @@ import { usePageTitle } from '../../contexts/PageTitleContext';
 import { toast } from 'react-toastify';
 import { ApolloError } from '@apollo/client';
 
-export const EditTrain: React.FC = () => {
+const EditTrain: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const numericId = id ? parseInt(id) : undefined
     const [train, setTrain] = useState<TrainInput>();
@@ -95,3 +95,5 @@ export const EditTrain: React.FC = () => {
         </>
     )
 };
+
+export default EditTrain;

@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { Train, useDeleteTrainMutation, useGetTrainsQuery } from "../../graphql/schema";
+import { City, useDeleteCityMutation, useGetCitiesQuery } from "../../graphql/schema";
 import { Link } from "react-router-dom";
 import { Table, Thead, Tbody, Tr, Th, Td } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
 import { toast } from 'react-toastify';
 import { ApolloError } from "@apollo/client";
 
-export const Trains: React.FC = () => {
-    const [trains, setTrains] = useState<Train[]>([]);
+export const Cities: React.FC = () => {
+    const [cities, setCities] = useState<City[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetTrainsQuery();
+    const { loading, data, error, refetch } = useGetCitiesQuery();
     const { setTitle } = usePageTitle();
-    const [deleteTrain] = useDeleteTrainMutation();
+    const [deleteCity] = useDeleteCityMutation();
 
     useEffect(() => {
-        setTitle('Trains');
+        setTitle('Cities');
     }, [data, setTitle]);
 
     useEffect(() => {
         if(data) {
-            setTrains(data.trains);
+            setCities(data.cities);
         }
 
         if(isDeleted) {
-            toast.success('Train deleted', {
+            toast.success('City deleted', {
                 theme: 'light'
             });
             setIsDeleted(false);
@@ -39,15 +39,15 @@ export const Trains: React.FC = () => {
     }, [isDeleted, _error, setIsDeleted, data, refetch]);
 
     const handleDeleteClick: any = async (id: number) => {
-        if(await !window.confirm(`Are you sure you want to delete Train ${id.toString()}?`)) return;
+        if(await !window.confirm(`Are you sure you want to delete City ${id.toString()}?`)) return;
 
         try {
-            const result = await deleteTrain({ variables: { id } });
+            const result = await deleteCity({ variables: { id } });
 
             if(result.errors) {
                 throw new Error(result.errors.map((err) => err.message).join(','));
             } else {
-                setIsDeleted(result.data?.deleteTrain || false);
+                setIsDeleted(result.data?.deleteCity || false);
             }
         } catch(err) {
             if(err instanceof ApolloError || err instanceof Error) {
@@ -56,24 +56,24 @@ export const Trains: React.FC = () => {
         }
     }
 
-    const fetchTrains = (): any => {
-        if(trains) {
-            return trains.map((train: Train) => (
-                <Tr key={train.id}>
-                    <Td><span className="font-medium">{train.id}</span></Td>
-                    <Td>{train.type}</Td>
-                    <Td>{train.capacity} passengers</Td>
-                    <Td>{train.maxSpeed} km/h</Td>
+    const fetchCities = (): any => {
+        if(cities) {
+            return cities.map((city: City) => (
+                <Tr key={city.id}>
+                    <Td><span className="font-medium">{city.id}</span></Td>
+                    <Td>{city.city}</Td>
+                    <Td>{city.province}</Td>
+                    <Td>{city.country}</Td>
                     <Td>
-                        <Link to={`edit/${train.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
-                        <button className="font-medium underline" onClick={() => handleDeleteClick(+train.id)}>Delete</button>
+                        <Link to={`edit/${city.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
+                        <button className="font-medium underline" onClick={() => handleDeleteClick(+city.id)}>Delete</button>
                     </Td>
                 </Tr>
             ));
         }
     }
 
-    if(loading) return <p>Fetching Trains...</p>
+    if(loading) return <p>Fetching Cities...</p>
 
     if(error) {
         console.log(error.cause);
@@ -92,14 +92,14 @@ export const Trains: React.FC = () => {
                 <Thead>
                     <Tr withStyle={false}>
                         <Th>ID</Th>
-                        <Th>Type</Th>
-                        <Th>Capacity</Th>
-                        <Th>Max Speed</Th>
+                        <Th>City</Th>
+                        <Th>Province</Th>
+                        <Th>Country</Th>
                         <Th>Actions</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {fetchTrains()}
+                    {fetchCities()}
                 </Tbody>
             </Table>
         </>
