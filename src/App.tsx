@@ -8,6 +8,8 @@ import Menu from './components/Menu';
 import { Collapse, initTWE } from "tw-elements";
 import { PageLayout } from './layouts/PageLayout';
 import { PageTitleContext } from './contexts/PageTitleContext';
+import { CreateCity } from './pages/Cities/CreateCity';
+import { EditCity } from './pages/Cities/EditCity';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -30,8 +32,8 @@ const App: React.FC = () => {
               </Route>
               <Route path="/cities" element={<Outlet/>}>
                 <Route index element={<Cities/>}/>
-                {/* <Route path="create" element={<CreateTrain/>}/>
-                <Route path="edit/:id" element={<EditTrain/>}/> */}
+                <Route path="create" element={<CreateCity/>}/>
+                <Route path="edit/:id" element={<EditCity/>}/>
               </Route>
             </Routes>
         </PageLayout>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { TrainInput, useGetTrainByIdQuery, useSaveTrainMutation } from '../../graphql/schema';
+import { CityInput, useGetCityByIdQuery, useSaveCityMutation } from '../../graphql/schema';
 import { Input, Button } from '../../components/Form';
 import { usePageTitle } from '../../contexts/PageTitleContext';
 import { toast } from 'react-toastify';
@@ -10,40 +10,40 @@ import { DevTool } from '@hookform/devtools';
 import { DEFAULT_REF_VALUE } from '../../constants';
 
 type FormValues = {
-    type: string;
-    capacity: number;
-    maxSpeed: number;
+    city: string;
+    province: string;
+    country: string;
 }
 
-export const EditTrain: React.FC = () => {
+export const EditCity: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const numericId = id ? parseInt(id) : undefined;
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
-    const { loading, data, error } = useGetTrainByIdQuery({variables: { id: numericId! }});
-    const [saveTrain] = useSaveTrainMutation();
+    const { loading, data, error } = useGetCityByIdQuery({variables: { id: numericId! }});
+    const [saveCity] = useSaveCityMutation();
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();
     const { errors: formErrors } = formState;
 
     useEffect(() => {
-        setTitle('Edit trains');
+        setTitle('Edit city');
     }, [setTitle]);
 
     useEffect(() => {
         if(data && !isSaved) {
-            setValue('type', data.trainById?.type || '');
-            setValue('capacity', data.trainById?.capacity || 0);
-            setValue('maxSpeed', data.trainById?.maxSpeed || 0.00);
+            setValue('city', data.cityById?.city || '');
+            setValue('province', data.cityById?.province || '');
+            setValue('country', data.cityById?.country || '');
         }
 
         if(isSaved) {
-            toast.success('Train saved', {
+            toast.success('City saved', {
                 theme: 'light'
             });
             setIsSaved(false);
-            navigate('/trains');
+            navigate('/cities');
         }
 
         if(_error) {
@@ -54,15 +54,15 @@ export const EditTrain: React.FC = () => {
     }, [data, _error, isSaved, navigate, setValue]);
 
     const _handleSubmit: any = async (data: FormValues) => {
-        const trainToSave: TrainInput = {
-            id,
-            type: data.type,
-            capacity: data.capacity,
-            maxSpeed: data.maxSpeed
+        const cityToSave: CityInput = {
+            id: id,
+            city: data.city,
+            province: data.province,
+            country: data.country
         };
 
         try {
-            const result = await saveTrain({ variables: { train: trainToSave }});
+            const result = await saveCity({ variables: { city: cityToSave }});
 
             if(result.errors) {
                 throw new Error(result.errors.map((err) => err.message).join(','));
@@ -83,12 +83,12 @@ export const EditTrain: React.FC = () => {
     return (
         <>
             <form onSubmit={handleSubmit(_handleSubmit)}>
-                <Input {...register('type', { required: 'Type is required' })} defaultValue={DEFAULT_REF_VALUE} label='Type' placeholder='Insert a type' errorMessage={formErrors.type?.message} />
-                <Input {...register('capacity', { required: 'Capacity is required' })} defaultValue={DEFAULT_REF_VALUE} type='number' label='Capacity' placeholder='Insert capacity' errorMessage={formErrors.capacity?.message} />
-                <Input {...register('maxSpeed', { required: 'Max Speed is required' })} defaultValue={DEFAULT_REF_VALUE} type='number' allowDecimals={true} label='Max Speed (Km/h)' placeholder='Insert max speed' errorMessage={formErrors.maxSpeed?.message} />
+                <Input {...register('city', { required: 'City is required' })} defaultValue={DEFAULT_REF_VALUE} label='City' placeholder='Insert city name' errorMessage={formErrors.city?.message} />
+                <Input {...register('province', { required: 'Province is required' })} defaultValue={DEFAULT_REF_VALUE} label='Province' placeholder='Insert province name' errorMessage={formErrors.province?.message}  />
+                <Input {...register('country', { required: 'Country is required' })} defaultValue={DEFAULT_REF_VALUE} label='Country' placeholder='Insert country name' errorMessage={formErrors.country?.message} />
                 <Button type='submit' text='Save'/>
             </form>
-            <DevTool control={control}/>
+            <DevTool control={control} />
         </>
     )
 };
