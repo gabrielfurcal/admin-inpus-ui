@@ -28,16 +28,40 @@ const Menu = () => {
                     Home
                   </Link>
                 </li>
-                {/* Trains link */}
+                {/* Employees link */}
                 <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
-                  <Link to={"/trains"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
-                    Trains
+                  <Link to={"/employees"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
+                    Employees
                   </Link>
                 </li>
                 {/* Cities link */}
                 <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
                   <Link to={"/cities"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
                     Cities
+                  </Link>
+                </li>
+                {/* Status link */}
+                <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
+                  <Link to={"/status"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
+                    Status
+                  </Link>
+                </li>                
+                {/* Trains link */}
+                <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
+                  <Link to={"/trains"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
+                    Trains
+                  </Link>
+                </li>
+                {/* Stations link */}
+                <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
+                  <Link to={"/stations"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
+                    Stations
+                  </Link>
+                </li>
+                {/* Stations link */}
+                <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
+                  <Link to={"/schedules"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
+                    Schedules
                   </Link>
                 </li>
               </ul>

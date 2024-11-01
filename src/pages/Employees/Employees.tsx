@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { Train, useDeleteTrainMutation, useGetTrainsQuery } from "../../graphql/schema";
+import { Employee, useDeleteEmployeeMutation, useGetEmployeesQuery } from "../../graphql/schema";
 import { Link } from "react-router-dom";
 import { Table, Thead, Tbody, Tr, Th, Td } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
 import { toast } from 'react-toastify';
 import { ApolloError } from "@apollo/client";
 
-export const Trains: React.FC = () => {
-    const [trains, setTrains] = useState<Train[]>([]);
+export const Employees: React.FC = () => {
+    const [employees, setEmployees] = useState<Employee[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetTrainsQuery();
+    const { loading, data, error, refetch } = useGetEmployeesQuery();
     const { setTitle } = usePageTitle();
-    const [deleteTrain] = useDeleteTrainMutation();
+    const [deleteEmployee] = useDeleteEmployeeMutation();
 
     useEffect(() => {
-        setTitle('Trains');
+        setTitle('Employees');
     }, [data, setTitle]);
 
     useEffect(() => {
         if(data) {
-            setTrains(data.trains);
+            setEmployees(data.employees);
         }
 
         if(isDeleted) {
-            toast.success('Train deleted', {
+            toast.success('Employee deleted', {
                 theme: 'light'
             });
             setIsDeleted(false);
@@ -39,15 +39,15 @@ export const Trains: React.FC = () => {
     }, [isDeleted, _error, setIsDeleted, data, refetch]);
 
     const handleDeleteClick: any = async (id: number) => {
-        if(await !window.confirm(`Are you sure you want to delete Train ${id.toString()}?`)) return;
+        if(await !window.confirm(`Are you sure you want to delete Employee ${id.toString()}?`)) return;
 
         try {
-            const result = await deleteTrain({ variables: { id } });
+            const result = await deleteEmployee({ variables: { id } });
 
             if(result.errors) {
                 throw new Error(result.errors.map((err) => err.message).join(','));
             } else {
-                setIsDeleted(result.data?.deleteTrain || false);
+                setIsDeleted(result.data?.deleteEmployee || false);
             }
         } catch(err) {
             if(err instanceof ApolloError || err instanceof Error) {
@@ -56,24 +56,26 @@ export const Trains: React.FC = () => {
         }
     }
 
-    const fetchTrains = (): any => {
-        if(trains) {
-            return trains.map((train: Train) => (
-                <Tr key={train.id}>
-                    <Td><span className="font-medium">{train.id}</span></Td>
-                    <Td>{train.type}</Td>
-                    <Td>{train.capacity} passengers</Td>
-                    <Td>{train.maxSpeed} km/h</Td>
+    const fetchEmployees = (): any => {
+        if(employees) {
+            return employees.map((employee: Employee) => (
+                <Tr key={employee.id}>
+                    <Td><span className="font-medium">{employee.id}</span></Td>
+                    <Td>{employee.firstName}</Td>
+                    <Td>{employee.lastName}</Td>
+                    <Td>{employee.position}</Td>
+                    <Td>{employee.phoneNumber}</Td>
+                    <Td>{employee.email}</Td>
                     <Td>
-                        <Link to={`edit/${train.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
-                        <button className="font-medium underline" onClick={() => handleDeleteClick(train.id)}>Delete</button>
+                        <Link to={`edit/${employee.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
+                        <button className="font-medium underline" onClick={() => handleDeleteClick(+employee.id)}>Delete</button>
                     </Td>
                 </Tr>
             ));
         }
     }
 
-    if(loading) return <p>Fetching Trains...</p>
+    if(loading) return <p>Fetching Employees...</p>
 
     if(error) {
         console.log(error.cause);
@@ -92,14 +94,16 @@ export const Trains: React.FC = () => {
                 <Thead>
                     <Tr withStyle={false}>
                         <Th>ID</Th>
-                        <Th>Type</Th>
-                        <Th>Capacity</Th>
-                        <Th>Max Speed</Th>
+                        <Th>First Name</Th>
+                        <Th>Last Name</Th>
+                        <Th>Position</Th>
+                        <Th>Phone Number</Th>
+                        <Th>Email</Th>
                         <Th>Actions</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {fetchTrains()}
+                    {fetchEmployees()}
                 </Tbody>
             </Table>
         </>

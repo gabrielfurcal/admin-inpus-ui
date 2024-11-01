@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { CityInput, useGetCityByIdQuery, useSaveCityMutation } from '../../graphql/schema';
+import { StatusInput, useGetStatusByIdQuery, useSaveStatusMutation } from '../../graphql/schema';
 import { Input, Button } from '../../components/Form';
 import { usePageTitle } from '../../contexts/PageTitleContext';
 import { toast } from 'react-toastify';
@@ -10,40 +10,38 @@ import { DevTool } from '@hookform/devtools';
 import { DEFAULT_REF_VALUE } from '../../constants';
 
 type FormValues = {
-    city: string;
-    province: string;
-    country: string;
+    name: string;
+    description: string;
 }
 
-export const EditCity: React.FC = () => {
+export const EditStatus: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const numericId = id ? parseInt(id) : undefined;
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
-    const { loading, data, error } = useGetCityByIdQuery({variables: { id: numericId! }});
-    const [saveCity] = useSaveCityMutation();
+    const { loading, data, error } = useGetStatusByIdQuery({variables: { id: numericId! }});
+    const [saveStatus] = useSaveStatusMutation();
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();
     const { errors: formErrors } = formState;
 
     useEffect(() => {
-        setTitle('Edit city');
+        setTitle('Edit employee');
     }, [setTitle]);
 
     useEffect(() => {
         if(data && !isSaved) {
-            setValue('city', data.cityById?.city || '');
-            setValue('province', data.cityById?.province || '');
-            setValue('country', data.cityById?.country || '');
+            setValue('name', data.statusById?.name || '');
+            setValue('description', data.statusById?.description || '');
         }
 
         if(isSaved) {
-            toast.success('City saved', {
+            toast.success('Status saved', {
                 theme: 'light'
             });
             setIsSaved(false);
-            navigate('/cities');
+            navigate('/status');
         }
 
         if(_error) {
@@ -54,15 +52,10 @@ export const EditCity: React.FC = () => {
     }, [data, _error, isSaved, navigate, setValue]);
 
     const _handleSubmit: any = async (data: FormValues) => {
-        const cityToSave: CityInput = {
-            id: id,
-            city: data.city,
-            province: data.province,
-            country: data.country
-        };
+        const statusToSave: StatusInput = { id, ...data };
 
         try {
-            const result = await saveCity({ variables: { city: cityToSave }});
+            const result = await saveStatus({ variables: { status: statusToSave }});
 
             if(result.errors) {
                 throw new Error(result.errors.map((err) => err.message).join(','));
@@ -76,16 +69,15 @@ export const EditCity: React.FC = () => {
         }
     }
 
-    if(loading) return <p>Fetching city...</p>
+    if(loading) return <p>Fetching status...</p>
 
     if(error) return <p>Error: {error.message}</p>
 
     return (
         <>
             <form onSubmit={handleSubmit(_handleSubmit)}>
-                <Input {...register('city', { required: 'City is required' })} defaultValue={DEFAULT_REF_VALUE} label='City' placeholder='Insert city name' errorMessage={formErrors.city?.message} />
-                <Input {...register('province', { required: 'Province is required' })} defaultValue={DEFAULT_REF_VALUE} label='Province' placeholder='Insert province name' errorMessage={formErrors.province?.message}  />
-                <Input {...register('country', { required: 'Country is required' })} defaultValue={DEFAULT_REF_VALUE} label='Country' placeholder='Insert country name' errorMessage={formErrors.country?.message} />
+                <Input {...register('name', { required: 'Name is required' })} defaultValue={DEFAULT_REF_VALUE} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
+                <Input {...register('description', { required: 'Description is required' })} defaultValue={DEFAULT_REF_VALUE} label='Description' placeholder='Insert description' errorMessage={formErrors.description?.message} />
                 <Button type='submit' text='Save'/>
             </form>
             <DevTool control={control} />

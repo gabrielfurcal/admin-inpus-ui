@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { Train, useDeleteTrainMutation, useGetTrainsQuery } from "../../graphql/schema";
+import { Schedule, useDeleteScheduleMutation, useGetSchedulesQuery } from "../../graphql/schema";
 import { Link } from "react-router-dom";
 import { Table, Thead, Tbody, Tr, Th, Td } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
 import { toast } from 'react-toastify';
 import { ApolloError } from "@apollo/client";
 
-export const Trains: React.FC = () => {
-    const [trains, setTrains] = useState<Train[]>([]);
+export const Schedules: React.FC = () => {
+    const [schedules, setSchedules] = useState<Schedule[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetTrainsQuery();
+    const { loading, data, error, refetch } = useGetSchedulesQuery();
     const { setTitle } = usePageTitle();
-    const [deleteTrain] = useDeleteTrainMutation();
+    const [deleteSchedule] = useDeleteScheduleMutation();
 
     useEffect(() => {
-        setTitle('Trains');
+        setTitle('Schedules');
     }, [data, setTitle]);
 
     useEffect(() => {
         if(data) {
-            setTrains(data.trains);
+            setSchedules(data.schedules);
         }
 
         if(isDeleted) {
-            toast.success('Train deleted', {
+            toast.success('Schedule deleted', {
                 theme: 'light'
             });
             setIsDeleted(false);
@@ -39,15 +39,15 @@ export const Trains: React.FC = () => {
     }, [isDeleted, _error, setIsDeleted, data, refetch]);
 
     const handleDeleteClick: any = async (id: number) => {
-        if(await !window.confirm(`Are you sure you want to delete Train ${id.toString()}?`)) return;
+        if(await !window.confirm(`Are you sure you want to delete Schedule ${id.toString()}?`)) return;
 
         try {
-            const result = await deleteTrain({ variables: { id } });
+            const result = await deleteSchedule({ variables: { id } });
 
             if(result.errors) {
                 throw new Error(result.errors.map((err) => err.message).join(','));
             } else {
-                setIsDeleted(result.data?.deleteTrain || false);
+                setIsDeleted(result.data?.deleteSchedule || false);
             }
         } catch(err) {
             if(err instanceof ApolloError || err instanceof Error) {
@@ -56,24 +56,26 @@ export const Trains: React.FC = () => {
         }
     }
 
-    const fetchTrains = (): any => {
-        if(trains) {
-            return trains.map((train: Train) => (
-                <Tr key={train.id}>
-                    <Td><span className="font-medium">{train.id}</span></Td>
-                    <Td>{train.type}</Td>
-                    <Td>{train.capacity} passengers</Td>
-                    <Td>{train.maxSpeed} km/h</Td>
+    const fetchSchedule = (): any => {
+        if(schedules) {
+            return schedules.map((schedule: Schedule) => (
+                <Tr key={schedule.id}>
+                    <Td><span className="font-medium">{schedule.id}</span></Td>
+                    <Td>{schedule.train?.type}</Td>
+                    <Td>{schedule.route?.startStation?.name} - {schedule.route?.endStation?.name}</Td>
+                    <Td>{schedule.departureTime}</Td>
+                    <Td>{schedule.arrivalTime || 'N/A'}</Td>
+                    <Td>{schedule.status?.name}</Td>
                     <Td>
-                        <Link to={`edit/${train.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
-                        <button className="font-medium underline" onClick={() => handleDeleteClick(train.id)}>Delete</button>
+                        <Link to={`edit/${schedule.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
+                        <button className="font-medium underline" onClick={() => handleDeleteClick(+schedule.id)}>Delete</button>
                     </Td>
                 </Tr>
             ));
         }
     }
 
-    if(loading) return <p>Fetching Trains...</p>
+    if(loading) return <p>Fetching Schedules...</p>
 
     if(error) {
         console.log(error.cause);
@@ -92,14 +94,16 @@ export const Trains: React.FC = () => {
                 <Thead>
                     <Tr withStyle={false}>
                         <Th>ID</Th>
-                        <Th>Type</Th>
-                        <Th>Capacity</Th>
-                        <Th>Max Speed</Th>
+                        <Th>Train</Th>
+                        <Th>Route</Th>
+                        <Th>Departure Time</Th>
+                        <Th>Arrival Time</Th>
+                        <Th>Status</Th>
                         <Th>Actions</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {fetchTrains()}
+                    {fetchSchedule()}
                 </Tbody>
             </Table>
         </>
