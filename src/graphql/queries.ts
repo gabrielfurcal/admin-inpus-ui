@@ -130,6 +130,7 @@ export const GET_SCHEDULE_BY_ID = gql`
                 type
             }
             route {
+                id
                 startStation {
                     id
                     name
@@ -142,6 +143,7 @@ export const GET_SCHEDULE_BY_ID = gql`
             departureTime
             arrivalTime
             status {
+                id
                 name
             }
         }
@@ -172,6 +174,40 @@ export const GET_SCHEDULES = gql`
                 id
                 name
             }
+        }
+    }
+`
+
+export const GET_ROUTE_BY_ID = gql`
+    query getRouteById($id: Int!) {
+        routeById(id: $id) {
+            id
+            startStation {
+                id
+                name
+            }
+            endStation {
+                id
+                name
+            }
+            distance
+        }
+    }
+`
+
+export const GET_ROUTES = gql`
+    query getRoutes {
+        routes {
+            id
+            startStation {
+                id
+                name
+            }
+            endStation {
+                id
+                name
+            }
+            distance
         }
     }
 `

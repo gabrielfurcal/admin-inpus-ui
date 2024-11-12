@@ -283,7 +283,7 @@ export type StatusInput = {
 export type Train = {
   __typename?: 'Train';
   capacity?: Maybe<Scalars['Int']['output']>;
-  id?: Scalars['ID']['output'];
+  id: Scalars['ID']['output'];
   maxSpeed?: Maybe<Scalars['Float']['output']>;
   type: Scalars['String']['output'];
 };
@@ -379,6 +379,20 @@ export type DeleteScheduleMutationVariables = Exact<{
 
 export type DeleteScheduleMutation = { __typename?: 'Mutation', deleteSchedule?: boolean | null };
 
+export type SaveRouteMutationVariables = Exact<{
+  route: RouteInput;
+}>;
+
+
+export type SaveRouteMutation = { __typename?: 'Mutation', saveRoute?: { __typename?: 'Route', id: string, distance?: number | null, startStation?: { __typename?: 'Station', name: string } | null, endStation?: { __typename?: 'Station', name: string } | null } | null };
+
+export type DeleteRouteMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteRouteMutation = { __typename?: 'Mutation', deleteRoute?: boolean | null };
+
 export type GetCitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -444,12 +458,24 @@ export type GetScheduleByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetScheduleByIdQuery = { __typename?: 'Query', scheduleById?: { __typename?: 'Schedule', id: string, departureTime?: string | null, arrivalTime?: string | null, train?: { __typename?: 'Train', id: string, type: string } | null, route?: { __typename?: 'Route', startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null, status?: { __typename?: 'Status', name: string } | null } | null };
+export type GetScheduleByIdQuery = { __typename?: 'Query', scheduleById?: { __typename?: 'Schedule', id: string, departureTime?: string | null, arrivalTime?: string | null, train?: { __typename?: 'Train', id: string, type: string } | null, route?: { __typename?: 'Route', id: string, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null, status?: { __typename?: 'Status', id: string, name: string } | null } | null };
 
 export type GetSchedulesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetSchedulesQuery = { __typename?: 'Query', schedules: Array<{ __typename?: 'Schedule', id: string, departureTime?: string | null, arrivalTime?: string | null, train?: { __typename?: 'Train', id: string, type: string } | null, route?: { __typename?: 'Route', startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null, status?: { __typename?: 'Status', id: string, name: string } | null }> };
+
+export type GetRouteByIdQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type GetRouteByIdQuery = { __typename?: 'Query', routeById?: { __typename?: 'Route', id: string, distance?: number | null, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null };
+
+export type GetRoutesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRoutesQuery = { __typename?: 'Query', routes: Array<{ __typename?: 'Route', id: string, distance?: number | null, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null }> };
 
 
 export const SaveCityDocument = gql`
@@ -873,6 +899,77 @@ export function useDeleteScheduleMutation(baseOptions?: Apollo.MutationHookOptio
 export type DeleteScheduleMutationHookResult = ReturnType<typeof useDeleteScheduleMutation>;
 export type DeleteScheduleMutationResult = Apollo.MutationResult<DeleteScheduleMutation>;
 export type DeleteScheduleMutationOptions = Apollo.BaseMutationOptions<DeleteScheduleMutation, DeleteScheduleMutationVariables>;
+export const SaveRouteDocument = gql`
+    mutation saveRoute($route: RouteInput!) {
+  saveRoute(route: $route) {
+    id
+    startStation {
+      name
+    }
+    endStation {
+      name
+    }
+    distance
+  }
+}
+    `;
+export type SaveRouteMutationFn = Apollo.MutationFunction<SaveRouteMutation, SaveRouteMutationVariables>;
+
+/**
+ * __useSaveRouteMutation__
+ *
+ * To run a mutation, you first call `useSaveRouteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveRouteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveRouteMutation, { data, loading, error }] = useSaveRouteMutation({
+ *   variables: {
+ *      route: // value for 'route'
+ *   },
+ * });
+ */
+export function useSaveRouteMutation(baseOptions?: Apollo.MutationHookOptions<SaveRouteMutation, SaveRouteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SaveRouteMutation, SaveRouteMutationVariables>(SaveRouteDocument, options);
+      }
+export type SaveRouteMutationHookResult = ReturnType<typeof useSaveRouteMutation>;
+export type SaveRouteMutationResult = Apollo.MutationResult<SaveRouteMutation>;
+export type SaveRouteMutationOptions = Apollo.BaseMutationOptions<SaveRouteMutation, SaveRouteMutationVariables>;
+export const DeleteRouteDocument = gql`
+    mutation deleteRoute($id: Int!) {
+  deleteRoute(id: $id)
+}
+    `;
+export type DeleteRouteMutationFn = Apollo.MutationFunction<DeleteRouteMutation, DeleteRouteMutationVariables>;
+
+/**
+ * __useDeleteRouteMutation__
+ *
+ * To run a mutation, you first call `useDeleteRouteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRouteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRouteMutation, { data, loading, error }] = useDeleteRouteMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRouteMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRouteMutation, DeleteRouteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRouteMutation, DeleteRouteMutationVariables>(DeleteRouteDocument, options);
+      }
+export type DeleteRouteMutationHookResult = ReturnType<typeof useDeleteRouteMutation>;
+export type DeleteRouteMutationResult = Apollo.MutationResult<DeleteRouteMutation>;
+export type DeleteRouteMutationOptions = Apollo.BaseMutationOptions<DeleteRouteMutation, DeleteRouteMutationVariables>;
 export const GetCitiesDocument = gql`
     query getCities {
   cities {
@@ -1319,6 +1416,7 @@ export const GetScheduleByIdDocument = gql`
       type
     }
     route {
+      id
       startStation {
         id
         name
@@ -1331,6 +1429,7 @@ export const GetScheduleByIdDocument = gql`
     departureTime
     arrivalTime
     status {
+      id
       name
     }
   }
@@ -1428,3 +1527,100 @@ export type GetSchedulesQueryHookResult = ReturnType<typeof useGetSchedulesQuery
 export type GetSchedulesLazyQueryHookResult = ReturnType<typeof useGetSchedulesLazyQuery>;
 export type GetSchedulesSuspenseQueryHookResult = ReturnType<typeof useGetSchedulesSuspenseQuery>;
 export type GetSchedulesQueryResult = Apollo.QueryResult<GetSchedulesQuery, GetSchedulesQueryVariables>;
+export const GetRouteByIdDocument = gql`
+    query getRouteById($id: Int!) {
+  routeById(id: $id) {
+    id
+    startStation {
+      id
+      name
+    }
+    endStation {
+      id
+      name
+    }
+    distance
+  }
+}
+    `;
+
+/**
+ * __useGetRouteByIdQuery__
+ *
+ * To run a query within a React component, call `useGetRouteByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRouteByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRouteByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetRouteByIdQuery(baseOptions: Apollo.QueryHookOptions<GetRouteByIdQuery, GetRouteByIdQueryVariables> & ({ variables: GetRouteByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRouteByIdQuery, GetRouteByIdQueryVariables>(GetRouteByIdDocument, options);
+      }
+export function useGetRouteByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRouteByIdQuery, GetRouteByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRouteByIdQuery, GetRouteByIdQueryVariables>(GetRouteByIdDocument, options);
+        }
+export function useGetRouteByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetRouteByIdQuery, GetRouteByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetRouteByIdQuery, GetRouteByIdQueryVariables>(GetRouteByIdDocument, options);
+        }
+export type GetRouteByIdQueryHookResult = ReturnType<typeof useGetRouteByIdQuery>;
+export type GetRouteByIdLazyQueryHookResult = ReturnType<typeof useGetRouteByIdLazyQuery>;
+export type GetRouteByIdSuspenseQueryHookResult = ReturnType<typeof useGetRouteByIdSuspenseQuery>;
+export type GetRouteByIdQueryResult = Apollo.QueryResult<GetRouteByIdQuery, GetRouteByIdQueryVariables>;
+export const GetRoutesDocument = gql`
+    query getRoutes {
+  routes {
+    id
+    startStation {
+      id
+      name
+    }
+    endStation {
+      id
+      name
+    }
+    distance
+  }
+}
+    `;
+
+/**
+ * __useGetRoutesQuery__
+ *
+ * To run a query within a React component, call `useGetRoutesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRoutesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRoutesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetRoutesQuery(baseOptions?: Apollo.QueryHookOptions<GetRoutesQuery, GetRoutesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRoutesQuery, GetRoutesQueryVariables>(GetRoutesDocument, options);
+      }
+export function useGetRoutesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRoutesQuery, GetRoutesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRoutesQuery, GetRoutesQueryVariables>(GetRoutesDocument, options);
+        }
+export function useGetRoutesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetRoutesQuery, GetRoutesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetRoutesQuery, GetRoutesQueryVariables>(GetRoutesDocument, options);
+        }
+export type GetRoutesQueryHookResult = ReturnType<typeof useGetRoutesQuery>;
+export type GetRoutesLazyQueryHookResult = ReturnType<typeof useGetRoutesLazyQuery>;
+export type GetRoutesSuspenseQueryHookResult = ReturnType<typeof useGetRoutesSuspenseQuery>;
+export type GetRoutesQueryResult = Apollo.QueryResult<GetRoutesQuery, GetRoutesQueryVariables>;

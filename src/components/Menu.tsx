@@ -64,6 +64,12 @@ const Menu = () => {
                     Schedules
                   </Link>
                 </li>
+                {/* Routes link */}
+                <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
+                  <Link to={"/routes"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
+                    Routes
+                  </Link>
+                </li>
               </ul>
           </div>
         </div>

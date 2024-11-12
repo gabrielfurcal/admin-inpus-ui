@@ -120,3 +120,24 @@ export const DELETE_SCHEDULE = gql`
         deleteSchedule(id: $id)
     }
 `
+
+export const SAVE_ROUTE = gql`
+    mutation saveRoute($route: RouteInput!) {
+        saveRoute(route: $route) {
+            id
+            startStation {
+                name
+            }
+            endStation {
+                name
+            }
+            distance
+        }
+    }
+`
+
+export const DELETE_ROUTE = gql`
+    mutation deleteRoute($id: Int!) {
+        deleteRoute(id: $id)
+    }
+`

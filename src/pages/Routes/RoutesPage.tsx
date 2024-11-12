@@ -1,31 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { Schedule, useDeleteScheduleMutation, useGetSchedulesQuery } from "../../graphql/schema";
+import { Route, useDeleteRouteMutation, useGetRoutesQuery } from "../../graphql/schema";
 import { Link } from "react-router-dom";
 import { Table, Thead, Tbody, Tr, Th, Td } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
 import { toast } from 'react-toastify';
 import { ApolloError } from "@apollo/client";
-import { toPascalCase } from "../../hooks/utils";
 
-export const Schedules: React.FC = () => {
-    const [schedules, setSchedules] = useState<Schedule[]>([]);
+export const RoutesPage: React.FC = () => {
+    const [routes, setRoutes] = useState<Route[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetSchedulesQuery();
+    const { loading, data, error, refetch } = useGetRoutesQuery();
     const { setTitle } = usePageTitle();
-    const [deleteSchedule] = useDeleteScheduleMutation();
+    const [deleteRoute] = useDeleteRouteMutation();
 
     useEffect(() => {
-        setTitle('Schedules');
-    }, [setTitle]);
+        setTitle('Routes');
+    }, [data, setTitle]);
 
     useEffect(() => {
         if(data) {
-            setSchedules(data.schedules);
+            setRoutes(data.routes);
         }
 
         if(isDeleted) {
-            toast.success('Schedule deleted', {
+            toast.success('Route deleted', {
                 theme: 'light'
             });
             setIsDeleted(false);
@@ -40,15 +39,15 @@ export const Schedules: React.FC = () => {
     }, [isDeleted, _error, setIsDeleted, data, refetch]);
 
     const handleDeleteClick: any = async (id: number) => {
-        if(await !window.confirm(`Are you sure you want to delete Schedule ${id.toString()}?`)) return;
+        if(await !window.confirm(`Are you sure you want to delete Route ${id.toString()}?`)) return;
 
         try {
-            const result = await deleteSchedule({ variables: { id } });
+            const result = await deleteRoute({ variables: { id } });
 
             if(result.errors) {
                 throw new Error(result.errors.map((err) => err.message).join(','));
             } else {
-                setIsDeleted(result.data?.deleteSchedule || false);
+                setIsDeleted(result.data?.deleteRoute || false);
             }
         } catch(err) {
             if(err instanceof ApolloError || err instanceof Error) {
@@ -57,26 +56,23 @@ export const Schedules: React.FC = () => {
         }
     }
 
-    const fetchSchedule = (): any => {
-        if(schedules) {
-            return schedules.map((schedule: Schedule) => (
-                <Tr key={schedule.id}>
-                    <Td><span className="font-medium">{schedule.id}</span></Td>
-                    <Td>{`${schedule.train?.id}-${schedule.train?.type}`}</Td>
-                    <Td>{schedule.route?.startStation?.name} - {schedule.route?.endStation?.name}</Td>
-                    <Td>{schedule.departureTime}</Td>
-                    <Td>{schedule.arrivalTime || 'N/A'}</Td>
-                    <Td>{toPascalCase(schedule.status?.name!)}</Td>
+    const fetchRoutes = (): any => {
+        if(routes) {
+            return routes.map((route: Route) => (
+                <Tr key={route.id}>
+                    <Td><span className="font-medium">{route.id}</span></Td>
+                    <Td>{route?.startStation?.name} - {route?.endStation?.name}</Td>
+                    <Td>{route.distance} Km</Td>
                     <Td>
-                        <Link to={`edit/${schedule.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
-                        <button className="font-medium underline" onClick={() => handleDeleteClick(+schedule.id)}>Delete</button>
+                        <Link to={`edit/${route.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
+                        <button className="font-medium underline" onClick={() => handleDeleteClick(+route.id!)}>Delete</button>
                     </Td>
                 </Tr>
             ));
         }
     }
 
-    if(loading) return <p>Fetching Schedules...</p>
+    if(loading) return <p>Fetching Routes...</p>
 
     if(error) {
         console.log(error.cause);
@@ -95,16 +91,13 @@ export const Schedules: React.FC = () => {
                 <Thead>
                     <Tr withStyle={false}>
                         <Th>ID</Th>
-                        <Th>Train</Th>
-                        <Th>Route</Th>
-                        <Th>Departure Time</Th>
-                        <Th>Arrival Time</Th>
-                        <Th>Status</Th>
+                        <Th>Departure - Arrival</Th>
+                        <Th>Distance</Th>
                         <Th>Actions</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {fetchSchedule()}
+                    {fetchRoutes()}
                 </Tbody>
             </Table>
         </>

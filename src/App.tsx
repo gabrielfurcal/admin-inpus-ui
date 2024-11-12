@@ -11,7 +11,8 @@ import {Cities, CreateCity, EditCity } from './pages/Cities';
 import { Employees, CreateEmployee, EditEmployee } from './pages/Employees';
 import { Status, CreateStatus, EditStatus } from './pages/Status';
 import { CreateStation, EditStation, Stations } from './pages/Stations';
-import { Schedules } from './pages/Schedules';
+import { CreateSchedule, Schedules, EditSchedule } from './pages/Schedules';
+import { CreateRoute, EditRoute, RoutesPage } from './pages/Routes';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -54,8 +55,13 @@ const App: React.FC = () => {
               </Route>
               <Route path="/schedules" element={<Outlet/>}>
                 <Route index element={<Schedules/>}/>
-                {/* <Route path="create" element={<CreateStation/>}/>
-                <Route path="edit/:id" element={<EditStation/>}/> */}
+                <Route path="create" element={<CreateSchedule/>}/>
+                <Route path="edit/:id" element={<EditSchedule/>}/>
+              </Route>
+              <Route path="/routes" element={<Outlet/>}>
+                <Route index element={<RoutesPage/>}/>
+                <Route path="create" element={<CreateRoute/>}/>
+                <Route path="edit/:id" element={<EditRoute/>}/>
               </Route>
             </Routes>
         </PageLayout>

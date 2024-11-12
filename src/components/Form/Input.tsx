@@ -7,6 +7,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(({ name, def
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
+        if(type === 'datetime-local') setFilledStype('-translate-y-[0.9rem] scale-[0.8] text-gray');
+    }, [type]);
+
+    useEffect(() => {
         if(defaultValue && defaultValue !== '') setFilledStype('-translate-y-[0.9rem] scale-[0.8] text-gray');
     }, [defaultValue]);
 
