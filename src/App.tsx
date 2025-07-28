@@ -1,25 +1,72 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
 import './App.css';
+import { Routes, Route, Outlet } from 'react-router-dom';
+import Home from './pages/Home';
+import Menu from './components/Menu';
+import { Collapse, initTWE } from "tw-elements";
+import { PageLayout } from './layouts/PageLayout';
+import { PageTitleContext } from './contexts/PageTitleContext';
+import {Trains, CreateTrain, EditTrain } from './pages/Trains';
+import {Cities, CreateCity, EditCity } from './pages/Cities';
+import { Employees, CreateEmployee, EditEmployee } from './pages/Employees';
+import { Status, CreateStatus, EditStatus } from './pages/Status';
+import { CreateStation, EditStation, Stations } from './pages/Stations';
+import { CreateSchedule, Schedules, EditSchedule } from './pages/Schedules';
+import { CreateRoute, EditRoute, RoutesPage } from './pages/Routes';
 
-function App() {
+const App: React.FC = () => {
+  useEffect(() => {
+    initTWE({ Collapse });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <main>
+      <header>
+        <Menu></Menu>
       </header>
-    </div>
+      <PageTitleContext>
+        <PageLayout>
+          <Routes>
+              <Route path="/" element={<Home/>}/>
+              <Route path="/trains" element={<Outlet/>}>
+                <Route index element={<Trains/>}/>
+                <Route path="create" element={<CreateTrain/>}/>
+                <Route path="edit/:id" element={<EditTrain/>}/>
+              </Route>
+              <Route path="/cities" element={<Outlet/>}>
+                <Route index element={<Cities/>}/>
+                <Route path="create" element={<CreateCity/>}/>
+                <Route path="edit/:id" element={<EditCity/>}/>
+              </Route>
+              <Route path="/employees" element={<Outlet/>}>
+                <Route index element={<Employees/>}/>
+                <Route path="create" element={<CreateEmployee/>}/>
+                <Route path="edit/:id" element={<EditEmployee/>}/>
+              </Route>
+              <Route path="/status" element={<Outlet/>}>
+                <Route index element={<Status/>}/>
+                <Route path="create" element={<CreateStatus/>}/>
+                <Route path="edit/:id" element={<EditStatus/>}/>
+              </Route>
+              <Route path="/stations" element={<Outlet/>}>
+                <Route index element={<Stations/>}/>
+                <Route path="create" element={<CreateStation/>}/>
+                <Route path="edit/:id" element={<EditStation/>}/>
+              </Route>
+              <Route path="/schedules" element={<Outlet/>}>
+                <Route index element={<Schedules/>}/>
+                <Route path="create" element={<CreateSchedule/>}/>
+                <Route path="edit/:id" element={<EditSchedule/>}/>
+              </Route>
+              <Route path="/routes" element={<Outlet/>}>
+                <Route index element={<RoutesPage/>}/>
+                <Route path="create" element={<CreateRoute/>}/>
+                <Route path="edit/:id" element={<EditRoute/>}/>
+              </Route>
+            </Routes>
+        </PageLayout>
+      </PageTitleContext>
+    </main>
   );
 }
 
