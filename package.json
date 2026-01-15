@@ -26,7 +26,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "react-scripts test",
+    "test": "vitest",
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "eslintConfig": {
