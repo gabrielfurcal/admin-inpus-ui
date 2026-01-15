@@ -164,6 +164,7 @@ export type Query = {
   routes: Array<Route>;
   scheduleById?: Maybe<Schedule>;
   schedules: Array<Schedule>;
+  schedulesFiltered?: Maybe<Array<Schedule>>;
   stationById?: Maybe<Station>;
   stations: Array<Station>;
   status: Array<Status>;
@@ -193,6 +194,15 @@ export type QueryScheduleByIdArgs = {
 };
 
 
+export type QuerySchedulesFilteredArgs = {
+  endDate?: InputMaybe<Scalars['String']['input']>;
+  endStationId?: InputMaybe<Scalars['Int']['input']>;
+  passengers?: InputMaybe<Scalars['Int']['input']>;
+  startDate?: InputMaybe<Scalars['String']['input']>;
+  startStationId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type QueryStationByIdArgs = {
   id?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -211,7 +221,7 @@ export type Route = {
   __typename?: 'Route';
   distance?: Maybe<Scalars['Float']['output']>;
   endStation?: Maybe<Station>;
-  id?: Scalars['ID']['output'];
+  id?: Maybe<Scalars['ID']['output']>;
   startStation?: Maybe<Station>;
 };
 
@@ -243,15 +253,15 @@ export type ScheduleInput = {
 
 export type Station = {
   __typename?: 'Station';
-  cityId?: Scalars['Int']['output'];
-  countryCode?: Scalars['String']['output'];
-  id?: Scalars['ID']['output'];
+  city?: Maybe<City>;
+  countryCode?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
   imageUrl?: Maybe<Scalars['String']['output']>;
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
-  name?: Scalars['String']['output'];
-  phone?: Scalars['String']['output'];
-  postalCode?: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  phone?: Maybe<Scalars['String']['output']>;
+  postalCode?: Maybe<Scalars['String']['output']>;
 };
 
 export type StationInput = {
@@ -356,7 +366,7 @@ export type SaveStationMutationVariables = Exact<{
 }>;
 
 
-export type SaveStationMutation = { __typename?: 'Mutation', saveStation?: { __typename?: 'Station', id: string, name: string, countryCode: string, phone: string, postalCode: string, latitude?: number | null, longitude?: number | null, cityId: number, imageUrl?: string | null } | null };
+export type SaveStationMutation = { __typename?: 'Mutation', saveStation?: { __typename?: 'Station', id: string, name: string, countryCode?: string | null, phone?: string | null, postalCode?: string | null, latitude?: number | null, longitude?: number | null, imageUrl?: string | null } | null };
 
 export type DeleteStationMutationVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -384,7 +394,7 @@ export type SaveRouteMutationVariables = Exact<{
 }>;
 
 
-export type SaveRouteMutation = { __typename?: 'Mutation', saveRoute?: { __typename?: 'Route', id: string, distance?: number | null, startStation?: { __typename?: 'Station', name: string } | null, endStation?: { __typename?: 'Station', name: string } | null } | null };
+export type SaveRouteMutation = { __typename?: 'Mutation', saveRoute?: { __typename?: 'Route', id?: string | null, distance?: number | null, startStation?: { __typename?: 'Station', name: string } | null, endStation?: { __typename?: 'Station', name: string } | null } | null };
 
 export type DeleteRouteMutationVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -446,19 +456,19 @@ export type GetStationByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetStationByIdQuery = { __typename?: 'Query', stationById?: { __typename?: 'Station', id: string, name: string, countryCode: string, phone: string, postalCode: string, latitude?: number | null, longitude?: number | null, cityId: number, imageUrl?: string | null } | null };
+export type GetStationByIdQuery = { __typename?: 'Query', stationById?: { __typename?: 'Station', id: string, name: string, countryCode?: string | null, phone?: string | null, postalCode?: string | null, latitude?: number | null, longitude?: number | null, imageUrl?: string | null, city?: { __typename?: 'City', id: string } | null } | null };
 
 export type GetStationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetStationsQuery = { __typename?: 'Query', stations: Array<{ __typename?: 'Station', id: string, name: string, countryCode: string, phone: string, postalCode: string, latitude?: number | null, longitude?: number | null, cityId: number, imageUrl?: string | null }> };
+export type GetStationsQuery = { __typename?: 'Query', stations: Array<{ __typename?: 'Station', id: string, name: string, countryCode?: string | null, phone?: string | null, postalCode?: string | null, latitude?: number | null, longitude?: number | null, imageUrl?: string | null }> };
 
 export type GetScheduleByIdQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type GetScheduleByIdQuery = { __typename?: 'Query', scheduleById?: { __typename?: 'Schedule', id: string, departureTime?: string | null, arrivalTime?: string | null, train?: { __typename?: 'Train', id: string, type: string } | null, route?: { __typename?: 'Route', id: string, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null, status?: { __typename?: 'Status', id: string, name: string } | null } | null };
+export type GetScheduleByIdQuery = { __typename?: 'Query', scheduleById?: { __typename?: 'Schedule', id: string, departureTime?: string | null, arrivalTime?: string | null, train?: { __typename?: 'Train', id: string, type: string } | null, route?: { __typename?: 'Route', id?: string | null, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null, status?: { __typename?: 'Status', id: string, name: string } | null } | null };
 
 export type GetSchedulesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -470,12 +480,12 @@ export type GetRouteByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetRouteByIdQuery = { __typename?: 'Query', routeById?: { __typename?: 'Route', id: string, distance?: number | null, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null };
+export type GetRouteByIdQuery = { __typename?: 'Query', routeById?: { __typename?: 'Route', id?: string | null, distance?: number | null, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null };
 
 export type GetRoutesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetRoutesQuery = { __typename?: 'Query', routes: Array<{ __typename?: 'Route', id: string, distance?: number | null, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null }> };
+export type GetRoutesQuery = { __typename?: 'Query', routes: Array<{ __typename?: 'Route', id?: string | null, distance?: number | null, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null }> };
 
 
 export const SaveCityDocument = gql`
@@ -757,7 +767,6 @@ export const SaveStationDocument = gql`
     postalCode
     latitude
     longitude
-    cityId
     imageUrl
   }
 }
@@ -1322,8 +1331,10 @@ export const GetStationByIdDocument = gql`
     postalCode
     latitude
     longitude
-    cityId
     imageUrl
+    city {
+      id
+    }
   }
 }
     `;
@@ -1370,7 +1381,6 @@ export const GetStationsDocument = gql`
     postalCode
     latitude
     longitude
-    cityId
     imageUrl
   }
 }
