@@ -99,8 +99,10 @@ export const GET_STATION_BY_ID = gql`
             postalCode
             latitude
             longitude
-            cityId
             imageUrl
+            city {
+                id
+            }
         }
     }
 `
@@ -115,7 +117,6 @@ export const GET_STATIONS = gql`
             postalCode
             latitude
             longitude
-            cityId
             imageUrl
         }
     }

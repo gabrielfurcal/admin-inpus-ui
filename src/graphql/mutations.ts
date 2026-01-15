@@ -79,7 +79,6 @@ export const SAVE_STATION = gql`
             postalCode
             latitude
             longitude
-            cityId
             imageUrl
         }
     }

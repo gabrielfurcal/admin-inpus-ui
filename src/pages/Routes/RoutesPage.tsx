@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Route, useDeleteRouteMutation, useGetRoutesQuery } from "../../graphql/schema";
-import { Link } from "react-router-dom";
-import { Table, Thead, Tbody, Tr, Th, Td } from "../../components/Table";
-import { usePageTitle } from "../../contexts/PageTitleContext";
-import { toast } from 'react-toastify';
 import { ApolloError } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
+
+import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
+import { usePageTitle } from "../../contexts/PageTitleContext";
+import { Route, useDeleteRouteMutation, useGetRoutesQuery } from "../../graphql/schema";
 
 export const RoutesPage: React.FC = () => {
     const [routes, setRoutes] = useState<Route[]>([]);

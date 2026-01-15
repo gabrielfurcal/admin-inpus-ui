@@ -44,7 +44,7 @@ export const EditStation: React.FC = () => {
             setValue('postalCode', data.stationById?.postalCode || '');
             setValue('latitude', data.stationById?.latitude || 0);
             setValue('longitude', data.stationById?.longitude || 0);
-            setValue('cityId', data.stationById?.cityId || 0);
+            setValue('cityId', +data.stationById?.city?.id! || 0);
             setValue('imageUrl', data.stationById?.imageUrl || '');
         }
 
