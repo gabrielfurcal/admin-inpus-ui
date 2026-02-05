@@ -14,6 +14,7 @@ const config: CodegenConfig = {
   },
   config: {
     withHooks: true,                 // Use React Apollo hooks
+    apolloReactHooksImportFrom: "@apollo/client/react"
   },
 };
 

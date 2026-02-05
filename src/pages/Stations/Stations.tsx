@@ -45,13 +45,13 @@ export const Stations: React.FC = () => {
         try {
             const result = await deleteStation({ variables: { id } });
 
-            if(result.errors) {
-                throw new Error(result.errors.map((err) => err.message).join(','));
+            if(result.error) {
+                throw new Error(result.error.message);
             } else {
                 setIsDeleted(result.data?.deleteStation || false);
             }
         } catch(err) {
-            if(err instanceof ApolloError || err instanceof Error) {
+            if(err instanceof Error) {
                 setError(err.message);
             }
         }
@@ -78,7 +78,7 @@ export const Stations: React.FC = () => {
     if(loading) return <p>Fetching Stations...</p>
 
     if(error) {
-        console.log(error.cause);
+        console.log(error.stack);
 
         return <p>Error: {error.message}</p>
     }
