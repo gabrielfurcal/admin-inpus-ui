@@ -100,8 +100,16 @@ export const GET_STATION_BY_ID = gql`
             latitude
             longitude
             imageUrl
+            timezone {
+                id
+                name
+                region
+            }
             city {
                 id
+                city
+                province
+                country
             }
         }
     }
@@ -118,6 +126,17 @@ export const GET_STATIONS = gql`
             latitude
             longitude
             imageUrl
+            timezone {
+                id
+                name
+                region
+            }
+            city {
+                id
+                city
+                province
+                country
+            }
         }
     }
 `
@@ -126,10 +145,6 @@ export const GET_SCHEDULE_BY_ID = gql`
     query getScheduleById($id: Int!) {
         scheduleById(id: $id) {
             id
-            train {
-                id
-                type
-            }
             route {
                 id
                 startStation {
@@ -142,8 +157,12 @@ export const GET_SCHEDULE_BY_ID = gql`
                 }
             }
             departureTime
+            departureWeekday {
+                id
+                name
+            }
             arrivalTime
-            status {
+            arrivalWeekday {
                 id
                 name
             }
@@ -155,11 +174,8 @@ export const GET_SCHEDULES = gql`
     query getSchedules {
         schedules {
             id
-            train {
-                id
-                type
-            }
             route {
+                id
                 startStation {
                     id
                     name
@@ -170,8 +186,12 @@ export const GET_SCHEDULES = gql`
                 }
             }
             departureTime
+            departureWeekday {
+                id
+                name
+            }
             arrivalTime
-            status {
+            arrivalWeekday {
                 id
                 name
             }
@@ -209,6 +229,89 @@ export const GET_ROUTES = gql`
                 name
             }
             distance
+        }
+    }
+`
+
+// New Trip queries
+export const GET_TRIPS = gql`
+    query getTrips {
+        trips {
+            id
+            schedule {
+                id
+            }
+            train {
+                id
+                type
+            }
+            startTime
+            endTime
+            status {
+                id
+                name
+            }
+        }
+    }
+`
+
+export const GET_TRIP_BY_ID = gql`
+    query getTripById($id: Int!) {
+        tripById(id: $id) {
+            id
+            schedule {
+                id
+            }
+            train {
+                id
+                type
+            }
+            startTime
+            endTime
+            status {
+                id
+                name
+            }
+        }
+    }
+`
+
+// New Weekday queries
+export const GET_WEEKDAYS = gql`
+    query getWeekdays {
+        weekdays {
+            id
+            name
+        }
+    }
+`
+
+export const GET_WEEKDAY_BY_ID = gql`
+    query getWeekdayById($id: Int!) {
+        weekdayById(id: $id) {
+            id
+            name
+        }
+    }
+`
+
+// New Timezone queries
+export const GET_TIMEZONES = gql`
+    query getTimezones {
+        timezones {
+            id
+            name
+            region
+        }
+    }
+`
+
+export const GET_TIMEZONE_BY_ID = gql`
+    query getTimezoneById($id: Int!) {
+        timezoneById(id: $id) {
+            id
+            name
+            region
         }
     }
 `
