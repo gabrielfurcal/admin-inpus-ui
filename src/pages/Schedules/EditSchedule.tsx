@@ -1,17 +1,17 @@
+import { DevTool } from '@hookform/devtools';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react'
-import { ScheduleInput, useSaveScheduleMutation, useGetScheduleByIdQuery, useGetTrainsQuery, useGetStatusQuery, useGetRoutesQuery, Train, Status, Route } from '../../graphql/schema';
-import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ApolloError } from '@apollo/client';
-import { useForm } from 'react-hook-form';
-import { DevTool } from '@hookform/devtools';
+
+import { Button, Input } from '../../components/Form';
 import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
-import { toPascalCase } from '../../hooks/utils';
-import moment from 'moment';
 import { DEFAULT_REF_VALUE, DEFAULT_REF_VALUE_NUMERIC } from '../../constants';
+import { usePageTitle } from '../../contexts/PageTitleContext';
+import { Route, ScheduleInput, Status, Train, useGetRoutesQuery, useGetScheduleByIdQuery, useGetStatusQuery, useGetTrainsQuery, useSaveScheduleMutation } from '../../graphql/schema';
+import { toPascalCase } from '../../hooks/utils';
 
 type FormValues = {
     trainId: number;
@@ -104,13 +104,13 @@ export const EditSchedule: React.FC = () => {
         try {
             const result = await saveSchedule({ variables: {schedule: { ...schedule }} });
 
-            if(result.errors) {
-                throw new Error(result.errors.map((err) => err.message).join(','));
+            if(result.error) {
+                throw new Error(result.error.message);
             } else {
                 setIsSaved(true);
             }
         } catch(err) {
-            if(err instanceof ApolloError || err instanceof Error) {
+            if(err instanceof Error) {
                 setError(err.message);
             }
         }

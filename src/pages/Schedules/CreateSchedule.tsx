@@ -1,16 +1,16 @@
+import { DevTool } from '@hookform/devtools';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react'
-import { ScheduleInput, useSaveScheduleMutation, useGetTrainsQuery, useGetStatusQuery, useGetRoutesQuery, Train, Status, Route } from '../../graphql/schema';
-import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ApolloError } from '@apollo/client';
-import { useForm } from 'react-hook-form';
-import { DevTool } from '@hookform/devtools';
+
+import { Button, Input } from '../../components/Form';
 import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
+import { usePageTitle } from '../../contexts/PageTitleContext';
+import { Route, ScheduleInput, Status, Train, useGetRoutesQuery, useGetStatusQuery, useGetTrainsQuery, useSaveScheduleMutation } from '../../graphql/schema';
 import { toPascalCase } from '../../hooks/utils';
-import moment from 'moment';
 
 type FormValues = {
     trainId: number;
@@ -88,13 +88,13 @@ export const CreateSchedule: React.FC = () => {
         try {
             const result = await saveSchedule({ variables: {schedule: { ...schedule }} });
 
-            if(result.errors) {
-                throw new Error(result.errors.map((err) => err.message).join(','));
+            if(result.error) {
+                throw new Error(result.error.message);
             } else {
                 setIsSaved(true);
             }
         } catch(err) {
-            if(err instanceof ApolloError || err instanceof Error) {
+            if(err instanceof Error) {
                 setError(err.message);
             }
         }

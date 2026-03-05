@@ -1,17 +1,22 @@
-import React from 'react';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { HttpLink } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client/react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { BrowserRouter } from 'react-router-dom';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import { BrowserRouter } from 'react-router-dom';
+
+import './index.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 const apolloClient = new ApolloClient({
-  uri: `${process.env.REACT_APP_GRAPHQL_URL}/graphql`,
+  link: new HttpLink({
+    uri: `${import.meta.env.VITE_GRAPHQL_URL}/graphql`
+  }),
   cache: new InMemoryCache()
 })
 

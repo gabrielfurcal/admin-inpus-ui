@@ -18,7 +18,7 @@ ENV APP_NAME=${APP_NAME}
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy built app to nginx static folder
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy custom nginx config if needed (optional)
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
