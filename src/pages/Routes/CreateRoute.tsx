@@ -1,14 +1,14 @@
+import { DevTool } from '@hookform/devtools';
 import React, { useEffect, useState } from 'react'
-import { RouteInput, useSaveRouteMutation, useGetStationsQuery, Station } from '../../graphql/schema';
-import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ApolloError } from '@apollo/client';
-import { useForm } from 'react-hook-form';
-import { DevTool } from '@hookform/devtools';
+
+import { Button, Input } from '../../components/Form';
 import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
+import { usePageTitle } from '../../contexts/PageTitleContext';
+import { RouteInput, Station, useGetStationsQuery, useSaveRouteMutation } from '../../graphql/schema';
 
 type FormValues = {
     startStationId: number;
@@ -85,13 +85,13 @@ export const CreateRoute: React.FC = () => {
         try {
             const result = await saveRoute({ variables: {route: { ...route }} });
 
-            if(result.errors) {
-                throw new Error(result.errors.map((err) => err.message).join(','));
+            if(result.error) {
+                throw new Error(result.error.message);
             } else {
                 setIsSaved(true);
             }
         } catch(err) {
-            if(err instanceof ApolloError || err instanceof Error) {
+            if(err instanceof Error) {
                 setError(err.message);
             }
         }

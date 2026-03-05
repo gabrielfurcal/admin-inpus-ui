@@ -1,4 +1,3 @@
-import { ApolloError } from '@apollo/client';
 import { DevTool } from '@hookform/devtools';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
@@ -69,13 +68,13 @@ export const CreateStation: React.FC = () => {
         try {
             const result = await saveStation({ variables: {station: { ...station }} });
 
-            if(result.errors) {
-                throw new Error(result.errors.map((err) => err.message).join(','));
+            if(result.error) {
+                throw new Error(result.error.message);
             } else {
                 setIsSaved(true);
             }
         } catch(err) {
-            if(err instanceof ApolloError || err instanceof Error) {
+            if(err instanceof Error) {
                 setError(err.message);
             }
         }
