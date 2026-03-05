@@ -2,7 +2,7 @@ import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   schema: 'http://localhost:8080/graphql', // Your GraphQL API endpoint
-  documents: 'src/graphql/**/*.ts', // Path to your GraphQL queries/mutations
+  documents: 'src/graphql/{queries,mutations}.ts', // Path to your GraphQL queries/mutations (excludes schema.ts)
   generates: {
     'src/graphql/schema.ts': { // Ensure the target is a directory with a trailing slash
       plugins: [

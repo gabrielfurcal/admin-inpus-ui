@@ -94,9 +94,6 @@ export const SAVE_SCHEDULE = gql`
     mutation saveSchedule($schedule: ScheduleInput!) {
         saveSchedule(schedule: $schedule) {
             id
-            train {
-                type
-            }
             route {
                 startStation {
                     name
@@ -106,8 +103,11 @@ export const SAVE_SCHEDULE = gql`
                 }
             }
             departureTime
+            departureWeekday {
+                name
+            }
             arrivalTime
-            status {
+            arrivalWeekday {
                 name
             }
         }
@@ -138,5 +138,64 @@ export const SAVE_ROUTE = gql`
 export const DELETE_ROUTE = gql`
     mutation deleteRoute($id: Int!) {
         deleteRoute(id: $id)
+    }
+`
+
+// New Trip mutations
+export const SAVE_TRIP = gql`
+    mutation saveTrip($trip: TripInput!) {
+        saveTrip(trip: $trip) {
+            id
+            schedule {
+                id
+            }
+            train {
+                type
+            }
+            startTime
+            endTime
+            status {
+                name
+            }
+        }
+    }
+`
+
+export const DELETE_TRIP = gql`
+    mutation deleteTrip($id: Int!) {
+        deleteTrip(id: $id)
+    }
+`
+
+// New Weekday mutations
+export const SAVE_WEEKDAY = gql`
+    mutation saveWeekday($weekday: WeekdayInput!) {
+        saveWeekday(weekday: $weekday) {
+            id
+            name
+        }
+    }
+`
+
+export const DELETE_WEEKDAY = gql`
+    mutation deleteWeekday($id: Int!) {
+        deleteWeekday(id: $id)
+    }
+`
+
+// New Timezone mutations
+export const SAVE_TIMEZONE = gql`
+    mutation saveTimezone($timezone: TimezoneInput!) {
+        saveTimezone(timezone: $timezone) {
+            id
+            name
+            region
+        }
+    }
+`
+
+export const DELETE_TIMEZONE = gql`
+    mutation deleteTimezone($id: Int!) {
+        deleteTimezone(id: $id)
     }
 `

@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { Schedule, useDeleteScheduleMutation, useGetSchedulesQuery } from "../../graphql/schema";
+import { Timezone, useDeleteTimezoneMutation, useGetTimezonesQuery } from "../../graphql/schema";
 import { Link } from "react-router-dom";
 import { Table, Thead, Tbody, Tr, Th, Td } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
 import { toast } from 'react-toastify';
 import { ApolloError } from "@apollo/client";
 
-export const Schedules: React.FC = () => {
-    const [schedules, setSchedules] = useState<Schedule[]>([]);
+export const Timezones: React.FC = () => {
+    const [timezones, setTimezones] = useState<Timezone[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetSchedulesQuery();
+    const { loading, data, error, refetch } = useGetTimezonesQuery();
     const { setTitle } = usePageTitle();
-    const [deleteSchedule] = useDeleteScheduleMutation();
+    const [deleteTimezone] = useDeleteTimezoneMutation();
 
     useEffect(() => {
-        setTitle('Schedules');
-    }, [setTitle]);
+        setTitle('Timezones');
+    }, [data, setTitle]);
 
     useEffect(() => {
         if(data) {
-            setSchedules(data.schedules);
+            setTimezones(data.timezones);
         }
 
         if(isDeleted) {
-            toast.success('Schedule deleted', {
+            toast.success('Timezone deleted', {
                 theme: 'light'
             });
             setIsDeleted(false);
@@ -39,15 +39,15 @@ export const Schedules: React.FC = () => {
     }, [isDeleted, _error, setIsDeleted, data, refetch]);
 
     const handleDeleteClick: any = async (id: number) => {
-        if(await !window.confirm(`Are you sure you want to delete Schedule ${id.toString()}?`)) return;
+        if(await !window.confirm(`Are you sure you want to delete Timezone ${id.toString()}?`)) return;
 
         try {
-            const result = await deleteSchedule({ variables: { id } });
+            const result = await deleteTimezone({ variables: { id } });
 
             if(result.errors) {
                 throw new Error(result.errors.map((err) => err.message).join(','));
             } else {
-                setIsDeleted(result.data?.deleteSchedule || false);
+                setIsDeleted(result.data?.deleteTimezone || false);
             }
         } catch(err) {
             if(err instanceof ApolloError || err instanceof Error) {
@@ -56,26 +56,23 @@ export const Schedules: React.FC = () => {
         }
     }
 
-    const fetchSchedule = (): any => {
-        if(schedules) {
-            return schedules.map((schedule: Schedule) => (
-                <Tr key={schedule.id}>
-                    <Td><span className="font-medium">{schedule.id}</span></Td>
-                    <Td>{schedule.route?.startStation?.name} - {schedule.route?.endStation?.name}</Td>
-                    <Td>{schedule.departureTime}</Td>
-                    <Td>{schedule.departureWeekday?.name}</Td>
-                    <Td>{schedule.arrivalTime || 'N/A'}</Td>
-                    <Td>{schedule.arrivalWeekday?.name || 'N/A'}</Td>
+    const fetchTimezones = (): any => {
+        if(timezones) {
+            return timezones.map((timezone: Timezone) => (
+                <Tr key={timezone.id}>
+                    <Td><span className="font-medium">{timezone.id}</span></Td>
+                    <Td>{timezone.name}</Td>
+                    <Td>{timezone.region}</Td>
                     <Td>
-                        <Link to={`edit/${schedule.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
-                        <button className="font-medium underline" onClick={() => handleDeleteClick(+schedule.id)}>Delete</button>
+                        <Link to={`edit/${timezone.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
+                        <button className="font-medium underline" onClick={() => handleDeleteClick(+timezone.id)}>Delete</button>
                     </Td>
                 </Tr>
             ));
         }
     }
 
-    if(loading) return <p>Fetching Schedules...</p>
+    if(loading) return <p>Fetching Timezones...</p>
 
     if(error) {
         console.log(error.cause);
@@ -84,7 +81,7 @@ export const Schedules: React.FC = () => {
     }
 
     return (
-        <>  
+        <>
             <Link to={`create`} type="button" className="inline-block rounded bg-blue-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
                 Create New
             </Link>
@@ -94,16 +91,13 @@ export const Schedules: React.FC = () => {
                 <Thead>
                     <Tr withStyle={false}>
                         <Th>ID</Th>
-                        <Th>Route</Th>
-                        <Th>Departure Time</Th>
-                        <Th>Departure Weekday</Th>
-                        <Th>Arrival Time</Th>
-                        <Th>Arrival Weekday</Th>
+                        <Th>Name</Th>
+                        <Th>Region</Th>
                         <Th>Actions</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {fetchSchedule()}
+                    {fetchTimezones()}
                 </Tbody>
             </Table>
         </>

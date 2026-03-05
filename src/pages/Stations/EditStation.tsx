@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
-import { StationInput, useGetStationByIdQuery, useSaveStationMutation } from '../../graphql/schema';
-import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
-import { toast } from 'react-toastify';
 import { ApolloError } from '@apollo/client';
-import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
-import { DEFAULT_REF_VALUE } from '../../constants';
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import { Button, Input } from '../../components/Form';
+import { Select } from '../../components/Form/Select';
+import { SelectOption } from '../../components/props';
+import { DEFAULT_REF_VALUE, DEFAULT_REF_VALUE_NUMERIC } from '../../constants';
+import { usePageTitle } from '../../contexts/PageTitleContext';
+import { StationInput, Timezone, useGetStationByIdQuery, useGetTimezonesQuery, useSaveStationMutation } from '../../graphql/schema';
 
 type FormValues = {
     name: string;
@@ -18,14 +21,17 @@ type FormValues = {
     longitude: number;
     cityId: number;
     imageUrl: string;
+    timezoneId: number;
 }
 
 export const EditStation: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const numericId = id ? parseInt(id) : undefined;
+    const [timezoneOptions, setTimezoneOptions] = useState<SelectOption[]>([]);
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
     const { loading, data, error } = useGetStationByIdQuery({variables: { id: numericId! }});
+    const { loading: timezonesLoading, data: timezonesData } = useGetTimezonesQuery();
     const [saveStation] = useSaveStationMutation();
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
@@ -37,7 +43,13 @@ export const EditStation: React.FC = () => {
     }, [setTitle]);
 
     useEffect(() => {
-        if(data && !isSaved) {
+        if(timezonesData) {
+            setTimezoneOptions(timezonesData.timezones.map((timezone: Timezone) => {
+                return { key: timezone.id, value: `${timezone.name} (${timezone.region})` }
+            }));
+        }
+
+        if(data && !isSaved && !timezonesLoading) {
             setValue('name', data.stationById?.name || '');
             setValue('countryCode', data.stationById?.countryCode || '');
             setValue('phone', data.stationById?.phone || '');
@@ -46,6 +58,7 @@ export const EditStation: React.FC = () => {
             setValue('longitude', data.stationById?.longitude || 0);
             setValue('cityId', +data.stationById?.city?.id! || 0);
             setValue('imageUrl', data.stationById?.imageUrl || '');
+            setValue('timezoneId', +data.stationById?.timezone?.id! || -1);
         }
 
         if(isSaved) {
@@ -61,7 +74,7 @@ export const EditStation: React.FC = () => {
                 theme: 'light'
             })
         }
-    }, [data, _error, isSaved, navigate, setValue]);
+    }, [data, timezonesData, _error, isSaved, navigate, setValue, timezonesLoading]);
 
     const _handleSubmit: any = async (data: FormValues) => {
         const stationToSave: StationInput = { id, ...data };
@@ -81,7 +94,7 @@ export const EditStation: React.FC = () => {
         }
     }
 
-    if(loading) return <p>Fetching station...</p>
+    if(loading || timezonesLoading) return <p>Fetching station...</p>
 
     if(error) return <p>Error: {error.message}</p>
 
@@ -96,6 +109,7 @@ export const EditStation: React.FC = () => {
                 <Input {...register('longitude', { required: 'Longitude is required' })} defaultValue={DEFAULT_REF_VALUE} type='number' label='Longitude' placeholder='Insert longitude' errorMessage={formErrors.longitude?.message} />
                 <Input {...register('cityId', { required: 'City is required' })} defaultValue={DEFAULT_REF_VALUE} type='number' label='City ID' placeholder='Insert city id' errorMessage={formErrors.cityId?.message} />
                 <Input {...register('imageUrl', { required: 'Image URL is required' })} defaultValue={DEFAULT_REF_VALUE} label='Image URL' placeholder='Insert image url' errorMessage={formErrors.imageUrl?.message} />
+                <Select {...register('timezoneId', { required: 'Timezone is required' })} defaultValue={DEFAULT_REF_VALUE_NUMERIC} label='Timezone' errorMessage={formErrors.timezoneId?.message} options={timezoneOptions} useDefault={true} placeholder='Please select a timezone'/>
                 <Button type='submit' text='Save'/>
             </form>
             <DevTool control={control} />
