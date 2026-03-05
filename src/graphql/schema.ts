@@ -1212,9 +1212,9 @@ export type SaveTripMutationFn = Apollo.MutationFunction<SaveTripMutation, SaveT
  *   },
  * });
  */
-export function useSaveTripMutation(baseOptions?: Apollo.MutationHookOptions<SaveTripMutation, SaveTripMutationVariables>) {
+export function useSaveTripMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SaveTripMutation, SaveTripMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SaveTripMutation, SaveTripMutationVariables>(SaveTripDocument, options);
+        return ApolloReactHooks.useMutation<SaveTripMutation, SaveTripMutationVariables>(SaveTripDocument, options);
       }
 export type SaveTripMutationHookResult = ReturnType<typeof useSaveTripMutation>;
 export type SaveTripMutationResult = Apollo.MutationResult<SaveTripMutation>;
@@ -1243,9 +1243,9 @@ export type DeleteTripMutationFn = Apollo.MutationFunction<DeleteTripMutation, D
  *   },
  * });
  */
-export function useDeleteTripMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTripMutation, DeleteTripMutationVariables>) {
+export function useDeleteTripMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteTripMutation, DeleteTripMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteTripMutation, DeleteTripMutationVariables>(DeleteTripDocument, options);
+        return ApolloReactHooks.useMutation<DeleteTripMutation, DeleteTripMutationVariables>(DeleteTripDocument, options);
       }
 export type DeleteTripMutationHookResult = ReturnType<typeof useDeleteTripMutation>;
 export type DeleteTripMutationResult = Apollo.MutationResult<DeleteTripMutation>;
@@ -1277,9 +1277,9 @@ export type SaveWeekdayMutationFn = Apollo.MutationFunction<SaveWeekdayMutation,
  *   },
  * });
  */
-export function useSaveWeekdayMutation(baseOptions?: Apollo.MutationHookOptions<SaveWeekdayMutation, SaveWeekdayMutationVariables>) {
+export function useSaveWeekdayMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SaveWeekdayMutation, SaveWeekdayMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SaveWeekdayMutation, SaveWeekdayMutationVariables>(SaveWeekdayDocument, options);
+        return ApolloReactHooks.useMutation<SaveWeekdayMutation, SaveWeekdayMutationVariables>(SaveWeekdayDocument, options);
       }
 export type SaveWeekdayMutationHookResult = ReturnType<typeof useSaveWeekdayMutation>;
 export type SaveWeekdayMutationResult = Apollo.MutationResult<SaveWeekdayMutation>;
@@ -1308,9 +1308,9 @@ export type DeleteWeekdayMutationFn = Apollo.MutationFunction<DeleteWeekdayMutat
  *   },
  * });
  */
-export function useDeleteWeekdayMutation(baseOptions?: Apollo.MutationHookOptions<DeleteWeekdayMutation, DeleteWeekdayMutationVariables>) {
+export function useDeleteWeekdayMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteWeekdayMutation, DeleteWeekdayMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteWeekdayMutation, DeleteWeekdayMutationVariables>(DeleteWeekdayDocument, options);
+        return ApolloReactHooks.useMutation<DeleteWeekdayMutation, DeleteWeekdayMutationVariables>(DeleteWeekdayDocument, options);
       }
 export type DeleteWeekdayMutationHookResult = ReturnType<typeof useDeleteWeekdayMutation>;
 export type DeleteWeekdayMutationResult = Apollo.MutationResult<DeleteWeekdayMutation>;
@@ -1343,9 +1343,9 @@ export type SaveTimezoneMutationFn = Apollo.MutationFunction<SaveTimezoneMutatio
  *   },
  * });
  */
-export function useSaveTimezoneMutation(baseOptions?: Apollo.MutationHookOptions<SaveTimezoneMutation, SaveTimezoneMutationVariables>) {
+export function useSaveTimezoneMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SaveTimezoneMutation, SaveTimezoneMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SaveTimezoneMutation, SaveTimezoneMutationVariables>(SaveTimezoneDocument, options);
+        return ApolloReactHooks.useMutation<SaveTimezoneMutation, SaveTimezoneMutationVariables>(SaveTimezoneDocument, options);
       }
 export type SaveTimezoneMutationHookResult = ReturnType<typeof useSaveTimezoneMutation>;
 export type SaveTimezoneMutationResult = Apollo.MutationResult<SaveTimezoneMutation>;
@@ -1374,9 +1374,9 @@ export type DeleteTimezoneMutationFn = Apollo.MutationFunction<DeleteTimezoneMut
  *   },
  * });
  */
-export function useDeleteTimezoneMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTimezoneMutation, DeleteTimezoneMutationVariables>) {
+export function useDeleteTimezoneMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteTimezoneMutation, DeleteTimezoneMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteTimezoneMutation, DeleteTimezoneMutationVariables>(DeleteTimezoneDocument, options);
+        return ApolloReactHooks.useMutation<DeleteTimezoneMutation, DeleteTimezoneMutationVariables>(DeleteTimezoneDocument, options);
       }
 export type DeleteTimezoneMutationHookResult = ReturnType<typeof useDeleteTimezoneMutation>;
 export type DeleteTimezoneMutationResult = Apollo.MutationResult<DeleteTimezoneMutation>;
@@ -2134,17 +2134,20 @@ export const GetTripsDocument = gql`
  *   },
  * });
  */
-export function useGetTripsQuery(baseOptions?: Apollo.QueryHookOptions<GetTripsQuery, GetTripsQueryVariables>) {
+export function useGetTripsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetTripsQuery, GetTripsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTripsQuery, GetTripsQueryVariables>(GetTripsDocument, options);
+        return ApolloReactHooks.useQuery<GetTripsQuery, GetTripsQueryVariables>(GetTripsDocument, options);
       }
-export function useGetTripsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTripsQuery, GetTripsQueryVariables>) {
+export function useGetTripsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTripsQuery, GetTripsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTripsQuery, GetTripsQueryVariables>(GetTripsDocument, options);
+          return ApolloReactHooks.useLazyQuery<GetTripsQuery, GetTripsQueryVariables>(GetTripsDocument, options);
         }
-export function useGetTripsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTripsQuery, GetTripsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetTripsQuery, GetTripsQueryVariables>(GetTripsDocument, options);
+// @ts-ignore
+export function useGetTripsSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetTripsQuery, GetTripsQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTripsQuery, GetTripsQueryVariables>;
+export function useGetTripsSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTripsQuery, GetTripsQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTripsQuery | undefined, GetTripsQueryVariables>;
+export function useGetTripsSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTripsQuery, GetTripsQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetTripsQuery, GetTripsQueryVariables>(GetTripsDocument, options);
         }
 export type GetTripsQueryHookResult = ReturnType<typeof useGetTripsQuery>;
 export type GetTripsLazyQueryHookResult = ReturnType<typeof useGetTripsLazyQuery>;
@@ -2187,17 +2190,20 @@ export const GetTripByIdDocument = gql`
  *   },
  * });
  */
-export function useGetTripByIdQuery(baseOptions: Apollo.QueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables> & ({ variables: GetTripByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetTripByIdQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables> & ({ variables: GetTripByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTripByIdQuery, GetTripByIdQueryVariables>(GetTripByIdDocument, options);
+        return ApolloReactHooks.useQuery<GetTripByIdQuery, GetTripByIdQueryVariables>(GetTripByIdDocument, options);
       }
-export function useGetTripByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables>) {
+export function useGetTripByIdLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTripByIdQuery, GetTripByIdQueryVariables>(GetTripByIdDocument, options);
+          return ApolloReactHooks.useLazyQuery<GetTripByIdQuery, GetTripByIdQueryVariables>(GetTripByIdDocument, options);
         }
-export function useGetTripByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetTripByIdQuery, GetTripByIdQueryVariables>(GetTripByIdDocument, options);
+// @ts-ignore
+export function useGetTripByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTripByIdQuery, GetTripByIdQueryVariables>;
+export function useGetTripByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTripByIdQuery | undefined, GetTripByIdQueryVariables>;
+export function useGetTripByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetTripByIdQuery, GetTripByIdQueryVariables>(GetTripByIdDocument, options);
         }
 export type GetTripByIdQueryHookResult = ReturnType<typeof useGetTripByIdQuery>;
 export type GetTripByIdLazyQueryHookResult = ReturnType<typeof useGetTripByIdLazyQuery>;
@@ -2227,17 +2233,20 @@ export const GetWeekdaysDocument = gql`
  *   },
  * });
  */
-export function useGetWeekdaysQuery(baseOptions?: Apollo.QueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>) {
+export function useGetWeekdaysQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetWeekdaysQuery, GetWeekdaysQueryVariables>(GetWeekdaysDocument, options);
+        return ApolloReactHooks.useQuery<GetWeekdaysQuery, GetWeekdaysQueryVariables>(GetWeekdaysDocument, options);
       }
-export function useGetWeekdaysLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>) {
+export function useGetWeekdaysLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetWeekdaysQuery, GetWeekdaysQueryVariables>(GetWeekdaysDocument, options);
+          return ApolloReactHooks.useLazyQuery<GetWeekdaysQuery, GetWeekdaysQueryVariables>(GetWeekdaysDocument, options);
         }
-export function useGetWeekdaysSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetWeekdaysQuery, GetWeekdaysQueryVariables>(GetWeekdaysDocument, options);
+// @ts-ignore
+export function useGetWeekdaysSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetWeekdaysQuery, GetWeekdaysQueryVariables>;
+export function useGetWeekdaysSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetWeekdaysQuery | undefined, GetWeekdaysQueryVariables>;
+export function useGetWeekdaysSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetWeekdaysQuery, GetWeekdaysQueryVariables>(GetWeekdaysDocument, options);
         }
 export type GetWeekdaysQueryHookResult = ReturnType<typeof useGetWeekdaysQuery>;
 export type GetWeekdaysLazyQueryHookResult = ReturnType<typeof useGetWeekdaysLazyQuery>;
@@ -2268,17 +2277,20 @@ export const GetWeekdayByIdDocument = gql`
  *   },
  * });
  */
-export function useGetWeekdayByIdQuery(baseOptions: Apollo.QueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables> & ({ variables: GetWeekdayByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetWeekdayByIdQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables> & ({ variables: GetWeekdayByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>(GetWeekdayByIdDocument, options);
+        return ApolloReactHooks.useQuery<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>(GetWeekdayByIdDocument, options);
       }
-export function useGetWeekdayByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>) {
+export function useGetWeekdayByIdLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>(GetWeekdayByIdDocument, options);
+          return ApolloReactHooks.useLazyQuery<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>(GetWeekdayByIdDocument, options);
         }
-export function useGetWeekdayByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>(GetWeekdayByIdDocument, options);
+// @ts-ignore
+export function useGetWeekdayByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>;
+export function useGetWeekdayByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetWeekdayByIdQuery | undefined, GetWeekdayByIdQueryVariables>;
+export function useGetWeekdayByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>(GetWeekdayByIdDocument, options);
         }
 export type GetWeekdayByIdQueryHookResult = ReturnType<typeof useGetWeekdayByIdQuery>;
 export type GetWeekdayByIdLazyQueryHookResult = ReturnType<typeof useGetWeekdayByIdLazyQuery>;
@@ -2309,17 +2321,20 @@ export const GetTimezonesDocument = gql`
  *   },
  * });
  */
-export function useGetTimezonesQuery(baseOptions?: Apollo.QueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>) {
+export function useGetTimezonesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTimezonesQuery, GetTimezonesQueryVariables>(GetTimezonesDocument, options);
+        return ApolloReactHooks.useQuery<GetTimezonesQuery, GetTimezonesQueryVariables>(GetTimezonesDocument, options);
       }
-export function useGetTimezonesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>) {
+export function useGetTimezonesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTimezonesQuery, GetTimezonesQueryVariables>(GetTimezonesDocument, options);
+          return ApolloReactHooks.useLazyQuery<GetTimezonesQuery, GetTimezonesQueryVariables>(GetTimezonesDocument, options);
         }
-export function useGetTimezonesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetTimezonesQuery, GetTimezonesQueryVariables>(GetTimezonesDocument, options);
+// @ts-ignore
+export function useGetTimezonesSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTimezonesQuery, GetTimezonesQueryVariables>;
+export function useGetTimezonesSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTimezonesQuery | undefined, GetTimezonesQueryVariables>;
+export function useGetTimezonesSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetTimezonesQuery, GetTimezonesQueryVariables>(GetTimezonesDocument, options);
         }
 export type GetTimezonesQueryHookResult = ReturnType<typeof useGetTimezonesQuery>;
 export type GetTimezonesLazyQueryHookResult = ReturnType<typeof useGetTimezonesLazyQuery>;
@@ -2351,17 +2366,20 @@ export const GetTimezoneByIdDocument = gql`
  *   },
  * });
  */
-export function useGetTimezoneByIdQuery(baseOptions: Apollo.QueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables> & ({ variables: GetTimezoneByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetTimezoneByIdQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables> & ({ variables: GetTimezoneByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>(GetTimezoneByIdDocument, options);
+        return ApolloReactHooks.useQuery<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>(GetTimezoneByIdDocument, options);
       }
-export function useGetTimezoneByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>) {
+export function useGetTimezoneByIdLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>(GetTimezoneByIdDocument, options);
+          return ApolloReactHooks.useLazyQuery<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>(GetTimezoneByIdDocument, options);
         }
-export function useGetTimezoneByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>(GetTimezoneByIdDocument, options);
+// @ts-ignore
+export function useGetTimezoneByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>;
+export function useGetTimezoneByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTimezoneByIdQuery | undefined, GetTimezoneByIdQueryVariables>;
+export function useGetTimezoneByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>(GetTimezoneByIdDocument, options);
         }
 export type GetTimezoneByIdQueryHookResult = ReturnType<typeof useGetTimezoneByIdQuery>;
 export type GetTimezoneByIdLazyQueryHookResult = ReturnType<typeof useGetTimezoneByIdLazyQuery>;

@@ -1,4 +1,3 @@
-import { ApolloError } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
@@ -45,13 +44,13 @@ export const Trips: React.FC = () => {
         try {
             const result = await deleteTrip({ variables: { id } });
 
-            if(result.errors) {
-                throw new Error(result.errors.map((err) => err.message).join(','));
+            if(result.error) {
+                throw new Error(result.error.message);
             } else {
                 setIsDeleted(result.data?.deleteTrip || false);
             }
         } catch(err) {
-            if(err instanceof ApolloError || err instanceof Error) {
+            if(err instanceof Error) {
                 setError(err.message);
             }
         }
@@ -78,8 +77,6 @@ export const Trips: React.FC = () => {
     if(loading) return <p>Fetching Trips...</p>
 
     if(error) {
-        console.log(error.cause);
-
         return <p>Error: {error.message}</p>
     }
 

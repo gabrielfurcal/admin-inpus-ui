@@ -5,7 +5,6 @@ import { useSaveTimezoneMutation, useGetTimezoneByIdQuery } from "../../graphql/
 import { Input, Button } from "../../components/Form";
 import { usePageTitle } from "../../contexts/PageTitleContext";
 import { toast } from 'react-toastify';
-import { ApolloError } from '@apollo/client';
 import { DevTool } from '@hookform/devtools';
 import { DEFAULT_REF_VALUE } from '../../constants';
 
@@ -57,13 +56,13 @@ export const EditTimezone: React.FC = () => {
         try {
             const result = await saveTimezone({ variables: { timezone: { ...timezoneToSave } } });
 
-            if(result.errors) {
-                throw new Error(result.errors.map((err) => err.message).join(','));
+            if(result.error) {
+                throw new Error(result.error.message);
             } else {
                 setIsSaved(true);
             }
         } catch(err) {
-            if(err instanceof ApolloError || err instanceof Error) {
+            if(err instanceof Error) {
                 setError(err.message);
             }
         }
