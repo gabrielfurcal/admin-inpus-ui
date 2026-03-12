@@ -5,8 +5,8 @@ const Menu = () => {
   return (
     <nav className="relative flex w-full flex-nowrap items-center justify-between bg-blue-500 py-2 text-black-400 shadow-dark-mild hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-700 lg:flex-wrap lg:justify-start lg:py-4" data-twe-navbar-ref>
         <div className="flex w-full flex-wrap items-center justify-between px-3">
-          <div className="ms-2">
-            <Link className="dark text-xl text-white dark:text-white font-bold" to={"/"}>admin-inputs</Link>
+          <div className="ms-2 mr-4">
+            <Link className="dark text-xl text-white dark:text-white font-bold" to={"/"}>ADMIN-INPUTS</Link>
           </div>
           {/* Hamburger button for mobile view */}
           <button

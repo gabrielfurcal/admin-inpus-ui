@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Timezone, useDeleteTimezoneMutation, useGetTimezonesQuery } from "../../graphql/schema";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Table, Thead, Tbody, Tr, Th, Td } from "../../components/Table";
-import { usePageTitle } from "../../contexts/PageTitleContext";
 import { toast } from 'react-toastify';
+
+import Paginator from "../../components/Paginator";
+import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
+import { usePageTitle } from "../../contexts/PageTitleContext";
+import { Timezone, useDeleteTimezoneMutation, useGetTimezonesQuery } from "../../graphql/schema";
 
 export const Timezones: React.FC = () => {
     const [timezones, setTimezones] = useState<Timezone[]>([]);
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
     const { loading, data, error, refetch } = useGetTimezonesQuery();
@@ -97,6 +100,7 @@ export const Timezones: React.FC = () => {
                     {fetchTimezones()}
                 </Tbody>
             </Table>
+            <Paginator currentPage={50} totalPages={100} onPageChange={(page) => {alert('Page changed to ' + page)}} />
         </>
     )
 }
