@@ -61,14 +61,20 @@ export type Mutation = {
   deleteSchedule?: Maybe<Scalars['Boolean']['output']>;
   deleteStation?: Maybe<Scalars['Boolean']['output']>;
   deleteStatus?: Maybe<Scalars['Boolean']['output']>;
+  deleteTimezone?: Maybe<Scalars['Boolean']['output']>;
   deleteTrain?: Maybe<Scalars['Boolean']['output']>;
+  deleteTrip?: Maybe<Scalars['Boolean']['output']>;
+  deleteWeekday?: Maybe<Scalars['Boolean']['output']>;
   saveCity?: Maybe<City>;
   saveEmployee?: Maybe<Employee>;
   saveRoute?: Maybe<Route>;
   saveSchedule?: Maybe<Schedule>;
   saveStation?: Maybe<Station>;
   saveStatus?: Maybe<Status>;
+  saveTimezone?: Maybe<Timezone>;
   saveTrain?: Maybe<Train>;
+  saveTrip?: Maybe<Trip>;
+  saveWeekday?: Maybe<Weekday>;
 };
 
 
@@ -109,7 +115,25 @@ export type MutationDeleteStatusArgs = {
 
 
 /** ##################################### MUTATIONS ###################################### */
+export type MutationDeleteTimezoneArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+/** ##################################### MUTATIONS ###################################### */
 export type MutationDeleteTrainArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+/** ##################################### MUTATIONS ###################################### */
+export type MutationDeleteTripArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+/** ##################################### MUTATIONS ###################################### */
+export type MutationDeleteWeekdayArgs = {
   id: Scalars['Int']['input'];
 };
 
@@ -151,8 +175,26 @@ export type MutationSaveStatusArgs = {
 
 
 /** ##################################### MUTATIONS ###################################### */
+export type MutationSaveTimezoneArgs = {
+  timezone?: InputMaybe<TimezoneInput>;
+};
+
+
+/** ##################################### MUTATIONS ###################################### */
 export type MutationSaveTrainArgs = {
   train?: InputMaybe<TrainInput>;
+};
+
+
+/** ##################################### MUTATIONS ###################################### */
+export type MutationSaveTripArgs = {
+  trip?: InputMaybe<TripInput>;
+};
+
+
+/** ##################################### MUTATIONS ###################################### */
+export type MutationSaveWeekdayArgs = {
+  weekday?: InputMaybe<WeekdayInput>;
 };
 
 export type Query = {
@@ -170,8 +212,15 @@ export type Query = {
   stations: Array<Station>;
   status: Array<Status>;
   statusById?: Maybe<Status>;
+  timezoneById?: Maybe<Timezone>;
+  timezones: Array<Timezone>;
   trainById?: Maybe<Train>;
   trains: Array<Train>;
+  tripById?: Maybe<Trip>;
+  trips: Array<Trip>;
+  tripsFiltered?: Maybe<Array<Trip>>;
+  weekdayById?: Maybe<Weekday>;
+  weekdays: Array<Weekday>;
 };
 
 
@@ -214,7 +263,31 @@ export type QueryStatusByIdArgs = {
 };
 
 
+export type QueryTimezoneByIdArgs = {
+  id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type QueryTrainByIdArgs = {
+  id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryTripByIdArgs = {
+  id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryTripsFilteredArgs = {
+  endDate?: InputMaybe<Scalars['String']['input']>;
+  endStationId?: InputMaybe<Scalars['Int']['input']>;
+  passengers?: InputMaybe<Scalars['Int']['input']>;
+  startDate?: InputMaybe<Scalars['String']['input']>;
+  startStationId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryWeekdayByIdArgs = {
   id?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -236,20 +309,20 @@ export type RouteInput = {
 export type Schedule = {
   __typename?: 'Schedule';
   arrivalTime?: Maybe<Scalars['String']['output']>;
+  arrivalWeekday?: Maybe<Weekday>;
   departureTime?: Maybe<Scalars['String']['output']>;
+  departureWeekday?: Maybe<Weekday>;
   id: Scalars['ID']['output'];
   route?: Maybe<Route>;
-  status?: Maybe<Status>;
-  train?: Maybe<Train>;
 };
 
 export type ScheduleInput = {
   arrivalTime?: InputMaybe<Scalars['String']['input']>;
+  arrivalWeekdayId?: InputMaybe<Scalars['Int']['input']>;
   departureTime?: InputMaybe<Scalars['String']['input']>;
+  departureWeekdayId?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   routeId?: InputMaybe<Scalars['Int']['input']>;
-  statusId?: InputMaybe<Scalars['Int']['input']>;
-  trainId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Station = {
@@ -263,6 +336,7 @@ export type Station = {
   name: Scalars['String']['output'];
   phone?: Maybe<Scalars['String']['output']>;
   postalCode?: Maybe<Scalars['String']['output']>;
+  timezone?: Maybe<Timezone>;
 };
 
 export type StationInput = {
@@ -291,6 +365,19 @@ export type StatusInput = {
   name: Scalars['String']['input'];
 };
 
+export type Timezone = {
+  __typename?: 'Timezone';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  region: Scalars['String']['output'];
+};
+
+export type TimezoneInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  region?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Train = {
   __typename?: 'Train';
   capacity?: Maybe<Scalars['Int']['output']>;
@@ -304,6 +391,36 @@ export type TrainInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
   maxSpeed?: InputMaybe<Scalars['Float']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Trip = {
+  __typename?: 'Trip';
+  endTime?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  schedule?: Maybe<Schedule>;
+  startTime?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Status>;
+  train?: Maybe<Train>;
+};
+
+export type TripInput = {
+  endTime?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  scheduleId?: InputMaybe<Scalars['Int']['input']>;
+  startTime?: InputMaybe<Scalars['String']['input']>;
+  statusId?: InputMaybe<Scalars['Int']['input']>;
+  trainId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type Weekday = {
+  __typename?: 'Weekday';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+};
+
+export type WeekdayInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SaveCityMutationVariables = Exact<{
@@ -381,7 +498,7 @@ export type SaveScheduleMutationVariables = Exact<{
 }>;
 
 
-export type SaveScheduleMutation = { __typename?: 'Mutation', saveSchedule?: { __typename?: 'Schedule', id: string, departureTime?: string | null, arrivalTime?: string | null, train?: { __typename?: 'Train', type: string } | null, route?: { __typename?: 'Route', startStation?: { __typename?: 'Station', name: string } | null, endStation?: { __typename?: 'Station', name: string } | null } | null, status?: { __typename?: 'Status', name: string } | null } | null };
+export type SaveScheduleMutation = { __typename?: 'Mutation', saveSchedule?: { __typename?: 'Schedule', id: string, departureTime?: string | null, arrivalTime?: string | null, route?: { __typename?: 'Route', startStation?: { __typename?: 'Station', name: string } | null, endStation?: { __typename?: 'Station', name: string } | null } | null, departureWeekday?: { __typename?: 'Weekday', name: string } | null, arrivalWeekday?: { __typename?: 'Weekday', name: string } | null } | null };
 
 export type DeleteScheduleMutationVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -403,6 +520,48 @@ export type DeleteRouteMutationVariables = Exact<{
 
 
 export type DeleteRouteMutation = { __typename?: 'Mutation', deleteRoute?: boolean | null };
+
+export type SaveTripMutationVariables = Exact<{
+  trip: TripInput;
+}>;
+
+
+export type SaveTripMutation = { __typename?: 'Mutation', saveTrip?: { __typename?: 'Trip', id: string, startTime?: string | null, endTime?: string | null, schedule?: { __typename?: 'Schedule', id: string } | null, train?: { __typename?: 'Train', type: string } | null, status?: { __typename?: 'Status', name: string } | null } | null };
+
+export type DeleteTripMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteTripMutation = { __typename?: 'Mutation', deleteTrip?: boolean | null };
+
+export type SaveWeekdayMutationVariables = Exact<{
+  weekday: WeekdayInput;
+}>;
+
+
+export type SaveWeekdayMutation = { __typename?: 'Mutation', saveWeekday?: { __typename?: 'Weekday', id: string, name: string } | null };
+
+export type DeleteWeekdayMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteWeekdayMutation = { __typename?: 'Mutation', deleteWeekday?: boolean | null };
+
+export type SaveTimezoneMutationVariables = Exact<{
+  timezone: TimezoneInput;
+}>;
+
+
+export type SaveTimezoneMutation = { __typename?: 'Mutation', saveTimezone?: { __typename?: 'Timezone', id: string, name: string, region: string } | null };
+
+export type DeleteTimezoneMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteTimezoneMutation = { __typename?: 'Mutation', deleteTimezone?: boolean | null };
 
 export type GetCitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -457,24 +616,24 @@ export type GetStationByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetStationByIdQuery = { __typename?: 'Query', stationById?: { __typename?: 'Station', id: string, name: string, countryCode?: string | null, phone?: string | null, postalCode?: string | null, latitude?: number | null, longitude?: number | null, imageUrl?: string | null, city?: { __typename?: 'City', id: string } | null } | null };
+export type GetStationByIdQuery = { __typename?: 'Query', stationById?: { __typename?: 'Station', id: string, name: string, countryCode?: string | null, phone?: string | null, postalCode?: string | null, latitude?: number | null, longitude?: number | null, imageUrl?: string | null, timezone?: { __typename?: 'Timezone', id: string, name: string, region: string } | null, city?: { __typename?: 'City', id: string, city: string, province: string, country: string } | null } | null };
 
 export type GetStationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetStationsQuery = { __typename?: 'Query', stations: Array<{ __typename?: 'Station', id: string, name: string, countryCode?: string | null, phone?: string | null, postalCode?: string | null, latitude?: number | null, longitude?: number | null, imageUrl?: string | null }> };
+export type GetStationsQuery = { __typename?: 'Query', stations: Array<{ __typename?: 'Station', id: string, name: string, countryCode?: string | null, phone?: string | null, postalCode?: string | null, latitude?: number | null, longitude?: number | null, imageUrl?: string | null, timezone?: { __typename?: 'Timezone', id: string, name: string, region: string } | null, city?: { __typename?: 'City', id: string, city: string, province: string, country: string } | null }> };
 
 export type GetScheduleByIdQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
 
 
-export type GetScheduleByIdQuery = { __typename?: 'Query', scheduleById?: { __typename?: 'Schedule', id: string, departureTime?: string | null, arrivalTime?: string | null, train?: { __typename?: 'Train', id: string, type: string } | null, route?: { __typename?: 'Route', id?: string | null, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null, status?: { __typename?: 'Status', id: string, name: string } | null } | null };
+export type GetScheduleByIdQuery = { __typename?: 'Query', scheduleById?: { __typename?: 'Schedule', id: string, departureTime?: string | null, arrivalTime?: string | null, route?: { __typename?: 'Route', id?: string | null, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null, departureWeekday?: { __typename?: 'Weekday', id: string, name: string } | null, arrivalWeekday?: { __typename?: 'Weekday', id: string, name: string } | null } | null };
 
 export type GetSchedulesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSchedulesQuery = { __typename?: 'Query', schedules: Array<{ __typename?: 'Schedule', id: string, departureTime?: string | null, arrivalTime?: string | null, train?: { __typename?: 'Train', id: string, type: string } | null, route?: { __typename?: 'Route', startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null, status?: { __typename?: 'Status', id: string, name: string } | null }> };
+export type GetSchedulesQuery = { __typename?: 'Query', schedules: Array<{ __typename?: 'Schedule', id: string, departureTime?: string | null, arrivalTime?: string | null, route?: { __typename?: 'Route', id?: string | null, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null } | null, departureWeekday?: { __typename?: 'Weekday', id: string, name: string } | null, arrivalWeekday?: { __typename?: 'Weekday', id: string, name: string } | null }> };
 
 export type GetRouteByIdQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -487,6 +646,42 @@ export type GetRoutesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetRoutesQuery = { __typename?: 'Query', routes: Array<{ __typename?: 'Route', id?: string | null, distance?: number | null, startStation?: { __typename?: 'Station', id: string, name: string } | null, endStation?: { __typename?: 'Station', id: string, name: string } | null }> };
+
+export type GetTripsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTripsQuery = { __typename?: 'Query', trips: Array<{ __typename?: 'Trip', id: string, startTime?: string | null, endTime?: string | null, schedule?: { __typename?: 'Schedule', id: string } | null, train?: { __typename?: 'Train', id: string, type: string } | null, status?: { __typename?: 'Status', id: string, name: string } | null }> };
+
+export type GetTripByIdQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type GetTripByIdQuery = { __typename?: 'Query', tripById?: { __typename?: 'Trip', id: string, startTime?: string | null, endTime?: string | null, schedule?: { __typename?: 'Schedule', id: string } | null, train?: { __typename?: 'Train', id: string, type: string } | null, status?: { __typename?: 'Status', id: string, name: string } | null } | null };
+
+export type GetWeekdaysQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetWeekdaysQuery = { __typename?: 'Query', weekdays: Array<{ __typename?: 'Weekday', id: string, name: string }> };
+
+export type GetWeekdayByIdQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type GetWeekdayByIdQuery = { __typename?: 'Query', weekdayById?: { __typename?: 'Weekday', id: string, name: string } | null };
+
+export type GetTimezonesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTimezonesQuery = { __typename?: 'Query', timezones: Array<{ __typename?: 'Timezone', id: string, name: string, region: string }> };
+
+export type GetTimezoneByIdQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type GetTimezoneByIdQuery = { __typename?: 'Query', timezoneById?: { __typename?: 'Timezone', id: string, name: string, region: string } | null };
 
 
 export const SaveCityDocument = gql`
@@ -833,9 +1028,6 @@ export const SaveScheduleDocument = gql`
     mutation saveSchedule($schedule: ScheduleInput!) {
   saveSchedule(schedule: $schedule) {
     id
-    train {
-      type
-    }
     route {
       startStation {
         name
@@ -845,8 +1037,11 @@ export const SaveScheduleDocument = gql`
       }
     }
     departureTime
+    departureWeekday {
+      name
+    }
     arrivalTime
-    status {
+    arrivalWeekday {
       name
     }
   }
@@ -980,6 +1175,212 @@ export function useDeleteRouteMutation(baseOptions?: ApolloReactHooks.MutationHo
 export type DeleteRouteMutationHookResult = ReturnType<typeof useDeleteRouteMutation>;
 export type DeleteRouteMutationResult = Apollo.MutationResult<DeleteRouteMutation>;
 export type DeleteRouteMutationOptions = Apollo.BaseMutationOptions<DeleteRouteMutation, DeleteRouteMutationVariables>;
+export const SaveTripDocument = gql`
+    mutation saveTrip($trip: TripInput!) {
+  saveTrip(trip: $trip) {
+    id
+    schedule {
+      id
+    }
+    train {
+      type
+    }
+    startTime
+    endTime
+    status {
+      name
+    }
+  }
+}
+    `;
+export type SaveTripMutationFn = Apollo.MutationFunction<SaveTripMutation, SaveTripMutationVariables>;
+
+/**
+ * __useSaveTripMutation__
+ *
+ * To run a mutation, you first call `useSaveTripMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveTripMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveTripMutation, { data, loading, error }] = useSaveTripMutation({
+ *   variables: {
+ *      trip: // value for 'trip'
+ *   },
+ * });
+ */
+export function useSaveTripMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SaveTripMutation, SaveTripMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<SaveTripMutation, SaveTripMutationVariables>(SaveTripDocument, options);
+      }
+export type SaveTripMutationHookResult = ReturnType<typeof useSaveTripMutation>;
+export type SaveTripMutationResult = Apollo.MutationResult<SaveTripMutation>;
+export type SaveTripMutationOptions = Apollo.BaseMutationOptions<SaveTripMutation, SaveTripMutationVariables>;
+export const DeleteTripDocument = gql`
+    mutation deleteTrip($id: Int!) {
+  deleteTrip(id: $id)
+}
+    `;
+export type DeleteTripMutationFn = Apollo.MutationFunction<DeleteTripMutation, DeleteTripMutationVariables>;
+
+/**
+ * __useDeleteTripMutation__
+ *
+ * To run a mutation, you first call `useDeleteTripMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTripMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTripMutation, { data, loading, error }] = useDeleteTripMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteTripMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteTripMutation, DeleteTripMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<DeleteTripMutation, DeleteTripMutationVariables>(DeleteTripDocument, options);
+      }
+export type DeleteTripMutationHookResult = ReturnType<typeof useDeleteTripMutation>;
+export type DeleteTripMutationResult = Apollo.MutationResult<DeleteTripMutation>;
+export type DeleteTripMutationOptions = Apollo.BaseMutationOptions<DeleteTripMutation, DeleteTripMutationVariables>;
+export const SaveWeekdayDocument = gql`
+    mutation saveWeekday($weekday: WeekdayInput!) {
+  saveWeekday(weekday: $weekday) {
+    id
+    name
+  }
+}
+    `;
+export type SaveWeekdayMutationFn = Apollo.MutationFunction<SaveWeekdayMutation, SaveWeekdayMutationVariables>;
+
+/**
+ * __useSaveWeekdayMutation__
+ *
+ * To run a mutation, you first call `useSaveWeekdayMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveWeekdayMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveWeekdayMutation, { data, loading, error }] = useSaveWeekdayMutation({
+ *   variables: {
+ *      weekday: // value for 'weekday'
+ *   },
+ * });
+ */
+export function useSaveWeekdayMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SaveWeekdayMutation, SaveWeekdayMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<SaveWeekdayMutation, SaveWeekdayMutationVariables>(SaveWeekdayDocument, options);
+      }
+export type SaveWeekdayMutationHookResult = ReturnType<typeof useSaveWeekdayMutation>;
+export type SaveWeekdayMutationResult = Apollo.MutationResult<SaveWeekdayMutation>;
+export type SaveWeekdayMutationOptions = Apollo.BaseMutationOptions<SaveWeekdayMutation, SaveWeekdayMutationVariables>;
+export const DeleteWeekdayDocument = gql`
+    mutation deleteWeekday($id: Int!) {
+  deleteWeekday(id: $id)
+}
+    `;
+export type DeleteWeekdayMutationFn = Apollo.MutationFunction<DeleteWeekdayMutation, DeleteWeekdayMutationVariables>;
+
+/**
+ * __useDeleteWeekdayMutation__
+ *
+ * To run a mutation, you first call `useDeleteWeekdayMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteWeekdayMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteWeekdayMutation, { data, loading, error }] = useDeleteWeekdayMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteWeekdayMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteWeekdayMutation, DeleteWeekdayMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<DeleteWeekdayMutation, DeleteWeekdayMutationVariables>(DeleteWeekdayDocument, options);
+      }
+export type DeleteWeekdayMutationHookResult = ReturnType<typeof useDeleteWeekdayMutation>;
+export type DeleteWeekdayMutationResult = Apollo.MutationResult<DeleteWeekdayMutation>;
+export type DeleteWeekdayMutationOptions = Apollo.BaseMutationOptions<DeleteWeekdayMutation, DeleteWeekdayMutationVariables>;
+export const SaveTimezoneDocument = gql`
+    mutation saveTimezone($timezone: TimezoneInput!) {
+  saveTimezone(timezone: $timezone) {
+    id
+    name
+    region
+  }
+}
+    `;
+export type SaveTimezoneMutationFn = Apollo.MutationFunction<SaveTimezoneMutation, SaveTimezoneMutationVariables>;
+
+/**
+ * __useSaveTimezoneMutation__
+ *
+ * To run a mutation, you first call `useSaveTimezoneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveTimezoneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveTimezoneMutation, { data, loading, error }] = useSaveTimezoneMutation({
+ *   variables: {
+ *      timezone: // value for 'timezone'
+ *   },
+ * });
+ */
+export function useSaveTimezoneMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SaveTimezoneMutation, SaveTimezoneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<SaveTimezoneMutation, SaveTimezoneMutationVariables>(SaveTimezoneDocument, options);
+      }
+export type SaveTimezoneMutationHookResult = ReturnType<typeof useSaveTimezoneMutation>;
+export type SaveTimezoneMutationResult = Apollo.MutationResult<SaveTimezoneMutation>;
+export type SaveTimezoneMutationOptions = Apollo.BaseMutationOptions<SaveTimezoneMutation, SaveTimezoneMutationVariables>;
+export const DeleteTimezoneDocument = gql`
+    mutation deleteTimezone($id: Int!) {
+  deleteTimezone(id: $id)
+}
+    `;
+export type DeleteTimezoneMutationFn = Apollo.MutationFunction<DeleteTimezoneMutation, DeleteTimezoneMutationVariables>;
+
+/**
+ * __useDeleteTimezoneMutation__
+ *
+ * To run a mutation, you first call `useDeleteTimezoneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTimezoneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTimezoneMutation, { data, loading, error }] = useDeleteTimezoneMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteTimezoneMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteTimezoneMutation, DeleteTimezoneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<DeleteTimezoneMutation, DeleteTimezoneMutationVariables>(DeleteTimezoneDocument, options);
+      }
+export type DeleteTimezoneMutationHookResult = ReturnType<typeof useDeleteTimezoneMutation>;
+export type DeleteTimezoneMutationResult = Apollo.MutationResult<DeleteTimezoneMutation>;
+export type DeleteTimezoneMutationOptions = Apollo.BaseMutationOptions<DeleteTimezoneMutation, DeleteTimezoneMutationVariables>;
 export const GetCitiesDocument = gql`
     query getCities {
   cities {
@@ -1357,8 +1758,16 @@ export const GetStationByIdDocument = gql`
     latitude
     longitude
     imageUrl
+    timezone {
+      id
+      name
+      region
+    }
     city {
       id
+      city
+      province
+      country
     }
   }
 }
@@ -1410,6 +1819,17 @@ export const GetStationsDocument = gql`
     latitude
     longitude
     imageUrl
+    timezone {
+      id
+      name
+      region
+    }
+    city {
+      id
+      city
+      province
+      country
+    }
   }
 }
     `;
@@ -1452,10 +1872,6 @@ export const GetScheduleByIdDocument = gql`
     query getScheduleById($id: Int!) {
   scheduleById(id: $id) {
     id
-    train {
-      id
-      type
-    }
     route {
       id
       startStation {
@@ -1468,8 +1884,12 @@ export const GetScheduleByIdDocument = gql`
       }
     }
     departureTime
+    departureWeekday {
+      id
+      name
+    }
     arrivalTime
-    status {
+    arrivalWeekday {
       id
       name
     }
@@ -1516,11 +1936,8 @@ export const GetSchedulesDocument = gql`
     query getSchedules {
   schedules {
     id
-    train {
-      id
-      type
-    }
     route {
+      id
       startStation {
         id
         name
@@ -1531,8 +1948,12 @@ export const GetSchedulesDocument = gql`
       }
     }
     departureTime
+    departureWeekday {
+      id
+      name
+    }
     arrivalTime
-    status {
+    arrivalWeekday {
       id
       name
     }
@@ -1677,3 +2098,290 @@ export type GetRoutesQueryHookResult = ReturnType<typeof useGetRoutesQuery>;
 export type GetRoutesLazyQueryHookResult = ReturnType<typeof useGetRoutesLazyQuery>;
 export type GetRoutesSuspenseQueryHookResult = ReturnType<typeof useGetRoutesSuspenseQuery>;
 export type GetRoutesQueryResult = Apollo.QueryResult<GetRoutesQuery, GetRoutesQueryVariables>;
+export const GetTripsDocument = gql`
+    query getTrips {
+  trips {
+    id
+    schedule {
+      id
+    }
+    train {
+      id
+      type
+    }
+    startTime
+    endTime
+    status {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTripsQuery__
+ *
+ * To run a query within a React component, call `useGetTripsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTripsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTripsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTripsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetTripsQuery, GetTripsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetTripsQuery, GetTripsQueryVariables>(GetTripsDocument, options);
+      }
+export function useGetTripsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTripsQuery, GetTripsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetTripsQuery, GetTripsQueryVariables>(GetTripsDocument, options);
+        }
+// @ts-ignore
+export function useGetTripsSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetTripsQuery, GetTripsQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTripsQuery, GetTripsQueryVariables>;
+export function useGetTripsSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTripsQuery, GetTripsQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTripsQuery | undefined, GetTripsQueryVariables>;
+export function useGetTripsSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTripsQuery, GetTripsQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetTripsQuery, GetTripsQueryVariables>(GetTripsDocument, options);
+        }
+export type GetTripsQueryHookResult = ReturnType<typeof useGetTripsQuery>;
+export type GetTripsLazyQueryHookResult = ReturnType<typeof useGetTripsLazyQuery>;
+export type GetTripsSuspenseQueryHookResult = ReturnType<typeof useGetTripsSuspenseQuery>;
+export type GetTripsQueryResult = Apollo.QueryResult<GetTripsQuery, GetTripsQueryVariables>;
+export const GetTripByIdDocument = gql`
+    query getTripById($id: Int!) {
+  tripById(id: $id) {
+    id
+    schedule {
+      id
+    }
+    train {
+      id
+      type
+    }
+    startTime
+    endTime
+    status {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetTripByIdQuery__
+ *
+ * To run a query within a React component, call `useGetTripByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTripByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTripByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetTripByIdQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables> & ({ variables: GetTripByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetTripByIdQuery, GetTripByIdQueryVariables>(GetTripByIdDocument, options);
+      }
+export function useGetTripByIdLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetTripByIdQuery, GetTripByIdQueryVariables>(GetTripByIdDocument, options);
+        }
+// @ts-ignore
+export function useGetTripByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTripByIdQuery, GetTripByIdQueryVariables>;
+export function useGetTripByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTripByIdQuery | undefined, GetTripByIdQueryVariables>;
+export function useGetTripByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTripByIdQuery, GetTripByIdQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetTripByIdQuery, GetTripByIdQueryVariables>(GetTripByIdDocument, options);
+        }
+export type GetTripByIdQueryHookResult = ReturnType<typeof useGetTripByIdQuery>;
+export type GetTripByIdLazyQueryHookResult = ReturnType<typeof useGetTripByIdLazyQuery>;
+export type GetTripByIdSuspenseQueryHookResult = ReturnType<typeof useGetTripByIdSuspenseQuery>;
+export type GetTripByIdQueryResult = Apollo.QueryResult<GetTripByIdQuery, GetTripByIdQueryVariables>;
+export const GetWeekdaysDocument = gql`
+    query getWeekdays {
+  weekdays {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetWeekdaysQuery__
+ *
+ * To run a query within a React component, call `useGetWeekdaysQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWeekdaysQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWeekdaysQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetWeekdaysQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetWeekdaysQuery, GetWeekdaysQueryVariables>(GetWeekdaysDocument, options);
+      }
+export function useGetWeekdaysLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetWeekdaysQuery, GetWeekdaysQueryVariables>(GetWeekdaysDocument, options);
+        }
+// @ts-ignore
+export function useGetWeekdaysSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetWeekdaysQuery, GetWeekdaysQueryVariables>;
+export function useGetWeekdaysSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetWeekdaysQuery | undefined, GetWeekdaysQueryVariables>;
+export function useGetWeekdaysSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdaysQuery, GetWeekdaysQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetWeekdaysQuery, GetWeekdaysQueryVariables>(GetWeekdaysDocument, options);
+        }
+export type GetWeekdaysQueryHookResult = ReturnType<typeof useGetWeekdaysQuery>;
+export type GetWeekdaysLazyQueryHookResult = ReturnType<typeof useGetWeekdaysLazyQuery>;
+export type GetWeekdaysSuspenseQueryHookResult = ReturnType<typeof useGetWeekdaysSuspenseQuery>;
+export type GetWeekdaysQueryResult = Apollo.QueryResult<GetWeekdaysQuery, GetWeekdaysQueryVariables>;
+export const GetWeekdayByIdDocument = gql`
+    query getWeekdayById($id: Int!) {
+  weekdayById(id: $id) {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetWeekdayByIdQuery__
+ *
+ * To run a query within a React component, call `useGetWeekdayByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetWeekdayByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetWeekdayByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetWeekdayByIdQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables> & ({ variables: GetWeekdayByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>(GetWeekdayByIdDocument, options);
+      }
+export function useGetWeekdayByIdLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>(GetWeekdayByIdDocument, options);
+        }
+// @ts-ignore
+export function useGetWeekdayByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>;
+export function useGetWeekdayByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetWeekdayByIdQuery | undefined, GetWeekdayByIdQueryVariables>;
+export function useGetWeekdayByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>(GetWeekdayByIdDocument, options);
+        }
+export type GetWeekdayByIdQueryHookResult = ReturnType<typeof useGetWeekdayByIdQuery>;
+export type GetWeekdayByIdLazyQueryHookResult = ReturnType<typeof useGetWeekdayByIdLazyQuery>;
+export type GetWeekdayByIdSuspenseQueryHookResult = ReturnType<typeof useGetWeekdayByIdSuspenseQuery>;
+export type GetWeekdayByIdQueryResult = Apollo.QueryResult<GetWeekdayByIdQuery, GetWeekdayByIdQueryVariables>;
+export const GetTimezonesDocument = gql`
+    query getTimezones {
+  timezones {
+    id
+    name
+    region
+  }
+}
+    `;
+
+/**
+ * __useGetTimezonesQuery__
+ *
+ * To run a query within a React component, call `useGetTimezonesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTimezonesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTimezonesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTimezonesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetTimezonesQuery, GetTimezonesQueryVariables>(GetTimezonesDocument, options);
+      }
+export function useGetTimezonesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetTimezonesQuery, GetTimezonesQueryVariables>(GetTimezonesDocument, options);
+        }
+// @ts-ignore
+export function useGetTimezonesSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTimezonesQuery, GetTimezonesQueryVariables>;
+export function useGetTimezonesSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTimezonesQuery | undefined, GetTimezonesQueryVariables>;
+export function useGetTimezonesSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTimezonesQuery, GetTimezonesQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetTimezonesQuery, GetTimezonesQueryVariables>(GetTimezonesDocument, options);
+        }
+export type GetTimezonesQueryHookResult = ReturnType<typeof useGetTimezonesQuery>;
+export type GetTimezonesLazyQueryHookResult = ReturnType<typeof useGetTimezonesLazyQuery>;
+export type GetTimezonesSuspenseQueryHookResult = ReturnType<typeof useGetTimezonesSuspenseQuery>;
+export type GetTimezonesQueryResult = Apollo.QueryResult<GetTimezonesQuery, GetTimezonesQueryVariables>;
+export const GetTimezoneByIdDocument = gql`
+    query getTimezoneById($id: Int!) {
+  timezoneById(id: $id) {
+    id
+    name
+    region
+  }
+}
+    `;
+
+/**
+ * __useGetTimezoneByIdQuery__
+ *
+ * To run a query within a React component, call `useGetTimezoneByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTimezoneByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTimezoneByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetTimezoneByIdQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables> & ({ variables: GetTimezoneByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>(GetTimezoneByIdDocument, options);
+      }
+export function useGetTimezoneByIdLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>(GetTimezoneByIdDocument, options);
+        }
+// @ts-ignore
+export function useGetTimezoneByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>;
+export function useGetTimezoneByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>): ApolloReactHooks.UseSuspenseQueryResult<GetTimezoneByIdQuery | undefined, GetTimezoneByIdQueryVariables>;
+export function useGetTimezoneByIdSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>(GetTimezoneByIdDocument, options);
+        }
+export type GetTimezoneByIdQueryHookResult = ReturnType<typeof useGetTimezoneByIdQuery>;
+export type GetTimezoneByIdLazyQueryHookResult = ReturnType<typeof useGetTimezoneByIdLazyQuery>;
+export type GetTimezoneByIdSuspenseQueryHookResult = ReturnType<typeof useGetTimezoneByIdSuspenseQuery>;
+export type GetTimezoneByIdQueryResult = Apollo.QueryResult<GetTimezoneByIdQuery, GetTimezoneByIdQueryVariables>;

@@ -5,8 +5,8 @@ const Menu = () => {
   return (
     <nav className="relative flex w-full flex-nowrap items-center justify-between bg-blue-500 py-2 text-black-400 shadow-dark-mild hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-700 lg:flex-wrap lg:justify-start lg:py-4" data-twe-navbar-ref>
         <div className="flex w-full flex-wrap items-center justify-between px-3">
-          <div className="ms-2">
-            <Link className="dark text-xl text-white dark:text-white font-bold" to={"/"}>admin-inputs</Link>
+          <div className="ms-2 mr-4">
+            <Link className="dark text-xl text-white dark:text-white font-bold" to={"/"}>ADMIN-INPUTS</Link>
           </div>
           {/* Hamburger button for mobile view */}
           <button
@@ -68,6 +68,24 @@ const Menu = () => {
                 <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
                   <Link to={"/routes"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
                     Routes
+                  </Link>
+                </li>
+                {/* Trips link */}
+                <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
+                  <Link to={"/trips"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
+                    Trips
+                  </Link>
+                </li>
+                {/* Weekdays link */}
+                <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
+                  <Link to={"/weekdays"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
+                    Weekdays
+                  </Link>
+                </li>
+                {/* Timezones link */}
+                <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
+                  <Link to={"/timezones"} data-twe-nav-link-ref className="p-0 text-white/80 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
+                    Timezones
                   </Link>
                 </li>
               </ul>
