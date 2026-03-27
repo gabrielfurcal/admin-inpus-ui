@@ -5,7 +5,7 @@ import { PaginatorProps } from './props';
 
 const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageChange }) => {
     const [pages, setPages] = useState<number[]>([]);
-    const [page, setPage] = useState<number>(0);
+    const [page, setPage] = useState<number>(1);
 
     useEffect(() => {
         setPage(currentPage);

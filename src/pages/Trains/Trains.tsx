@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
-import { Train, useDeleteTrainMutation, useGetTrainsQuery } from "../../graphql/schema";
+import { GET_TRAINS } from "../../graphql/queries";
+import { DELETE_TRAIN } from "../../graphql/mutations";
+import { Train } from "../../graphql/gql/graphql";
 
 export const Trains: React.FC = () => {
     const [trains, setTrains] = useState<Train[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetTrainsQuery();
+    const { loading, data, error, refetch } = useQuery(GET_TRAINS);
     const { setTitle } = usePageTitle();
-    const [deleteTrain] = useDeleteTrainMutation();
+    const [deleteTrain] = useMutation(DELETE_TRAIN);
 
     useEffect(() => {
         setTitle('Trains');

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useSaveWeekdayMutation } from '../../graphql/schema';
+import { useMutation } from "@apollo/client/react";
+import { SAVE_WEEKDAY } from "../../graphql/mutations";
 import { Input, Button } from '../../components/Form';
 import { usePageTitle } from '../../contexts/PageTitleContext';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +15,7 @@ type FormValues = {
 export const CreateWeekday: React.FC = () => {
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const [saveWeekday] = useSaveWeekdayMutation();
+    const [saveWeekday] = useMutation(SAVE_WEEKDAY);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = useForm<FormValues>();

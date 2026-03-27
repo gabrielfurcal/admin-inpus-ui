@@ -1,4 +1,5 @@
 import { DevTool } from '@hookform/devtools';
+import { useMutation, useQuery } from "@apollo/client/react";
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,7 +10,9 @@ import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
 import { DEFAULT_REF_VALUE, DEFAULT_REF_VALUE_NUMERIC } from '../../constants';
 import { usePageTitle } from '../../contexts/PageTitleContext';
-import { StationInput, Timezone, useGetStationByIdQuery, useGetTimezonesQuery, useSaveStationMutation } from '../../graphql/schema';
+import { GET_STATION_BY_ID, GET_TIMEZONES } from "../../graphql/queries";
+import { SAVE_STATION } from "../../graphql/mutations";
+import { StationInput, Timezone } from '../../graphql/gql/graphql';
 
 type FormValues = {
     name: string;
@@ -29,9 +32,9 @@ export const EditStation: React.FC = () => {
     const [timezoneOptions, setTimezoneOptions] = useState<SelectOption[]>([]);
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
-    const { loading, data, error } = useGetStationByIdQuery({variables: { id: numericId! }});
-    const { loading: timezonesLoading, data: timezonesData } = useGetTimezonesQuery();
-    const [saveStation] = useSaveStationMutation();
+    const { loading, data, error } = useQuery(GET_STATION_BY_ID, {variables: { id: numericId! }});
+    const { loading: timezonesLoading, data: timezonesData } = useQuery(GET_TIMEZONES, { variables: { offset: 0, limit: 10 } });
+    const [saveStation] = useMutation(SAVE_STATION);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();

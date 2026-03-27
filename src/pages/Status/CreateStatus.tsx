@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { StatusInput, useSaveStatusMutation } from '../../graphql/schema';
+import { useMutation } from "@apollo/client/react";
+import { SAVE_STATUS } from "../../graphql/mutations";
+import { StatusInput } from '../../graphql/gql/graphql';
 import { Input, Button } from '../../components/Form';
 import { usePageTitle } from '../../contexts/PageTitleContext';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +18,7 @@ type FormValues = {
 export const CreateStatus: React.FC = () => {
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const [saveStatus] = useSaveStatusMutation();
+    const [saveStatus] = useMutation(SAVE_STATUS);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = useForm<FormValues>();

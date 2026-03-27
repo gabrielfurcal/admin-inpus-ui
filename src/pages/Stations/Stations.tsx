@@ -1,19 +1,21 @@
-import { ApolloError } from "@apollo/client";
 import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
-import { Station, useDeleteStationMutation, useGetStationsQuery } from "../../graphql/schema";
+import { GET_STATIONS } from "../../graphql/queries";
+import { DELETE_STATION } from "../../graphql/mutations";
+import { Station } from "../../graphql/gql/graphql";
 
 export const Stations: React.FC = () => {
     const [stations, setStations] = useState<Station[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetStationsQuery();
+    const { loading, data, error, refetch } = useQuery(GET_STATIONS);
     const { setTitle } = usePageTitle();
-    const [deleteStation] = useDeleteStationMutation();
+    const [deleteStation] = useMutation(DELETE_STATION);
 
     useEffect(() => {
         setTitle('Stations');

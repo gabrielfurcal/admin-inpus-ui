@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
-import { useDeleteWeekdayMutation, useGetWeekdaysQuery, Weekday } from "../../graphql/schema";
+import { GET_WEEKDAYS } from "../../graphql/queries";
+import { DELETE_WEEKDAY } from "../../graphql/mutations";
+import { Weekday } from "../../graphql/gql/graphql";
 
 export const Weekdays: React.FC = () => {
     const [weekdays, setWeekdays] = useState<Weekday[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetWeekdaysQuery();
+    const { loading, data, error, refetch } = useQuery(GET_WEEKDAYS);
     const { setTitle } = usePageTitle();
-    const [deleteWeekday] = useDeleteWeekdayMutation();
+    const [deleteWeekday] = useMutation(DELETE_WEEKDAY);
 
     useEffect(() => {
         setTitle('Weekdays');

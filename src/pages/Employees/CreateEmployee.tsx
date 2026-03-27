@@ -1,4 +1,5 @@
 import { DevTool } from '@hookform/devtools';
+import { useMutation } from "@apollo/client/react";
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +7,8 @@ import { toast } from 'react-toastify';
 
 import { Button, Input } from '../../components/Form';
 import { usePageTitle } from '../../contexts/PageTitleContext';
-import { EmployeeInput, useSaveEmployeeMutation } from '../../graphql/schema';
+import { SAVE_EMPLOYEE } from "../../graphql/mutations";
+import { EmployeeInput } from '../../graphql/gql/graphql';
 
 type FormValues = {
     firstName: string;
@@ -19,7 +21,7 @@ type FormValues = {
 export const CreateEmployee: React.FC = () => {
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const [saveEmployee] = useSaveEmployeeMutation();
+    const [saveEmployee] = useMutation(SAVE_EMPLOYEE);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = useForm<FormValues>();

@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client";
+import { graphql } from "./gql";
 
-export const GET_CITIES = gql`
+export const GET_CITIES = graphql(`
     query getCities {
         cities {
             id
@@ -9,9 +9,9 @@ export const GET_CITIES = gql`
             country
         }
     }
-`
+`)
 
-export const GET_CITY_BY_ID = gql`
+export const GET_CITY_BY_ID = graphql(`
     query getCityById($id: Int!) {
         cityById(id: $id) {
             id
@@ -20,8 +20,9 @@ export const GET_CITY_BY_ID = gql`
             country
         }
     }
-`
-export const GET_EMPLOYEES = gql`
+`)
+
+export const GET_EMPLOYEES = graphql(`
     query getEmployees {
         employees {
             id
@@ -32,9 +33,9 @@ export const GET_EMPLOYEES = gql`
             email
         }
     }
-`
+`)
 
-export const GET_EMPLOYEE_BY_ID = gql`
+export const GET_EMPLOYEE_BY_ID = graphql(`
     query getEmployeeById($id: Int!) {
         employeeById(id: $id) {
             id
@@ -45,9 +46,9 @@ export const GET_EMPLOYEE_BY_ID = gql`
             email
         }
     }
-`
+`)
 
-export const GET_STATUS_BY_ID = gql`
+export const GET_STATUS_BY_ID = graphql(`
     query getStatusById($id: Int!) {
         statusById(id: $id) {
             id
@@ -55,9 +56,9 @@ export const GET_STATUS_BY_ID = gql`
             description
         }
     }
-`
+`)
 
-export const GET_STATUS = gql`
+export const GET_STATUS = graphql(`
     query getStatus {
         status {
             id
@@ -65,9 +66,9 @@ export const GET_STATUS = gql`
             description
         }
     }
-`
+`)
 
-export const GET_TRAIN_BY_ID = gql`
+export const GET_TRAIN_BY_ID = graphql(`
     query getTrainById($id: Int!) {
         trainById(id: $id) {
             id
@@ -76,9 +77,9 @@ export const GET_TRAIN_BY_ID = gql`
             maxSpeed
         }
     }
-`
+`)
 
-export const GET_TRAINS = gql`
+export const GET_TRAINS = graphql(`
     query getTrains {
         trains {
             id
@@ -87,9 +88,9 @@ export const GET_TRAINS = gql`
             maxSpeed
         }
     }
-`
+`)
 
-export const GET_STATION_BY_ID = gql`
+export const GET_STATION_BY_ID = graphql(`
     query getStationById($id: Int!) {
         stationById(id: $id) {
             id
@@ -113,9 +114,9 @@ export const GET_STATION_BY_ID = gql`
             }
         }
     }
-`
+`)
 
-export const GET_STATIONS = gql`
+export const GET_STATIONS = graphql(`
     query getStations {
         stations {
             id
@@ -139,9 +140,9 @@ export const GET_STATIONS = gql`
             }
         }
     }
-`
+`)
 
-export const GET_SCHEDULE_BY_ID = gql`
+export const GET_SCHEDULE_BY_ID = graphql(`
     query getScheduleById($id: Int!) {
         scheduleById(id: $id) {
             id
@@ -168,9 +169,9 @@ export const GET_SCHEDULE_BY_ID = gql`
             }
         }
     }
-`
+`)
 
-export const GET_SCHEDULES = gql`
+export const GET_SCHEDULES = graphql(`
     query getSchedules {
         schedules {
             id
@@ -197,9 +198,9 @@ export const GET_SCHEDULES = gql`
             }
         }
     }
-`
+`)
 
-export const GET_ROUTE_BY_ID = gql`
+export const GET_ROUTE_BY_ID = graphql(`
     query getRouteById($id: Int!) {
         routeById(id: $id) {
             id
@@ -214,9 +215,9 @@ export const GET_ROUTE_BY_ID = gql`
             distance
         }
     }
-`
+`)
 
-export const GET_ROUTES = gql`
+export const GET_ROUTES = graphql(`
     query getRoutes {
         routes {
             id
@@ -231,10 +232,9 @@ export const GET_ROUTES = gql`
             distance
         }
     }
-`
+`)
 
-// New Trip queries
-export const GET_TRIPS = gql`
+export const GET_TRIPS = graphql(`
     query getTrips {
         trips {
             id
@@ -253,9 +253,9 @@ export const GET_TRIPS = gql`
             }
         }
     }
-`
+`)
 
-export const GET_TRIP_BY_ID = gql`
+export const GET_TRIP_BY_ID = graphql(`
     query getTripById($id: Int!) {
         tripById(id: $id) {
             id
@@ -274,39 +274,41 @@ export const GET_TRIP_BY_ID = gql`
             }
         }
     }
-`
+`)
 
-// New Weekday queries
-export const GET_WEEKDAYS = gql`
+export const GET_WEEKDAYS = graphql(`
     query getWeekdays {
         weekdays {
             id
             name
         }
     }
-`
+`)
 
-export const GET_WEEKDAY_BY_ID = gql`
+export const GET_WEEKDAY_BY_ID = graphql(`
     query getWeekdayById($id: Int!) {
         weekdayById(id: $id) {
             id
             name
         }
     }
-`
+`)
 
-// New Timezone queries
-export const GET_TIMEZONES = gql`
-    query getTimezones {
-        timezones {
-            id
-            name
-            region
+export const GET_TIMEZONES = graphql(`
+    query getTimezones($offset: Int, $limit: Int) {
+        timezones(offset: $offset, limit: $limit) {
+            items {
+                id
+                name
+                region
+            }
+            totalCount
+            hasNextPage
         }
     }
-`
+`)
 
-export const GET_TIMEZONE_BY_ID = gql`
+export const GET_TIMEZONE_BY_ID = graphql(`
     query getTimezoneById($id: Int!) {
         timezoneById(id: $id) {
             id
@@ -314,4 +316,4 @@ export const GET_TIMEZONE_BY_ID = gql`
             region
         }
     }
-`
+`)

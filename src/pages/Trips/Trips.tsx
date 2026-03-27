@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
-import { Trip, useDeleteTripMutation, useGetTripsQuery } from "../../graphql/schema";
+import { GET_TRIPS } from "../../graphql/queries";
+import { DELETE_TRIP } from "../../graphql/mutations";
+import { Trip } from "../../graphql/gql/graphql";
 
 export const Trips: React.FC = () => {
     const [trips, setTrips] = useState<Trip[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetTripsQuery();
+    const { loading, data, error, refetch } = useQuery(GET_TRIPS);
     const { setTitle } = usePageTitle();
-    const [deleteTrip] = useDeleteTripMutation();
+    const [deleteTrip] = useMutation(DELETE_TRIP);
 
     useEffect(() => {
         setTitle('Trips');

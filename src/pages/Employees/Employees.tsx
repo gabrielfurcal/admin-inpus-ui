@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
-import { Employee, useDeleteEmployeeMutation, useGetEmployeesQuery } from "../../graphql/schema";
+import { GET_EMPLOYEES } from "../../graphql/queries";
+import { DELETE_EMPLOYEE } from "../../graphql/mutations";
+import { Employee } from "../../graphql/gql/graphql";
 
 export const Employees: React.FC = () => {
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetEmployeesQuery();
+    const { loading, data, error, refetch } = useQuery(GET_EMPLOYEES);
     const { setTitle } = usePageTitle();
-    const [deleteEmployee] = useDeleteEmployeeMutation();
+    const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
 
     useEffect(() => {
         setTitle('Employees');

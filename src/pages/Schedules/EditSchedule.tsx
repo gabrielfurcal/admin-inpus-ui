@@ -1,6 +1,9 @@
 import { DevTool } from '@hookform/devtools';
+import { useMutation, useQuery } from "@apollo/client/react";
 import React, { useEffect, useState } from 'react'
-import { ScheduleInput, useSaveScheduleMutation, useGetScheduleByIdQuery, useGetRoutesQuery, useGetWeekdaysQuery, Route, Weekday } from '../../graphql/schema';
+import { GET_SCHEDULE_BY_ID, GET_ROUTES, GET_WEEKDAYS } from "../../graphql/queries";
+import { SAVE_SCHEDULE } from "../../graphql/mutations";
+import { ScheduleInput, Route, Weekday } from '../../graphql/gql/graphql';
 import { usePageTitle } from '../../contexts/PageTitleContext';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -28,10 +31,10 @@ export const EditSchedule: React.FC = () => {
     const [weekdayOptions, setWeekdayOptions] = useState<SelectOption[]>([]);
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
-    const { loading, data, error } = useGetScheduleByIdQuery({variables: { id: numericId! }});
-    const { loading: routesLoading, data: routesData } = useGetRoutesQuery();
-    const { loading: weekdaysLoading, data: weekdaysData } = useGetWeekdaysQuery();
-    const [saveSchedule] = useSaveScheduleMutation();
+    const { loading, data, error } = useQuery(GET_SCHEDULE_BY_ID, {variables: { id: numericId! }});
+    const { loading: routesLoading, data: routesData } = useQuery(GET_ROUTES);
+    const { loading: weekdaysLoading, data: weekdaysData } = useQuery(GET_WEEKDAYS);
+    const [saveSchedule] = useMutation(SAVE_SCHEDULE);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();

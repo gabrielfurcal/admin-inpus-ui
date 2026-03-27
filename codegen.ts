@@ -2,20 +2,12 @@ import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   schema: 'http://localhost:8080/graphql', // Your GraphQL API endpoint
-  documents: 'src/graphql/{queries,mutations}.ts', // Path to your GraphQL queries/mutations (excludes schema.ts)
+  documents: ['src/graphql/{queries,mutations}.ts'], // Path to your GraphQL queries/mutations (excludes schema.ts)
   generates: {
-    'src/graphql/schema.ts': { // Ensure the target is a directory with a trailing slash
-      plugins: [
-        'typescript',                 // Generate base TypeScript types
-        'typescript-operations',      // Generate types for operations (queries/mutations)
-        'typescript-react-apollo'
-      ],
+    'src/graphql/gql/': { // Ensure the target is a directory with a trailing slash
+      preset: "client"
     },
-  },
-  config: {
-    withHooks: true,                 // Use React Apollo hooks
-    apolloReactHooksImportFrom: "@apollo/client/react"
-  },
+  }
 };
 
 export default config;

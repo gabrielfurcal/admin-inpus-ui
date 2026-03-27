@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
-import { Route, useDeleteRouteMutation, useGetRoutesQuery } from "../../graphql/schema";
+import { GET_ROUTES } from "../../graphql/queries";
+import { DELETE_ROUTE } from "../../graphql/mutations";
+import { Route } from "../../graphql/gql/graphql";
 
 export const RoutesPage: React.FC = () => {
     const [routes, setRoutes] = useState<Route[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetRoutesQuery();
+    const { loading, data, error, refetch } = useQuery(GET_ROUTES);
     const { setTitle } = usePageTitle();
-    const [deleteRoute] = useDeleteRouteMutation();
+    const [deleteRoute] = useMutation(DELETE_ROUTE);
 
     useEffect(() => {
         setTitle('Routes');

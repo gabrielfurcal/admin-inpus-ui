@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useMutation } from "@apollo/client/react";
+import { DevTool } from '@hookform/devtools';
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useSaveTimezoneMutation } from "../../graphql/schema";
-import { Input, Button } from "../../components/Form";
-import { usePageTitle } from "../../contexts/PageTitleContext";
 import { toast } from 'react-toastify';
-import { DevTool } from '@hookform/devtools';
+
+import { Button, Input } from "../../components/Form";
+import { usePageTitle } from "../../contexts/PageTitleContext";
+import { TimezoneInput } from "../../graphql/gql/graphql";
+import { SAVE_TIMEZONE } from "../../graphql/mutations";
 
 type FormValues = {
     name: string;
@@ -15,7 +18,7 @@ type FormValues = {
 export const CreateTimezone: React.FC = () => {
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const [saveTimezone] = useSaveTimezoneMutation();
+    const [saveTimezone] = useMutation(SAVE_TIMEZONE);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = useForm<FormValues>();
@@ -43,7 +46,7 @@ export const CreateTimezone: React.FC = () => {
     }, [error, isSaved, navigate, setTitle]);
 
     const _handleSubmit: any = async (data: FormValues) => {
-        const timezone = { ...data };
+        const timezone: TimezoneInput = { ...data };
 
         try {
             const result = await saveTimezone({ variables: { timezone: { ...timezone } } });

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { useMutation, useQuery } from "@apollo/client/react";
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetWeekdayByIdQuery, useSaveWeekdayMutation } from '../../graphql/schema';
+import { GET_WEEKDAY_BY_ID } from "../../graphql/queries";
+import { SAVE_WEEKDAY } from "../../graphql/mutations";
 import { Input, Button } from '../../components/Form';
 import { usePageTitle } from '../../contexts/PageTitleContext';
 import { toast } from 'react-toastify';
@@ -17,8 +19,8 @@ export const EditWeekday: React.FC = () => {
     const numericId = id ? parseInt(id) : undefined;
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
-    const { loading, data, error } = useGetWeekdayByIdQuery({variables: { id: numericId! }});
-    const [saveWeekday] = useSaveWeekdayMutation();
+    const { loading, data, error } = useQuery(GET_WEEKDAY_BY_ID, {variables: { id: numericId! }});
+    const [saveWeekday] = useMutation(SAVE_WEEKDAY);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();

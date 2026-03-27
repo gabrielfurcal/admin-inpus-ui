@@ -1,3 +1,4 @@
+import { useMutation, useQuery } from '@apollo/client/react';
 import { DevTool } from '@hookform/devtools';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
@@ -7,7 +8,9 @@ import { toast } from 'react-toastify';
 import { Button, Input } from '../../components/Form';
 import { DEFAULT_REF_VALUE } from '../../constants';
 import { usePageTitle } from '../../contexts/PageTitleContext';
-import { CityInput, useGetCityByIdQuery, useSaveCityMutation } from '../../graphql/schema';
+import { CityInput } from '../../graphql/gql/graphql';
+import { SAVE_CITY } from '../../graphql/mutations';
+import { GET_CITY_BY_ID } from '../../graphql/queries';
 
 type FormValues = {
     city: string;
@@ -20,8 +23,8 @@ export const EditCity: React.FC = () => {
     const numericId = id ? parseInt(id) : undefined;
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
-    const { loading, data, error } = useGetCityByIdQuery({variables: { id: numericId! }});
-    const [saveCity] = useSaveCityMutation();
+    const { loading, data, error } = useQuery(GET_CITY_BY_ID, {variables: { id: numericId! }});
+    const [saveCity] = useMutation(SAVE_CITY);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();

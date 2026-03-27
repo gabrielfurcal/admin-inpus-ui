@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
-import { Schedule, useDeleteScheduleMutation, useGetSchedulesQuery } from "../../graphql/schema";
+import { GET_SCHEDULES } from "../../graphql/queries";
+import { DELETE_SCHEDULE } from "../../graphql/mutations";
+import { Schedule } from "../../graphql/gql/graphql";
 
 export const Schedules: React.FC = () => {
     const [schedules, setSchedules] = useState<Schedule[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetSchedulesQuery();
+    const { loading, data, error, refetch } = useQuery(GET_SCHEDULES);
     const { setTitle } = usePageTitle();
-    const [deleteSchedule] = useDeleteScheduleMutation();
+    const [deleteSchedule] = useMutation(DELETE_SCHEDULE);
 
     useEffect(() => {
         setTitle('Schedules');

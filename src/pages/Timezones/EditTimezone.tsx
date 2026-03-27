@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSaveTimezoneMutation, useGetTimezoneByIdQuery } from "../../graphql/schema";
 import { Input, Button } from "../../components/Form";
 import { usePageTitle } from "../../contexts/PageTitleContext";
+import { GET_TIMEZONE_BY_ID } from "../../graphql/queries";
+import { SAVE_TIMEZONE } from "../../graphql/mutations";
 import { toast } from 'react-toastify';
 import { DevTool } from '@hookform/devtools';
 import { DEFAULT_REF_VALUE } from '../../constants';
@@ -18,8 +20,8 @@ export const EditTimezone: React.FC = () => {
     const numericId = id ? parseInt(id) : undefined;
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
-    const { loading, data, error } = useGetTimezoneByIdQuery({variables: { id: numericId! }});
-    const [saveTimezone] = useSaveTimezoneMutation();
+    const { loading, data, error } = useQuery(GET_TIMEZONE_BY_ID, {variables: { id: numericId! }});
+    const [saveTimezone] = useMutation(SAVE_TIMEZONE);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();

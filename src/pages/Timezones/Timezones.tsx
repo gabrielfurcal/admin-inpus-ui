@@ -1,20 +1,25 @@
+import { useMutation, useQuery } from "@apollo/client/react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
+import { Select } from "../../components/Form/Select";
 import Paginator from "../../components/Paginator";
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
-import { Timezone, useDeleteTimezoneMutation, useGetTimezonesQuery } from "../../graphql/schema";
+import { Timezone } from "../../graphql/gql/graphql";
+import { DELETE_TIMEZONE } from "../../graphql/mutations";
+import { GET_TIMEZONES } from "../../graphql/queries";
 
 export const Timezones: React.FC = () => {
     const [timezones, setTimezones] = useState<Timezone[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [limit, setLimit] = useState<number>(10);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetTimezonesQuery();
+    const { loading, data, error, refetch } = useQuery(GET_TIMEZONES, { variables: { offset: currentPage - 1, limit } });
     const { setTitle } = usePageTitle();
-    const [deleteTimezone] = useDeleteTimezoneMutation();
+    const [deleteTimezone] = useMutation(DELETE_TIMEZONE);
 
     useEffect(() => {
         setTitle('Timezones');
@@ -22,7 +27,7 @@ export const Timezones: React.FC = () => {
 
     useEffect(() => {
         if(data) {
-            setTimezones(data.timezones);
+            setTimezones(data.timezones.items);
         }
 
         if(isDeleted) {
@@ -85,6 +90,12 @@ export const Timezones: React.FC = () => {
             <Link to={`create`} type="button" className="inline-block rounded bg-blue-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
                 Create New
             </Link>
+            <label className="ml-2 mr-2">Show Results</label>
+            <select onChange={(e) => setLimit(+e.target.value)} value={limit}>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={20}>20</option>
+            </select>
             <br/>
             <br/>
             <Table>
@@ -100,7 +111,7 @@ export const Timezones: React.FC = () => {
                     {fetchTimezones()}
                 </Tbody>
             </Table>
-            <Paginator currentPage={50} totalPages={100} onPageChange={(page) => {alert('Page changed to ' + page)}} />
+            <Paginator currentPage={currentPage} totalPages={Math.ceil(data?.timezones.totalCount!/limit)} onPageChange={(pageNumber) => setCurrentPage(pageNumber)} />
         </>
     )
 }

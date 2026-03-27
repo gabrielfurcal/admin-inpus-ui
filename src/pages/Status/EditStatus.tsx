@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { useMutation, useQuery } from "@apollo/client/react";
 import { useNavigate, useParams } from 'react-router-dom';
-import { StatusInput, useGetStatusByIdQuery, useSaveStatusMutation } from '../../graphql/schema';
+import { GET_STATUS_BY_ID } from "../../graphql/queries";
+import { SAVE_STATUS } from "../../graphql/mutations";
+import { StatusInput } from '../../graphql/gql/graphql';
 import { Input, Button } from '../../components/Form';
 import { usePageTitle } from '../../contexts/PageTitleContext';
 import { toast } from 'react-toastify';
@@ -19,8 +22,8 @@ export const EditStatus: React.FC = () => {
     const numericId = id ? parseInt(id) : undefined;
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
-    const { loading, data, error } = useGetStatusByIdQuery({variables: { id: numericId! }});
-    const [saveStatus] = useSaveStatusMutation();
+    const { loading, data, error } = useQuery(GET_STATUS_BY_ID, {variables: { id: numericId! }});
+    const [saveStatus] = useMutation(SAVE_STATUS);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();

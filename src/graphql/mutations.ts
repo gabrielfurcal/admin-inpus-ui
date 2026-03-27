@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client";
+import { graphql } from "./gql";
 
-export const SAVE_CITY = gql`
+export const SAVE_CITY = graphql(`
     mutation saveCity($city: CityInput!) {
         saveCity(city: $city) {
             id
@@ -8,16 +8,16 @@ export const SAVE_CITY = gql`
             province
             country
         }
-    }
-`
+    }`
+)
 
-export const DELETE_CITY = gql`
+export const DELETE_CITY = graphql(`
     mutation deleteCity($id: Int!) {
         deleteCity(id: $id)
     }
-`
+`)
 
-export const SAVE_EMPLOYEE = gql`
+export const SAVE_EMPLOYEE = graphql(`
     mutation saveEmployee($employee: EmployeeInput!) {
         saveEmployee(employee: $employee) {
             id
@@ -28,15 +28,15 @@ export const SAVE_EMPLOYEE = gql`
             email
         }
     }
-`
+`)
 
-export const DELETE_EMPLOYEE = gql`
+export const DELETE_EMPLOYEE = graphql(`
     mutation deleteEmployee($id: Int!) {
         deleteEmployee(id: $id)
     }
-`
+`)
 
-export const SAVE_STATUS = gql`
+export const SAVE_STATUS = graphql(`
     mutation saveStatus($status: StatusInput!) {
         saveStatus(status: $status) {
             id
@@ -44,15 +44,15 @@ export const SAVE_STATUS = gql`
             description
         }
     }
-`
+`)
 
-export const DELETE_STATUS = gql`
+export const DELETE_STATUS = graphql(`
     mutation deleteStatus($id: Int!) {
         deleteStatus(id: $id)
     }
-`
+`)
 
-export const SAVE_TRAIN = gql`
+export const SAVE_TRAIN = graphql(`
     mutation saveTrain($train: TrainInput!) {
         saveTrain(train: $train) {
             id
@@ -61,15 +61,15 @@ export const SAVE_TRAIN = gql`
             maxSpeed
         }
     }
-`
+`)
 
-export const DELETE_TRAIN = gql`
+export const DELETE_TRAIN = graphql(`
     mutation deleteTrain($id: Int!) {
         deleteTrain(id: $id)
     }
-`
+`)
 
-export const SAVE_STATION = gql`
+export const SAVE_STATION = graphql(`
     mutation saveStation($station: StationInput!) {
         saveStation(station: $station) {
             id
@@ -82,15 +82,15 @@ export const SAVE_STATION = gql`
             imageUrl
         }
     }
-`
+`)
 
-export const DELETE_STATION = gql`
+export const DELETE_STATION = graphql(`
     mutation deleteStation($id: Int!) {
         deleteStation(id: $id)
     }
-`
+`)
 
-export const SAVE_SCHEDULE = gql`
+export const SAVE_SCHEDULE = graphql(`
     mutation saveSchedule($schedule: ScheduleInput!) {
         saveSchedule(schedule: $schedule) {
             id
@@ -112,15 +112,15 @@ export const SAVE_SCHEDULE = gql`
             }
         }
     }
-`
+`)
 
-export const DELETE_SCHEDULE = gql`
+export const DELETE_SCHEDULE = graphql(`
     mutation deleteSchedule($id: Int!) {
         deleteSchedule(id: $id)
     }
-`
+`)
 
-export const SAVE_ROUTE = gql`
+export const SAVE_ROUTE = graphql(`
     mutation saveRoute($route: RouteInput!) {
         saveRoute(route: $route) {
             id
@@ -133,16 +133,16 @@ export const SAVE_ROUTE = gql`
             distance
         }
     }
-`
+`)
 
-export const DELETE_ROUTE = gql`
+export const DELETE_ROUTE = graphql(`
     mutation deleteRoute($id: Int!) {
         deleteRoute(id: $id)
     }
-`
+`)
 
 // New Trip mutations
-export const SAVE_TRIP = gql`
+export const SAVE_TRIP = graphql(`
     mutation saveTrip($trip: TripInput!) {
         saveTrip(trip: $trip) {
             id
@@ -159,32 +159,32 @@ export const SAVE_TRIP = gql`
             }
         }
     }
-`
+`)
 
-export const DELETE_TRIP = gql`
+export const DELETE_TRIP = graphql(`
     mutation deleteTrip($id: Int!) {
         deleteTrip(id: $id)
     }
-`
+`)
 
 // New Weekday mutations
-export const SAVE_WEEKDAY = gql`
+export const SAVE_WEEKDAY = graphql(`
     mutation saveWeekday($weekday: WeekdayInput!) {
         saveWeekday(weekday: $weekday) {
             id
             name
         }
     }
-`
+`)
 
-export const DELETE_WEEKDAY = gql`
+export const DELETE_WEEKDAY = graphql(`
     mutation deleteWeekday($id: Int!) {
         deleteWeekday(id: $id)
     }
-`
+`)
 
 // New Timezone mutations
-export const SAVE_TIMEZONE = gql`
+export const SAVE_TIMEZONE = graphql(`
     mutation saveTimezone($timezone: TimezoneInput!) {
         saveTimezone(timezone: $timezone) {
             id
@@ -192,10 +192,10 @@ export const SAVE_TIMEZONE = gql`
             region
         }
     }
-`
+`)
 
-export const DELETE_TIMEZONE = gql`
+export const DELETE_TIMEZONE = graphql(`
     mutation deleteTimezone($id: Int!) {
         deleteTimezone(id: $id)
     }
-`
+`)

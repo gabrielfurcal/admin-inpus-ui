@@ -1,4 +1,5 @@
 import { DevTool } from '@hookform/devtools';
+import { useMutation, useQuery } from "@apollo/client/react";
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +9,9 @@ import { Button, Input } from '../../components/Form';
 import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
 import { usePageTitle } from '../../contexts/PageTitleContext';
-import { Schedule, Status, Train, TripInput, useGetSchedulesQuery, useGetStatusQuery, useGetTrainsQuery, useSaveTripMutation } from '../../graphql/schema';
+import { GET_SCHEDULES, GET_TRAINS, GET_STATUS } from "../../graphql/queries";
+import { SAVE_TRIP } from "../../graphql/mutations";
+import { Schedule, Status, Train, TripInput } from '../../graphql/gql/graphql';
 
 type FormValues = {
     scheduleId: number;
@@ -24,10 +27,10 @@ export const CreateTrip: React.FC = () => {
     const [statusOptions, setStatusOptions] = useState<SelectOption[]>([]);
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const { loading: schedulesLoading, data: schedulesData } = useGetSchedulesQuery();
-    const { loading: trainsLoading, data: trainsData } = useGetTrainsQuery();
-    const { loading: statusesLoading, data: statusesData } = useGetStatusQuery();
-    const [saveTrip] = useSaveTripMutation();
+    const { loading: schedulesLoading, data: schedulesData } = useQuery(GET_SCHEDULES);
+    const { loading: trainsLoading, data: trainsData } = useQuery(GET_TRAINS);
+    const { loading: statusesLoading, data: statusesData } = useQuery(GET_STATUS);
+    const [saveTrip] = useMutation(SAVE_TRIP);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = useForm<FormValues>();

@@ -1,18 +1,21 @@
+import { useMutation, useQuery } from "@apollo/client/react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
 import { usePageTitle } from "../../contexts/PageTitleContext";
-import { City, useDeleteCityMutation, useGetCitiesQuery } from "../../graphql/schema";
+import { City } from "../../graphql/gql/graphql";
+import { DELETE_CITY } from "../../graphql/mutations";
+import { GET_CITIES } from "../../graphql/queries";
 
 export const Cities: React.FC = () => {
     const [cities, setCities] = useState<City[]>([]);
     const [_error, setError] = useState<string>();
     const [isDeleted, setIsDeleted] = useState<boolean>();
-    const { loading, data, error, refetch } = useGetCitiesQuery();
+    const { loading, data, error, refetch } = useQuery(GET_CITIES);
     const { setTitle } = usePageTitle();
-    const [deleteCity] = useDeleteCityMutation();
+    const [deleteCity] = useMutation(DELETE_CITY);
 
     useEffect(() => {
         setTitle('Cities');
