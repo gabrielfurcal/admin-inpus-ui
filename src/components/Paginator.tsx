@@ -1,64 +1,120 @@
-import React from 'react'
-import { useEffect, useState } from 'react';
+import React from 'react';
 
+import { PAGINATION_PAGES } from '../constants';
 import { PaginatorProps } from './props';
 
+const getVisiblePages = (
+    currentPage: number,
+    totalPages: number,
+    maxVisiblePages: number
+): number[] => {
+    if (totalPages <= 0) {
+        return [];
+    }
+
+    const safeCurrentPage = Math.min(Math.max(currentPage, 1), totalPages);
+    const visibleCount = Math.min(maxVisiblePages, totalPages);
+    const half = Math.floor(visibleCount / 2);
+
+    let startPage = safeCurrentPage - half;
+    let endPage = startPage + visibleCount - 1;
+
+    if (startPage < 1) {
+        startPage = 1;
+        endPage = visibleCount;
+    }
+
+    if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = Math.max(1, totalPages - visibleCount + 1);
+    }
+
+    return Array.from(
+        { length: endPage - startPage + 1 },
+        (_, index) => startPage + index
+    );
+};
+
 const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageChange }) => {
-    const [pages, setPages] = useState<number[]>([]);
-    const [page, setPage] = useState<number>(1);
+    const safeCurrentPage = Math.min(Math.max(currentPage, 1), Math.max(totalPages, 1));
+    const visiblePages = getVisiblePages(safeCurrentPage, totalPages, PAGINATION_PAGES);
 
-    useEffect(() => {
-        setPage(currentPage);
-        setPages([]);
-        for(let i = 1; i <= totalPages; i++) {
-            setPages((prevPages) => [...prevPages, i]);
-        }
-    }, []);
-  
     const handlePageChange = (pageNumber: number) => {
-        setPage(pageNumber);
-        onPageChange(pageNumber);       
-    }
+        const nextPage = Math.min(Math.max(pageNumber, 1), totalPages);
 
-    const renderPageNumbers = (): any => {
-        return pages.map((pageNumber) => {
-            if(pageNumber > page - 5 && pageNumber < page + 5) {
-                return (
-                    <li key={pageNumber}>
-                        <a className={`relative block rounded bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-blue-100 focus:bg-blue-100 focus:text-primary-700 focus:outline-none active:bg-blue-100 active:text-primary-700 dark:text-white dark:hover:bg-blue-800 dark:focus:bg-blue-800 dark:focus:text-primary-500 dark:active:bg-blue-800 dark:active:text-primary-500 ${pageNumber === page ? 'bg-blue-100 text-grey-700' : ''}`}
-                            href="#" onClick={() => handlePageChange(pageNumber)}>
-                            {pageNumber}
-                        </a>
-                    </li>
-                );
-            } 
-        });
-    }
+        if (nextPage !== safeCurrentPage) {
+            onPageChange(nextPage);
+        }
+    };
 
     return (
         <nav aria-label="Page navigation" className="mt-2">
-            <hr/>
+            <hr />
             <ul className="list-style-none flex mt-1 justify-end">
                 <li>
-                    <a className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-blue-400 hover:text-white active:bg-blue-100 active:text-primary-700 dark:hover:bg-blue-800 dark:focus:text-primary-500 dark:active:bg-blue-800 dark:active:text-primary-500"
-                        href="#" onClick={() => handlePageChange(1)}>{"First"}</a>
+                    <button
+                        type="button"
+                        className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-blue-400 hover:text-white active:bg-blue-100 active:text-primary-700 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-blue-800 dark:focus:text-primary-500 dark:active:bg-blue-800 dark:active:text-primary-500"
+                        onClick={() => handlePageChange(1)}
+                        disabled={safeCurrentPage === 1 || totalPages <= 0}
+                    >
+                        First
+                    </button>
                 </li>
                 <li>
-                    <a className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-blue-300 hover:text-white active:bg-blue-100 active:text-primary-700 dark:hover:bg-blue-800 dark:focus:text-primary-500 dark:active:bg-blue-800 dark:active:text-primary-500"
-                        href="#" onClick={() => handlePageChange(page - 1)}>{"Prev"}</a>
+                    <button
+                        type="button"
+                        className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-blue-300 hover:text-white active:bg-blue-100 active:text-primary-700 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-blue-800 dark:focus:text-primary-500 dark:active:bg-blue-800 dark:active:text-primary-500"
+                        onClick={() => handlePageChange(safeCurrentPage - 1)}
+                        disabled={safeCurrentPage === 1 || totalPages <= 0}
+                    >
+                        Prev
+                    </button>
                 </li>
-                {renderPageNumbers()}
+                {visiblePages.map((pageNumber) => {
+                    const isActive = pageNumber === safeCurrentPage;
+
+                    return (
+                        <li key={pageNumber}>
+                            <button
+                                type="button"
+                                className={[
+                                    'relative block rounded px-3 py-1.5 text-sm transition duration-300 focus:outline-none dark:text-white dark:hover:bg-blue-800 dark:focus:bg-blue-800',
+                                    isActive
+                                        ? 'bg-blue-300 text-surface font-semibold hover:bg-blue-300 focus:bg-blue-300'
+                                        : 'bg-transparent text-surface hover:bg-blue-100 focus:bg-blue-100 focus:text-primary-700 active:bg-blue-100 active:text-primary-700 dark:focus:text-primary-500 dark:active:bg-blue-800 dark:active:text-primary-500',
+                                ].join(' ')}
+                                onClick={() => handlePageChange(pageNumber)}
+                                aria-current={isActive ? 'page' : undefined}
+                            >
+                                {pageNumber}
+                            </button>
+                        </li>
+                    );
+                })}
                 <li>
-                    <a className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-blue-300 hover:text-white active:bg-blue-100 active:text-primary-700 dark:hover:bg-blue-800 dark:focus:text-primary-500 dark:active:bg-blue-800 dark:active:text-primary-500"
-                        href="#" onClick={() => handlePageChange(page + 1)}>{"Next"}</a>
+                    <button
+                        type="button"
+                        className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-blue-300 hover:text-white active:bg-blue-100 active:text-primary-700 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-blue-800 dark:focus:text-primary-500 dark:active:bg-blue-800 dark:active:text-primary-500"
+                        onClick={() => handlePageChange(safeCurrentPage + 1)}
+                        disabled={safeCurrentPage === totalPages || totalPages <= 0}
+                    >
+                        Next
+                    </button>
                 </li>
                 <li>
-                    <a className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-blue-400 hover:text-white active:bg-blue-100 active:text-primary-700 dark:hover:bg-blue-800 dark:focus:text-primary-500 dark:active:bg-blue-800 dark:active:text-primary-500"
-                        href="#" onClick={() => handlePageChange(totalPages)}>{"Last"}</a>
+                    <button
+                        type="button"
+                        className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-surface transition duration-300 hover:bg-blue-400 hover:text-white active:bg-blue-100 active:text-primary-700 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-blue-800 dark:focus:text-primary-500 dark:active:bg-blue-800 dark:active:text-primary-500"
+                        onClick={() => handlePageChange(totalPages)}
+                        disabled={safeCurrentPage === totalPages || totalPages <= 0}
+                    >
+                        Last
+                    </button>
                 </li>
             </ul>
         </nav>
-    )
-}
+    );
+};
 
 export default Paginator;
