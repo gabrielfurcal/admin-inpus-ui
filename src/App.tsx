@@ -18,6 +18,7 @@ import { CreateTrip, EditTrip, Trips } from './pages/Trips';
 import { CreateWeekday, EditWeekday, Weekdays } from './pages/Weekdays';
 
 import './App.css';
+import { Login } from './pages/Login';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -26,13 +27,14 @@ const App: React.FC = () => {
 
   return (
     <main>
-      <header>
+      {/* <header>
         <Menu></Menu>
-      </header>
+      </header> */}
       <PageTitleContext>
         <PageLayout>
           <Routes>
               <Route path="/" element={<Home/>}/>
+              <Route path="/Login" element={<Login/>}/>
               <Route path="/trains" element={<Outlet/>}>
                 <Route index element={<Trains/>}/>
                 <Route path="create" element={<CreateTrain/>}/>
