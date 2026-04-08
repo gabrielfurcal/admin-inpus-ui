@@ -11,6 +11,21 @@ export const GET_CITIES = graphql(`
     }
 `)
 
+export const GET_CITIES_PAGE = graphql(`
+    query getCitiesPage($offset: Int, $limit: Int) {
+        citiesPage(offset: $offset, limit: $limit) {
+            items {
+                id
+                city
+                province
+                country
+            }
+            totalCount
+            hasNextPage
+        }
+    }
+`)
+
 export const GET_CITY_BY_ID = graphql(`
     query getCityById($id: Int!) {
         cityById(id: $id) {
@@ -31,6 +46,23 @@ export const GET_EMPLOYEES = graphql(`
             position
             phoneNumber
             email
+        }
+    }
+`)
+
+export const GET_EMPLOYEES_PAGE = graphql(`
+    query getEmployeesPage($offset: Int, $limit: Int) {
+        employeesPage(offset: $offset, limit: $limit) {
+            items {
+                id
+                firstName
+                lastName
+                position
+                phoneNumber
+                email
+            }
+            totalCount
+            hasNextPage
         }
     }
 `)
@@ -68,6 +100,20 @@ export const GET_STATUS = graphql(`
     }
 `)
 
+export const GET_STATUS_PAGE = graphql(`
+    query getStatusPage($offset: Int, $limit: Int) {
+        statusPage(offset: $offset, limit: $limit) {
+            items {
+                id
+                name
+                description
+            }
+            totalCount
+            hasNextPage
+        }
+    }
+`)
+
 export const GET_TRAIN_BY_ID = graphql(`
     query getTrainById($id: Int!) {
         trainById(id: $id) {
@@ -86,6 +132,21 @@ export const GET_TRAINS = graphql(`
             type
             capacity
             maxSpeed
+        }
+    }
+`)
+
+export const GET_TRAINS_PAGE = graphql(`
+    query getTrainsPage($offset: Int, $limit: Int) {
+        trainsPage(offset: $offset, limit: $limit) {
+            items {
+                id
+                type
+                capacity
+                maxSpeed
+            }
+            totalCount
+            hasNextPage
         }
     }
 `)
@@ -138,6 +199,36 @@ export const GET_STATIONS = graphql(`
                 province
                 country
             }
+        }
+    }
+`)
+
+export const GET_STATIONS_PAGE = graphql(`
+    query getStationsPage($offset: Int, $limit: Int) {
+        stationsPage(offset: $offset, limit: $limit) {
+            items {
+                id
+                name
+                countryCode
+                phone
+                postalCode
+                latitude
+                longitude
+                imageUrl
+                timezone {
+                    id
+                    name
+                    region
+                }
+                city {
+                    id
+                    city
+                    province
+                    country
+                }
+            }
+            totalCount
+            hasNextPage
         }
     }
 `)
@@ -200,6 +291,39 @@ export const GET_SCHEDULES = graphql(`
     }
 `)
 
+export const GET_SCHEDULES_PAGE = graphql(`
+    query getSchedulesPage($offset: Int, $limit: Int) {
+        schedulesPage(offset: $offset, limit: $limit) {
+            items {
+                id
+                route {
+                    id
+                    startStation {
+                        id
+                        name
+                    }
+                    endStation {
+                        id
+                        name
+                    }
+                }
+                departureTime
+                departureWeekday {
+                    id
+                    name
+                }
+                arrivalTime
+                arrivalWeekday {
+                    id
+                    name
+                }
+            }
+            totalCount
+            hasNextPage
+        }
+    }
+`)
+
 export const GET_ROUTE_BY_ID = graphql(`
     query getRouteById($id: Int!) {
         routeById(id: $id) {
@@ -234,6 +358,27 @@ export const GET_ROUTES = graphql(`
     }
 `)
 
+export const GET_ROUTES_PAGE = graphql(`
+    query getRoutesPage($offset: Int, $limit: Int) {
+        routesPage(offset: $offset, limit: $limit) {
+            items {
+                id
+                startStation {
+                    id
+                    name
+                }
+                endStation {
+                    id
+                    name
+                }
+                distance
+            }
+            totalCount
+            hasNextPage
+        }
+    }
+`)
+
 export const GET_TRIPS = graphql(`
     query getTrips {
         trips {
@@ -251,6 +396,31 @@ export const GET_TRIPS = graphql(`
                 id
                 name
             }
+        }
+    }
+`)
+
+export const GET_TRIPS_PAGE = graphql(`
+    query getTripsPage($offset: Int, $limit: Int) {
+        tripsPage(offset: $offset, limit: $limit) {
+            items {
+                id
+                schedule {
+                    id
+                }
+                train {
+                    id
+                    type
+                }
+                startTime
+                endTime
+                status {
+                    id
+                    name
+                }
+            }
+            totalCount
+            hasNextPage
         }
     }
 `)
@@ -285,6 +455,19 @@ export const GET_WEEKDAYS = graphql(`
     }
 `)
 
+export const GET_WEEKDAYS_PAGE = graphql(`
+    query getWeekdaysPage($offset: Int, $limit: Int) {
+        weekdaysPage(offset: $offset, limit: $limit) {
+            items {
+                id
+                name
+            }
+            totalCount
+            hasNextPage
+        }
+    }
+`)
+
 export const GET_WEEKDAY_BY_ID = graphql(`
     query getWeekdayById($id: Int!) {
         weekdayById(id: $id) {
@@ -295,8 +478,18 @@ export const GET_WEEKDAY_BY_ID = graphql(`
 `)
 
 export const GET_TIMEZONES = graphql(`
+    query getTimezones {
+        timezones {
+            id
+            name
+            region
+        }
+    }
+`)
+
+export const GET_TIMEZONES_PAGE = graphql(`
     query getTimezones($offset: Int, $limit: Int) {
-        timezones(offset: $offset, limit: $limit) {
+        timezonesPage(offset: $offset, limit: $limit) {
             items {
                 id
                 name
