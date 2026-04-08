@@ -81,7 +81,7 @@ const Paginator: React.FC<PaginatorProps> = ({ currentPage, totalPages, onPageCh
                                 className={[
                                     'relative block rounded px-3 py-1.5 text-sm transition duration-300 focus:outline-none dark:text-white dark:hover:bg-blue-800 dark:focus:bg-blue-800',
                                     isActive
-                                        ? 'bg-blue-400 text-white font-semibold hover:bg-blue-500 focus:bg-blue-400'
+                                        ? 'bg-blue-500 text-white font-semibold hover:bg-blue-600 focus:bg-blue-500'
                                         : 'bg-transparent text-surface hover:bg-blue-100 focus:bg-blue-100 focus:text-primary-700 active:bg-blue-100 active:text-primary-700 dark:focus:text-primary-500 dark:active:bg-blue-800 dark:active:text-primary-500',
                                 ].join(' ')}
                                 onClick={() => handlePageChange(pageNumber)}
