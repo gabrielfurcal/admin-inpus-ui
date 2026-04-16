@@ -1,4 +1,5 @@
 import { DevTool } from '@hookform/devtools';
+import { useMutation, useQuery } from "@apollo/client/react";
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -7,7 +8,9 @@ import { toast } from 'react-toastify';
 import { Button, Input } from '../../components/Form';
 import { DEFAULT_REF_VALUE } from '../../constants';
 import { usePageTitle } from '../../contexts/PageTitleContext';
-import { EmployeeInput, useGetEmployeeByIdQuery, useSaveEmployeeMutation } from '../../graphql/schema';
+import { GET_EMPLOYEE_BY_ID } from "../../graphql/queries";
+import { SAVE_EMPLOYEE } from "../../graphql/mutations";
+import { EmployeeInput } from '../../graphql/gql/graphql';
 
 type FormValues = {
     firstName: string;
@@ -22,8 +25,8 @@ export const EditEmployee: React.FC = () => {
     const numericId = id ? parseInt(id) : undefined;
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
-    const { loading, data, error } = useGetEmployeeByIdQuery({variables: { id: numericId! }});
-    const [saveEmployee] = useSaveEmployeeMutation();
+    const { loading, data, error } = useQuery(GET_EMPLOYEE_BY_ID, {variables: { id: numericId! }});
+    const [saveEmployee] = useMutation(SAVE_EMPLOYEE);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();

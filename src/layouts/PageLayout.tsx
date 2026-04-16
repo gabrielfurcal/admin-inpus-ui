@@ -9,7 +9,7 @@ export const PageLayout: React.FC<LayoutProps> = ({ children }) => {
       <section className='py-2'>
         <PageHeader/>
       </section>
-      <section className='shadow-xl p-3 mt-2 bg-neutral-100 rounded-md'>
+      <section className='shadow-xl p-3 mt-2 bg-white rounded-md'>
         {children}
       </section>
       <ToastContainer />

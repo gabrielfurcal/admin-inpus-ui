@@ -1,50 +1,48 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client/react";
-import { useNavigate, useParams } from 'react-router-dom';
-import { GET_STATUS_BY_ID } from "../../graphql/queries";
-import { SAVE_STATUS } from "../../graphql/mutations";
-import { StatusInput } from '../../graphql/gql/graphql';
-import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { Input, Button } from "../../components/Form";
+import { usePageTitle } from "../../contexts/PageTitleContext";
+import { GET_TIMEZONE_BY_ID } from "../../graphql/queries";
+import { SAVE_TIMEZONE } from "../../graphql/mutations";
 import { toast } from 'react-toastify';
-
-import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { DEFAULT_REF_VALUE } from '../../constants';
 
 type FormValues = {
     name: string;
-    description: string;
+    region: string;
 }
 
-export const EditStatus: React.FC = () => {
+export const EditTimezone: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const numericId = id ? parseInt(id) : undefined;
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
-    const { loading, data, error } = useQuery(GET_STATUS_BY_ID, {variables: { id: numericId! }});
-    const [saveStatus] = useMutation(SAVE_STATUS);
+    const { loading, data, error } = useQuery(GET_TIMEZONE_BY_ID, {variables: { id: numericId! }});
+    const [saveTimezone] = useMutation(SAVE_TIMEZONE);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();
     const { errors: formErrors } = formState;
 
     useEffect(() => {
-        setTitle('Edit employee');
+        setTitle('Edit Timezone');
     }, [setTitle]);
 
     useEffect(() => {
         if(data && !isSaved) {
-            setValue('name', data.statusById?.name || '');
-            setValue('description', data.statusById?.description || '');
+            setValue('name', data.timezoneById?.name || '');
+            setValue('region', data.timezoneById?.region || '');
         }
 
         if(isSaved) {
-            toast.success('Status saved', {
+            toast.success('Timezone saved', {
                 theme: 'light'
             });
             setIsSaved(false);
-            navigate('/status');
+            navigate('/timezones');
         }
 
         if(_error) {
@@ -55,10 +53,10 @@ export const EditStatus: React.FC = () => {
     }, [data, _error, isSaved, navigate, setValue]);
 
     const _handleSubmit: any = async (data: FormValues) => {
-        const statusToSave: StatusInput = { id, ...data };
+        const timezoneToSave = { id, ...data };
 
         try {
-            const result = await saveStatus({ variables: { status: statusToSave }});
+            const result = await saveTimezone({ variables: { timezone: { ...timezoneToSave } } });
 
             if(result.error) {
                 throw new Error(result.error.message);
@@ -72,7 +70,7 @@ export const EditStatus: React.FC = () => {
         }
     }
 
-    if(loading) return <p>Fetching status...</p>
+    if(loading) return <p>Fetching timezone...</p>
 
     if(error) return <p>Error: {error.message}</p>
 
@@ -80,10 +78,10 @@ export const EditStatus: React.FC = () => {
         <>
             <form onSubmit={handleSubmit(_handleSubmit)}>
                 <Input {...register('name', { required: 'Name is required' })} defaultValue={DEFAULT_REF_VALUE} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
-                <Input {...register('description', { required: 'Description is required' })} defaultValue={DEFAULT_REF_VALUE} label='Description' placeholder='Insert description' errorMessage={formErrors.description?.message} />
+                <Input {...register('region', { required: 'Region is required' })} defaultValue={DEFAULT_REF_VALUE} label='Region' placeholder='Insert region' errorMessage={formErrors.region?.message} />
                 <Button type='submit' text='Save'/>
             </form>
             <DevTool control={control} />
         </>
-    )
+    );
 };

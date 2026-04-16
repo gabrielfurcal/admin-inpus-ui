@@ -1,18 +1,23 @@
 import React, { useEffect } from 'react';
-import './App.css';
-import { Routes, Route, Outlet } from 'react-router-dom';
-import Home from './pages/Home';
-import Menu from './components/Menu';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import { Collapse, initTWE } from "tw-elements";
-import { PageLayout } from './layouts/PageLayout';
+
+import Menu from './components/Menu';
 import { PageTitleContext } from './contexts/PageTitleContext';
-import {Trains, CreateTrain, EditTrain } from './pages/Trains';
-import {Cities, CreateCity, EditCity } from './pages/Cities';
-import { Employees, CreateEmployee, EditEmployee } from './pages/Employees';
-import { Status, CreateStatus, EditStatus } from './pages/Status';
-import { CreateStation, EditStation, Stations } from './pages/Stations';
-import { CreateSchedule, Schedules, EditSchedule } from './pages/Schedules';
+import { PageLayout } from './layouts/PageLayout';
+import { Cities, CreateCity, EditCity } from './pages/Cities';
+import { CreateEmployee, EditEmployee, Employees } from './pages/Employees';
+import Home from './pages/Home';
 import { CreateRoute, EditRoute, RoutesPage } from './pages/Routes';
+import { CreateSchedule, EditSchedule, Schedules } from './pages/Schedules';
+import { CreateStation, EditStation, Stations } from './pages/Stations';
+import { CreateStatus, EditStatus, Status } from './pages/Status';
+import { CreateTimezone, EditTimezone, Timezones } from './pages/Timezones';
+import { CreateTrain, EditTrain, Trains } from './pages/Trains';
+import { CreateTrip, EditTrip, Trips } from './pages/Trips';
+import { CreateWeekday, EditWeekday, Weekdays } from './pages/Weekdays';
+
+import './App.css';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -62,6 +67,21 @@ const App: React.FC = () => {
                 <Route index element={<RoutesPage/>}/>
                 <Route path="create" element={<CreateRoute/>}/>
                 <Route path="edit/:id" element={<EditRoute/>}/>
+              </Route>
+              <Route path="/trips" element={<Outlet/>}>
+                <Route index element={<Trips/>}/>
+                <Route path="create" element={<CreateTrip/>}/>
+                <Route path="edit/:id" element={<EditTrip/>}/>
+              </Route>
+              <Route path="/weekdays" element={<Outlet/>}>
+                <Route index element={<Weekdays/>}/>
+                <Route path="create" element={<CreateWeekday/>}/>
+                <Route path="edit/:id" element={<EditWeekday/>}/>
+              </Route>
+              <Route path="/timezones" element={<Outlet/>}>
+                <Route index element={<Timezones/>}/>
+                <Route path="create" element={<CreateTimezone/>}/>
+                <Route path="edit/:id" element={<EditTimezone/>}/>
               </Route>
             </Routes>
         </PageLayout>

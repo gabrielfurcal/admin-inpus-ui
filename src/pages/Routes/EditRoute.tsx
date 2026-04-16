@@ -1,4 +1,5 @@
 import { DevTool } from '@hookform/devtools';
+import { useMutation, useQuery } from "@apollo/client/react";
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,7 +10,9 @@ import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
 import { DEFAULT_REF_VALUE_NUMERIC } from '../../constants';
 import { usePageTitle } from '../../contexts/PageTitleContext';
-import { RouteInput, Station, useGetRouteByIdQuery, useGetStationsQuery, useSaveRouteMutation } from '../../graphql/schema';
+import { GET_ROUTE_BY_ID, GET_STATIONS } from "../../graphql/queries";
+import { SAVE_ROUTE } from "../../graphql/mutations";
+import { RouteInput, Station } from '../../graphql/gql/graphql';
 
 type FormValues = {
     startStationId: number;
@@ -24,9 +27,9 @@ export const EditRoute: React.FC = () => {
     const [arrivalStationOptions, setArrivalStationOptions] = useState<SelectOption[]>([]);
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const { loading, data } = useGetRouteByIdQuery({ variables: { id: numericId! } });
-    const { loading: stationsLoading, data: stationsData } = useGetStationsQuery();
-    const [saveRoute] = useSaveRouteMutation();
+    const { loading, data } = useQuery(GET_ROUTE_BY_ID, { variables: { id: numericId! } });
+    const { loading: stationsLoading, data: stationsData } = useQuery(GET_STATIONS);
+    const [saveRoute] = useMutation(SAVE_ROUTE);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();

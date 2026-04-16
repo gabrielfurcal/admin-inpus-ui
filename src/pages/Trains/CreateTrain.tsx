@@ -1,4 +1,5 @@
 import { DevTool } from '@hookform/devtools';
+import { useMutation } from "@apollo/client/react";
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +7,8 @@ import { toast } from 'react-toastify';
 
 import { Button, Input } from '../../components/Form';
 import { usePageTitle } from '../../contexts/PageTitleContext';
-import { TrainInput, useSaveTrainMutation } from '../../graphql/schema';
+import { SAVE_TRAIN } from "../../graphql/mutations";
+import { TrainInput } from '../../graphql/gql/graphql';
 
 type FormValues = {
     type: string;
@@ -17,7 +19,7 @@ type FormValues = {
 export const CreateTrain: React.FC = () => {
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const [saveTrain] = useSaveTrainMutation();
+    const [saveTrain] = useMutation(SAVE_TRAIN);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = useForm<FormValues>();

@@ -1,4 +1,5 @@
 import { DevTool } from '@hookform/devtools';
+import { useMutation, useQuery } from "@apollo/client/react";
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +9,9 @@ import { Button, Input } from '../../components/Form';
 import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
 import { usePageTitle } from '../../contexts/PageTitleContext';
-import { RouteInput, Station, useGetStationsQuery, useSaveRouteMutation } from '../../graphql/schema';
+import { GET_STATIONS } from "../../graphql/queries";
+import { SAVE_ROUTE } from "../../graphql/mutations";
+import { RouteInput, Station } from '../../graphql/gql/graphql';
 
 type FormValues = {
     startStationId: number;
@@ -21,8 +24,8 @@ export const CreateRoute: React.FC = () => {
     const [arrivalStationOptions, setArrivalStationOptions] = useState<SelectOption[]>([]);
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const { loading: stationsLoading, data: stationsData } = useGetStationsQuery();
-    const [saveRoute] = useSaveRouteMutation();
+    const { loading: stationsLoading, data: stationsData } = useQuery(GET_STATIONS);
+    const [saveRoute] = useMutation(SAVE_ROUTE);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = useForm<FormValues>();

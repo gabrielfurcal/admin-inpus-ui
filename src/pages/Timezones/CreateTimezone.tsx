@@ -1,40 +1,40 @@
-import React, { useEffect, useState } from 'react'
 import { useMutation } from "@apollo/client/react";
-import { SAVE_STATUS } from "../../graphql/mutations";
-import { StatusInput } from '../../graphql/gql/graphql';
-import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
-import { useNavigate } from 'react-router-dom';
+import { DevTool } from '@hookform/devtools';
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
-import { useForm } from 'react-hook-form';
-import { DevTool } from '@hookform/devtools';
+import { Button, Input } from "../../components/Form";
+import { usePageTitle } from "../../contexts/PageTitleContext";
+import { TimezoneInput } from "../../graphql/gql/graphql";
+import { SAVE_TIMEZONE } from "../../graphql/mutations";
 
 type FormValues = {
     name: string;
-    description: string;
+    region: string;
 }
 
-export const CreateStatus: React.FC = () => {
+export const CreateTimezone: React.FC = () => {
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const [saveStatus] = useMutation(SAVE_STATUS);
+    const [saveTimezone] = useMutation(SAVE_TIMEZONE);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = useForm<FormValues>();
     const { errors: formErrors } = formState;
     
     useEffect(() => {
-        setTitle('Create status');
+        setTitle('Create Timezone');
     }, [setTitle]);
 
     useEffect(() => {
         if(isSaved) {
-            toast.success('Status created', {
+            toast.success('Timezone created', {
                 theme: 'light'
             });
             setIsSaved(false);
-            navigate('/status');
+            navigate('/timezones');
         }
 
         if(error) {
@@ -46,10 +46,10 @@ export const CreateStatus: React.FC = () => {
     }, [error, isSaved, navigate, setTitle]);
 
     const _handleSubmit: any = async (data: FormValues) => {
-        const status: StatusInput = { ...data };
+        const timezone: TimezoneInput = { ...data };
 
         try {
-            const result = await saveStatus({ variables: {status: { ...status }} });
+            const result = await saveTimezone({ variables: { timezone: { ...timezone } } });
 
             if(result.error) {
                 throw new Error(result.error.message);
@@ -67,10 +67,10 @@ export const CreateStatus: React.FC = () => {
         <>
             <form onSubmit={handleSubmit(_handleSubmit)}>
                 <Input {...register('name', { required: 'Name is required' })} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
-                <Input {...register('description', { required: 'Description is required' })} label='Description' placeholder='Insert description' errorMessage={formErrors.description?.message} />
+                <Input {...register('region', { required: 'Region is required' })} label='Region' placeholder='Insert region' errorMessage={formErrors.region?.message} />
                 <Button type='submit' text='Save'/>
             </form>
             <DevTool control={control} />
         </>
-    )
+    );
 };

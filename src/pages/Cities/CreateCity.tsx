@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/client/react';
 import { DevTool } from '@hookform/devtools';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
@@ -6,7 +7,8 @@ import { toast } from 'react-toastify';
 
 import { Button, Input } from '../../components/Form';
 import { usePageTitle } from '../../contexts/PageTitleContext';
-import { CityInput, useSaveCityMutation } from '../../graphql/schema';
+import { CityInput } from '../../graphql/gql/graphql';
+import { SAVE_CITY } from '../../graphql/mutations';
 
 type FormValues = {
     city: string;
@@ -17,7 +19,7 @@ type FormValues = {
 export const CreateCity: React.FC = () => {
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const [saveCity] = useSaveCityMutation();
+    const [saveCity] = useMutation(SAVE_CITY);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = useForm<FormValues>();

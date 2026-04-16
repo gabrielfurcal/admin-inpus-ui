@@ -45,3 +45,9 @@ export interface ButtonProps {
     type?: 'button' | 'submit' | 'reset';
     handleClick?: any;
 }
+
+export interface PaginatorProps {
+    currentPage: number;
+    totalPages: number;
+    onPageChange: (page: number) => void;
+}

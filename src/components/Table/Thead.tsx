@@ -3,7 +3,7 @@ import { TableProps } from '../props'
 
 export const Thead: React.FC<TableProps> = ({ children }) => {
     return (
-        <thead className="border-b border-neutral-200 bg-neutral-400 font-medium dark:border-white/10">
+        <thead className="border-b border-neutral-200 bg-gray-200 text-gray-600 font-medium dark:border-white/10">
             {children}
         </thead>
     );

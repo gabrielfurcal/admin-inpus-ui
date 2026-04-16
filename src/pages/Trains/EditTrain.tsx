@@ -1,4 +1,5 @@
 import { DevTool } from '@hookform/devtools';
+import { useMutation, useQuery } from "@apollo/client/react";
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -7,7 +8,9 @@ import { toast } from 'react-toastify';
 import { Button, Input } from '../../components/Form';
 import { DEFAULT_REF_VALUE } from '../../constants';
 import { usePageTitle } from '../../contexts/PageTitleContext';
-import { TrainInput, useGetTrainByIdQuery, useSaveTrainMutation } from '../../graphql/schema';
+import { GET_TRAIN_BY_ID } from "../../graphql/queries";
+import { SAVE_TRAIN } from "../../graphql/mutations";
+import { TrainInput } from '../../graphql/gql/graphql';
 
 type FormValues = {
     type: string;
@@ -20,8 +23,8 @@ export const EditTrain: React.FC = () => {
     const numericId = id ? parseInt(id) : undefined;
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [_error, setError] = useState<string>();
-    const { loading, data, error } = useGetTrainByIdQuery({variables: { id: numericId! }});
-    const [saveTrain] = useSaveTrainMutation();
+    const { loading, data, error } = useQuery(GET_TRAIN_BY_ID, {variables: { id: numericId! }});
+    const [saveTrain] = useMutation(SAVE_TRAIN);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();

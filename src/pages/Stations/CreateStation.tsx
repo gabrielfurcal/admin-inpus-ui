@@ -1,3 +1,4 @@
+import { useMutation, useQuery } from "@apollo/client/react";
 import { DevTool } from '@hookform/devtools';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
@@ -5,8 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { Button, Input } from '../../components/Form';
+import { Select } from '../../components/Form/Select';
+import { SelectOption } from '../../components/props';
 import { usePageTitle } from '../../contexts/PageTitleContext';
-import { StationInput, useSaveStationMutation } from '../../graphql/schema';
+import { StationInput, Timezone } from '../../graphql/gql/graphql';
+import { SAVE_STATION } from "../../graphql/mutations";
+import { GET_TIMEZONES } from "../../graphql/queries";
 
 type FormValues = {
     name: string;
@@ -17,12 +22,15 @@ type FormValues = {
     longitude: number;
     cityId: number;
     imageUrl: string;
+    timezoneId: number;
 }
 
 export const CreateStation: React.FC = () => {
+    const [timezoneOptions, setTimezoneOptions] = useState<SelectOption[]>([]);
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const [saveStation] = useSaveStationMutation();
+    const { loading: timezonesLoading, data: timezonesData } = useQuery(GET_TIMEZONES, { variables: { offset: 0, limit: 1000 } });
+    const [saveStation] = useMutation(SAVE_STATION);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = useForm<FormValues>();
@@ -31,6 +39,14 @@ export const CreateStation: React.FC = () => {
     useEffect(() => {
         setTitle('Create station');
     }, [setTitle]);
+
+    useEffect(() => {
+        if(timezonesData) {
+            setTimezoneOptions(timezonesData.timezones.items.map((timezone: Timezone) => {
+                return { key: timezone.id, value: `${timezone.name} (${timezone.region})` }
+            }));
+        }
+    }, [timezonesData]);
 
     useEffect(() => {
         if(isSaved) {
@@ -67,6 +83,8 @@ export const CreateStation: React.FC = () => {
         }
     };
 
+    if(timezonesLoading) return <p>Loading...</p>
+
     return (
         <>
             <form onSubmit={handleSubmit(_handleSubmit)}>
@@ -78,6 +96,7 @@ export const CreateStation: React.FC = () => {
                 <Input {...register('longitude', { required: 'Longitude is required' })} type='number' label='Longitude' placeholder='Insert longitude' errorMessage={formErrors.longitude?.message} />
                 <Input {...register('cityId', { required: 'City is required' })} type='number' label='City ID' placeholder='Insert city id' errorMessage={formErrors.cityId?.message} />
                 <Input {...register('imageUrl', { required: 'Image URL is required' })} label='Image URL' placeholder='Insert image url' errorMessage={formErrors.imageUrl?.message} />
+                <Select {...register('timezoneId', { required: 'Timezone is required' })} label='Timezone' errorMessage={formErrors.timezoneId?.message} options={timezoneOptions} useDefault={true} placeholder='Please select a timezone'/>
                 <Button type='submit' text='Save'/>
             </form>
             <DevTool control={control} />

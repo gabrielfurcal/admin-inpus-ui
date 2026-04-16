@@ -1,40 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { useMutation } from "@apollo/client/react";
-import { SAVE_STATUS } from "../../graphql/mutations";
-import { StatusInput } from '../../graphql/gql/graphql';
+import { SAVE_WEEKDAY } from "../../graphql/mutations";
 import { Input, Button } from '../../components/Form';
 import { usePageTitle } from '../../contexts/PageTitleContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 
 type FormValues = {
     name: string;
-    description: string;
 }
 
-export const CreateStatus: React.FC = () => {
+export const CreateWeekday: React.FC = () => {
     const [isSaved, setIsSaved] = useState<boolean>(false);
     const [error, setError] = useState<string>();
-    const [saveStatus] = useMutation(SAVE_STATUS);
+    const [saveWeekday] = useMutation(SAVE_WEEKDAY);
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState } = useForm<FormValues>();
     const { errors: formErrors } = formState;
     
     useEffect(() => {
-        setTitle('Create status');
+        setTitle('Create Weekday');
     }, [setTitle]);
 
     useEffect(() => {
         if(isSaved) {
-            toast.success('Status created', {
+            toast.success('Weekday created', {
                 theme: 'light'
             });
             setIsSaved(false);
-            navigate('/status');
+            navigate('/weekdays');
         }
 
         if(error) {
@@ -46,10 +43,10 @@ export const CreateStatus: React.FC = () => {
     }, [error, isSaved, navigate, setTitle]);
 
     const _handleSubmit: any = async (data: FormValues) => {
-        const status: StatusInput = { ...data };
+        const weekday = { ...data };
 
         try {
-            const result = await saveStatus({ variables: {status: { ...status }} });
+            const result = await saveWeekday({ variables: { weekday: { ...weekday } } });
 
             if(result.error) {
                 throw new Error(result.error.message);
@@ -67,7 +64,6 @@ export const CreateStatus: React.FC = () => {
         <>
             <form onSubmit={handleSubmit(_handleSubmit)}>
                 <Input {...register('name', { required: 'Name is required' })} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
-                <Input {...register('description', { required: 'Description is required' })} label='Description' placeholder='Insert description' errorMessage={formErrors.description?.message} />
                 <Button type='submit' text='Save'/>
             </form>
             <DevTool control={control} />
