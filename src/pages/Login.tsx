@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Input } from '../components/Form';
-import { usePageTitle } from '../contexts/PageTitleContext';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { Button, Input } from '../components/Form';
+import { usePageTitle } from '../contexts/page-title/PageTitleContext';
 
 type FormValues = {
     email: string;

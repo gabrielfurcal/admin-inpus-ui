@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { Select } from "../../components/Form/Select";
 import Paginator from "../../components/Paginator";
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
-import { usePageTitle } from "../../contexts/PageTitleContext";
+import { usePageTitle } from "../../contexts/page-title/PageTitleContext";
 import { Timezone } from "../../graphql/gql/graphql";
 import { DELETE_TIMEZONE } from "../../graphql/mutations";
 import { GET_TIMEZONES_PAGE } from "../../graphql/queries";

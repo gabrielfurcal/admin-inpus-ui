@@ -5,7 +5,7 @@ import { GET_STATUS_BY_ID } from "../../graphql/queries";
 import { SAVE_STATUS } from "../../graphql/mutations";
 import { StatusInput } from '../../graphql/gql/graphql';
 import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { toast } from 'react-toastify';
 
 import { useForm } from 'react-hook-form';

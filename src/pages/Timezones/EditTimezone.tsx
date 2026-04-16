@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@apollo/client/react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { Input, Button } from "../../components/Form";
-import { usePageTitle } from "../../contexts/PageTitleContext";
+import { usePageTitle } from "../../contexts/page-title/PageTitleContext";
 import { GET_TIMEZONE_BY_ID } from "../../graphql/queries";
 import { SAVE_TIMEZONE } from "../../graphql/mutations";
 import { toast } from 'react-toastify';

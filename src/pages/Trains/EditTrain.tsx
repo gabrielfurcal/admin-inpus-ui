@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 import { Button, Input } from '../../components/Form';
 import { DEFAULT_REF_VALUE } from '../../constants';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { GET_TRAIN_BY_ID } from "../../graphql/queries";
 import { SAVE_TRAIN } from "../../graphql/mutations";
 import { TrainInput } from '../../graphql/gql/graphql';

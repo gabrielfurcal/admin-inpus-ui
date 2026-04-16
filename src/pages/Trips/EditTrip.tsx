@@ -9,7 +9,7 @@ import { Button, Input } from '../../components/Form';
 import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
 import { DEFAULT_REF_VALUE_NUMERIC } from '../../constants';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { GET_TRIP_BY_ID, GET_SCHEDULES, GET_TRAINS, GET_STATUS } from "../../graphql/queries";
 import { SAVE_TRIP } from "../../graphql/mutations";
 import { Schedule, Status, Train, TripInput } from '../../graphql/gql/graphql';

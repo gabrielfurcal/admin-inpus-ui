@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { GET_SCHEDULE_BY_ID, GET_ROUTES, GET_WEEKDAYS } from "../../graphql/queries";
 import { SAVE_SCHEDULE } from "../../graphql/mutations";
 import { ScheduleInput, Route, Weekday } from '../../graphql/gql/graphql';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';

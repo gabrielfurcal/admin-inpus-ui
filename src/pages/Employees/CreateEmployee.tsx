@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { Button, Input } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { SAVE_EMPLOYEE } from "../../graphql/mutations";
 import { EmployeeInput } from '../../graphql/gql/graphql';
 

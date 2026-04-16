@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 import Paginator from "../../components/Paginator";
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
-import { usePageTitle } from "../../contexts/PageTitleContext";
+import { usePageTitle } from "../../contexts/page-title/PageTitleContext";
 import { GET_ROUTES_PAGE } from "../../graphql/queries";
 import { DELETE_ROUTE } from "../../graphql/mutations";
 import { Route } from "../../graphql/gql/graphql";

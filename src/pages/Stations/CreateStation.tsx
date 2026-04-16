@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { Button, Input } from '../../components/Form';
 import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { StationInput, Timezone } from '../../graphql/gql/graphql';
 import { SAVE_STATION } from "../../graphql/mutations";
 import { GET_TIMEZONES } from "../../graphql/queries";

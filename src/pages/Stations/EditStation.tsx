@@ -9,7 +9,7 @@ import { Button, Input } from '../../components/Form';
 import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
 import { DEFAULT_REF_VALUE, DEFAULT_REF_VALUE_NUMERIC } from '../../constants';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { GET_STATION_BY_ID, GET_TIMEZONES } from "../../graphql/queries";
 import { SAVE_STATION } from "../../graphql/mutations";
 import { StationInput, Timezone } from '../../graphql/gql/graphql';

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GET_WEEKDAY_BY_ID } from "../../graphql/queries";
 import { SAVE_WEEKDAY } from "../../graphql/mutations";
 import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
