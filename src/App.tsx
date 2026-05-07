@@ -3,6 +3,7 @@ import { Outlet, Route, Routes } from 'react-router-dom';
 import { Collapse, initTWE } from "tw-elements";
 
 import Menu from './components/Menu';
+import ProtectedRoute from './components/ProtectedRoute';
 import { AuthContext } from './contexts/auth/AuthContext';
 import { PageTitleContext } from './contexts/page-title/PageTitleContext';
 import { PageLayout } from './layouts/PageLayout';
@@ -28,69 +29,75 @@ const App: React.FC = () => {
 
   return (
     <AuthContext>
-      <main>
-        <header>
-          <Menu></Menu>
-        </header>
-        <PageTitleContext>
-          <PageLayout>
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/Login" element={<Login/>}/>
-                <Route path="/trains" element={<Outlet/>}>
-                  <Route index element={<Trains/>}/>
-                  <Route path="create" element={<CreateTrain/>}/>
-                  <Route path="edit/:id" element={<EditTrain/>}/>
-                </Route>
-                <Route path="/cities" element={<Outlet/>}>
-                  <Route index element={<Cities/>}/>
-                  <Route path="create" element={<CreateCity/>}/>
-                  <Route path="edit/:id" element={<EditCity/>}/>
-                </Route>
-                <Route path="/employees" element={<Outlet/>}>
-                  <Route index element={<Employees/>}/>
-                  <Route path="create" element={<CreateEmployee/>}/>
-                  <Route path="edit/:id" element={<EditEmployee/>}/>
-                </Route>
-                <Route path="/status" element={<Outlet/>}>
-                  <Route index element={<Status/>}/>
-                  <Route path="create" element={<CreateStatus/>}/>
-                  <Route path="edit/:id" element={<EditStatus/>}/>
-                </Route>
-                <Route path="/stations" element={<Outlet/>}>
-                  <Route index element={<Stations/>}/>
-                  <Route path="create" element={<CreateStation/>}/>
-                  <Route path="edit/:id" element={<EditStation/>}/>
-                </Route>
-                <Route path="/schedules" element={<Outlet/>}>
-                  <Route index element={<Schedules/>}/>
-                  <Route path="create" element={<CreateSchedule/>}/>
-                  <Route path="edit/:id" element={<EditSchedule/>}/>
-                </Route>
-                <Route path="/routes" element={<Outlet/>}>
-                  <Route index element={<RoutesPage/>}/>
-                  <Route path="create" element={<CreateRoute/>}/>
-                  <Route path="edit/:id" element={<EditRoute/>}/>
-                </Route>
-                <Route path="/trips" element={<Outlet/>}>
-                  <Route index element={<Trips/>}/>
-                  <Route path="create" element={<CreateTrip/>}/>
-                  <Route path="edit/:id" element={<EditTrip/>}/>
-                </Route>
-                <Route path="/weekdays" element={<Outlet/>}>
-                  <Route index element={<Weekdays/>}/>
-                  <Route path="create" element={<CreateWeekday/>}/>
-                  <Route path="edit/:id" element={<EditWeekday/>}/>
-                </Route>
-                <Route path="/timezones" element={<Outlet/>}>
-                  <Route index element={<Timezones/>}/>
-                  <Route path="create" element={<CreateTimezone/>}/>
-                  <Route path="edit/:id" element={<EditTimezone/>}/>
-                </Route>
-              </Routes>
-          </PageLayout>
-        </PageTitleContext>
-      </main>
+      <Routes>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/*" element={
+          <ProtectedRoute>
+            <main>
+              <header>
+                <Menu />
+              </header>
+              <PageTitleContext>
+                <PageLayout>
+                  <Outlet />
+                </PageLayout>
+              </PageTitleContext>
+            </main>
+          </ProtectedRoute>
+        }>
+          <Route index element={<Home/>}/>
+          <Route path="trains" element={<Outlet/>}>
+            <Route index element={<Trains/>}/>
+            <Route path="create" element={<CreateTrain/>}/>
+            <Route path="edit/:id" element={<EditTrain/>}/>
+          </Route>
+          <Route path="cities" element={<Outlet/>}>
+            <Route index element={<Cities/>}/>
+            <Route path="create" element={<CreateCity/>}/>
+            <Route path="edit/:id" element={<EditCity/>}/>
+          </Route>
+          <Route path="employees" element={<Outlet/>}>
+            <Route index element={<Employees/>}/>
+            <Route path="create" element={<CreateEmployee/>}/>
+            <Route path="edit/:id" element={<EditEmployee/>}/>
+          </Route>
+          <Route path="status" element={<Outlet/>}>
+            <Route index element={<Status/>}/>
+            <Route path="create" element={<CreateStatus/>}/>
+            <Route path="edit/:id" element={<EditStatus/>}/>
+          </Route>
+          <Route path="stations" element={<Outlet/>}>
+            <Route index element={<Stations/>}/>
+            <Route path="create" element={<CreateStation/>}/>
+            <Route path="edit/:id" element={<EditStation/>}/>
+          </Route>
+          <Route path="schedules" element={<Outlet/>}>
+            <Route index element={<Schedules/>}/>
+            <Route path="create" element={<CreateSchedule/>}/>
+            <Route path="edit/:id" element={<EditSchedule/>}/>
+          </Route>
+          <Route path="routes" element={<Outlet/>}>
+            <Route index element={<RoutesPage/>}/>
+            <Route path="create" element={<CreateRoute/>}/>
+            <Route path="edit/:id" element={<EditRoute/>}/>
+          </Route>
+          <Route path="trips" element={<Outlet/>}>
+            <Route index element={<Trips/>}/>
+            <Route path="create" element={<CreateTrip/>}/>
+            <Route path="edit/:id" element={<EditTrip/>}/>
+          </Route>
+          <Route path="weekdays" element={<Outlet/>}>
+            <Route index element={<Weekdays/>}/>
+            <Route path="create" element={<CreateWeekday/>}/>
+            <Route path="edit/:id" element={<EditWeekday/>}/>
+          </Route>
+          <Route path="timezones" element={<Outlet/>}>
+            <Route index element={<Timezones/>}/>
+            <Route path="create" element={<CreateTimezone/>}/>
+            <Route path="edit/:id" element={<EditTimezone/>}/>
+          </Route>
+        </Route>
+      </Routes>
     </AuthContext>
   );
 }

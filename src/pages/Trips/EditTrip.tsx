@@ -131,6 +131,8 @@ export const EditTrip: React.FC = () => {
                 <Input {...register('startTime', { required: 'Start Time is required' })} type='datetime-local' label='Start Time' defaultValue={DEFAULT_REF_VALUE_NUMERIC} placeholder='Select start time' errorMessage={formErrors.startTime?.message}/>
                 <Input {...register('endTime', { required: 'End Time is required' })} type='datetime-local' label='End Time' defaultValue={DEFAULT_REF_VALUE_NUMERIC} placeholder='Select end time' errorMessage={formErrors.endTime?.message}/>
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/trips")}/>
             </form>
             <DevTool control={control}/>
         </>

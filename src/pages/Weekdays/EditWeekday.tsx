@@ -77,6 +77,8 @@ export const EditWeekday: React.FC = () => {
             <form onSubmit={handleSubmit(_handleSubmit)}>
                 <Input {...register('name', { required: 'Name is required' })} defaultValue={DEFAULT_REF_VALUE} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/weekdays")}/>
             </form>
             <DevTool control={control} />
         </>

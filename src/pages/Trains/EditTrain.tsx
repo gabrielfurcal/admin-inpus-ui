@@ -90,6 +90,8 @@ export const EditTrain: React.FC = () => {
                 <Input {...register('capacity', { required: 'Capacity is required' })} defaultValue={DEFAULT_REF_VALUE} type='number' label='Capacity' placeholder='Insert capacity' errorMessage={formErrors.capacity?.message} />
                 <Input {...register('maxSpeed', { required: 'Max Speed is required' })} defaultValue={DEFAULT_REF_VALUE} type='number' allowDecimals={true} label='Max Speed (Km/h)' placeholder='Insert max speed' errorMessage={formErrors.maxSpeed?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/trains")}/>
             </form>
             <DevTool control={control}/>
         </>

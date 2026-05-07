@@ -1,4 +1,4 @@
-import { AuthState } from "./types";
+import { AuthState } from "./props";
 
 type AuthAction =
  | { type: "LOGIN"; payload: { user: any; token: string } }

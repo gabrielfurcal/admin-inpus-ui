@@ -71,6 +71,8 @@ export const CreateCity: React.FC = () => {
                 <Input {...register('province', { required: 'Province is required' })} label='Province' placeholder='Insert province name' errorMessage={formErrors.province?.message} />
                 <Input {...register('country', { required: 'Country is required' })} label='Country' placeholder='Insert country name' errorMessage={formErrors.country?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/cities")}/>
             </form>
             <DevTool control={control} />
         </>

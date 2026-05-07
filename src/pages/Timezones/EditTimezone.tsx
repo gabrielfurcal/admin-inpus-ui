@@ -80,6 +80,8 @@ export const EditTimezone: React.FC = () => {
                 <Input {...register('name', { required: 'Name is required' })} defaultValue={DEFAULT_REF_VALUE} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
                 <Input {...register('region', { required: 'Region is required' })} defaultValue={DEFAULT_REF_VALUE} label='Region' placeholder='Insert region' errorMessage={formErrors.region?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/timezones")}/>
             </form>
             <DevTool control={control} />
         </>

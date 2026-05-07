@@ -113,6 +113,8 @@ export const EditStation: React.FC = () => {
                 <Input {...register('imageUrl', { required: 'Image URL is required' })} defaultValue={DEFAULT_REF_VALUE} label='Image URL' placeholder='Insert image url' errorMessage={formErrors.imageUrl?.message} />
                 <Select {...register('timezoneId', { required: 'Timezone is required' })} defaultValue={DEFAULT_REF_VALUE_NUMERIC} label='Timezone' errorMessage={formErrors.timezoneId?.message} options={timezoneOptions} useDefault={true} placeholder='Please select a timezone'/>
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/stations")}/>
             </form>
             <DevTool control={control} />
         </>

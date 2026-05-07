@@ -69,6 +69,8 @@ export const CreateStatus: React.FC = () => {
                 <Input {...register('name', { required: 'Name is required' })} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
                 <Input {...register('description', { required: 'Description is required' })} label='Description' placeholder='Insert description' errorMessage={formErrors.description?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/status")}/>
             </form>
             <DevTool control={control} />
         </>

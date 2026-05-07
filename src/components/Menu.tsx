@@ -1,7 +1,26 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
+import { useAuth } from '../contexts/auth/AuthContext'
 
 const Menu = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  }
+
+  const getInitials = (name?: string) => {
+    if (!name) return 'NA';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length === 1) {
+      return parts[0].slice(0, 2).toUpperCase();
+    }
+    return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+  }
+
   return (
     <nav className="relative flex w-full flex-nowrap items-center justify-between bg-blue-900 py-2 text-black-400 shadow-dark-mild hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-700 lg:flex-wrap lg:justify-start lg:py-4" data-twe-navbar-ref>
         <div className="flex w-full flex-wrap items-center justify-between px-3">
@@ -89,6 +108,17 @@ const Menu = () => {
                   </Link>
                 </li>
               </ul>
+              <div className="mt-4 flex justify-between items-center border-t border-white/15 pt-4 text-white lg:mt-0 lg:ml-auto lg:border-0 lg:pt-0">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-sm font-semibold uppercase text-white ring-1 ring-white/20">
+                    {getInitials(user?.name)}
+                  </div>
+                  <span className="lg:hidden text-white/60">|</span>
+                </div>
+                <button type="button" onClick={handleLogout} className="text-sm font-medium text-red-200 transition hover:text-red-100">
+                  Logout
+                </button>
+              </div>
           </div>
         </div>
     </nav>

@@ -82,6 +82,8 @@ export const EditStatus: React.FC = () => {
                 <Input {...register('name', { required: 'Name is required' })} defaultValue={DEFAULT_REF_VALUE} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
                 <Input {...register('description', { required: 'Description is required' })} defaultValue={DEFAULT_REF_VALUE} label='Description' placeholder='Insert description' errorMessage={formErrors.description?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/status")}/>
             </form>
             <DevTool control={control} />
         </>

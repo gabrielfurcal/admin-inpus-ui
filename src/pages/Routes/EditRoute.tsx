@@ -122,6 +122,8 @@ export const EditRoute: React.FC = () => {
                 <Select {...register('endStationId', { required: 'Arrival Station is required' })} label='Arrival Station' defaultValue={DEFAULT_REF_VALUE_NUMERIC} errorMessage={formErrors.endStationId?.message} options={arrivalStationOptions} useDefault={true} placeholder='Please select a arrival station'/>
                 <Input {...register('distance', { required: 'Distance is required' })} type='number' label='Distance (Kms)' defaultValue={DEFAULT_REF_VALUE_NUMERIC} placeholder='Insert distance' errorMessage={formErrors.distance?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/routes")}/>
             </form>
             <DevTool control={control} />
         </>

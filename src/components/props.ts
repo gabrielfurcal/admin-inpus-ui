@@ -51,3 +51,7 @@ export interface PaginatorProps {
     totalPages: number;
     onPageChange: (page: number) => void;
 }
+
+export interface ProtectedRouteProps {
+    children: ReactNode;
+}

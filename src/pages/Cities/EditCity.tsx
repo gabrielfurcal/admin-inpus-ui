@@ -90,6 +90,8 @@ export const EditCity: React.FC = () => {
                 <Input {...register('province', { required: 'Province is required' })} defaultValue={DEFAULT_REF_VALUE} label='Province' placeholder='Insert province name' errorMessage={formErrors.province?.message}  />
                 <Input {...register('country', { required: 'Country is required' })} defaultValue={DEFAULT_REF_VALUE} label='Country' placeholder='Insert country name' errorMessage={formErrors.country?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/cities")}/>
             </form>
             <DevTool control={control} />
         </>

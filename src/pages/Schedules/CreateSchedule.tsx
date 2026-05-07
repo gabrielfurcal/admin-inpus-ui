@@ -106,6 +106,8 @@ export const CreateSchedule: React.FC = () => {
                 <Input {...register('arrivalTime', { required: 'Arrival Time is required' })} type='datetime-local' label='Arrival Time' placeholder='Insert arrival time' errorMessage={formErrors.arrivalTime?.message} />
                 <Select {...register('arrivalWeekdayId', { required: 'Arrival Weekday is required' })} label='Arrival Weekday' errorMessage={formErrors.arrivalWeekdayId?.message} options={weekdayOptions} useDefault={true} placeholder='Please select arrival weekday'/>
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/schedules")}/>
             </form>
             <DevTool control={control} />
         </>

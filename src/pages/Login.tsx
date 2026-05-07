@@ -26,13 +26,16 @@ export const Login: React.FC = () => {
     }
 
     return (
-        <div className='w-1/3 m-auto'>
-            <form onSubmit={handleSubmit(_handleSubmit)}>
-                <Input {...register('email', { required: 'Email is required' })} label='Email' placeholder='example@mail.com' errorMessage={formErrors.email?.message}/>
-                <Input {...register('password', { required: 'Password is required' })} type='password' label='Password' errorMessage={formErrors.password?.message}/>
-                <div className='mb-2'><Button type='submit' text='Login'/></div>
-                <Link to={`home`} className='font-normal text-blue-900'>Forgot password?</Link>
-            </form>
+        <div className='flex items-center justify-center min-h-screen'>
+            <div className='w-1/2'>
+                <div className='text-center mb-6 text-2xl font-semibold'>Admin Inputs</div>
+                <form onSubmit={handleSubmit(_handleSubmit)}>
+                    <Input {...register('email', { required: 'Email is required' })} label='Email' placeholder='example@mail.com' errorMessage={formErrors.email?.message}/>
+                    <Input {...register('password', { required: 'Password is required' })} type='password' label='Password' errorMessage={formErrors.password?.message}/>
+                    <div className='mb-2'><Button type='submit' text='Login'/></div>
+                    <Link to={`home`} className='font-normal text-blue-900'>Forgot password?</Link>
+                </form>
+            </div>
         </div>
     )
 }

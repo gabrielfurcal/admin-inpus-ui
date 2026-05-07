@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
 import { PageTitleContextProps } from './props';
 
@@ -7,7 +7,7 @@ interface _PageTitleContextProps {
     setTitle: any
 }
 
-const PAGE_TITLE_CONTEXT = React.createContext<_PageTitleContextProps>({
+const PAGE_TITLE_CONTEXT = createContext<_PageTitleContextProps>({
     title: 'No title',
     setTitle: () => {}
 });

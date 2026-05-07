@@ -116,6 +116,8 @@ export const CreateTrip: React.FC = () => {
                 <Input {...register('startTime', { required: 'Start Time is required' })} type='datetime-local' label='Start Time' placeholder='Select start time' errorMessage={formErrors.startTime?.message}/>
                 <Input {...register('endTime', { required: 'End Time is required' })} type='datetime-local' label='End Time' placeholder='Select end time' errorMessage={formErrors.endTime?.message}/>
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/trips")}/>
             </form>
             <DevTool control={control}/>
         </>
