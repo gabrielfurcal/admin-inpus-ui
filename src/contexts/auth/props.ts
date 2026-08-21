@@ -6,5 +6,6 @@ export type User = {
 export type AuthState = {
     user: User | null;
     token: string | null;
+    refreshToken: string | null;
     isAuthenticated: boolean;
 }

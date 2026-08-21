@@ -4,13 +4,14 @@ import { authReducer } from './AuthReducer';
 import { AuthState, User } from './props';
 
 interface _AuthContextProps extends AuthState {
-    login: (user: User, token: string) => void;
+    login: (user: User, token: string, refreshToken: string) => void;
     logout: () => void;
 }
 
 const initialState: AuthState = {
     user: null,
     token: null,
+    refreshToken: null,
     isAuthenticated: false,
 };
 
@@ -29,12 +30,14 @@ export const useAuth = () => {
 export const AuthContext: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState, (init) => {
         const token = localStorage.getItem("token");
+        const refreshToken = localStorage.getItem("refreshToken");
         const user = localStorage.getItem("user");
 
         if (token && user) {
             return {
                 user: JSON.parse(user),
                 token,
+                refreshToken,
                 isAuthenticated: true,
             };
         }
@@ -42,15 +45,17 @@ export const AuthContext: React.FC<{ children: React.ReactNode }> = ({ children 
         return init;
     });
 
-    const login = (user: any, token: string) => {
+    const login = (user: any, token: string, refreshToken: string) => {
         localStorage.setItem("token", token);
+        localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("user", JSON.stringify(user));
 
-        dispatch({ type: "LOGIN", payload: { user, token } });
+        dispatch({ type: "LOGIN", payload: { user, token, refreshToken } });
     }
 
     const logout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
         localStorage.removeItem("user");
 
         dispatch({ type: "LOGOUT" });
