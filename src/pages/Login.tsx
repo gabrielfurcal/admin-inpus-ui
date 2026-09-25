@@ -24,7 +24,7 @@ type LoginResponse = {
 type UserInfo = {
     Email: string;
     ID: string;
-    Role: string[];
+    Permissions: string[];
 }
 
 export const Login: React.FC = () => {
@@ -53,7 +53,7 @@ export const Login: React.FC = () => {
             const loginResponse = await axios.post<LoginResponse>(LOGIN_URL, data);
             const userData: UserInfo = decodeJwtPayload(loginResponse.data.jwt);
 
-            login({ id: userData.ID, name: userData.Email, roles: userData.Role }, loginResponse.data.jwt, loginResponse.data.refreshToken);
+            login({ id: userData.ID, name: userData.Email, permissions: userData.Permissions }, loginResponse.data.jwt, loginResponse.data.refreshToken);
             
             toast.success("Login successful", {
                 theme: "light"
