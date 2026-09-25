@@ -6,6 +6,7 @@ import { AuthState, User } from './props';
 interface _AuthContextProps extends AuthState {
     login: (user: User, token: string, refreshToken: string) => void;
     logout: () => void;
+    hasRoles: (requiredRoles: string[]) => boolean;
 }
 
 const initialState: AuthState = {
@@ -61,8 +62,19 @@ export const AuthContext: React.FC<{ children: React.ReactNode }> = ({ children 
         dispatch({ type: "LOGOUT" });
     }
 
+    const hasRoles = (requiredRoles: string[]): boolean => {
+        const user = localStorage.getItem("user");
+
+        if(user) {
+            const userObj: User = JSON.parse(user);
+            return requiredRoles.some((role) => userObj.roles.includes(role));
+        }
+        
+        return false;
+    }
+
     return (
-        <AUTH_CONTEXT.Provider value={{ ...state, login, logout }}>
+        <AUTH_CONTEXT.Provider value={{ ...state, login, logout, hasRoles }}>
             { children }
         </AUTH_CONTEXT.Provider>
     )

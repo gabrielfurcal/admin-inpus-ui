@@ -113,9 +113,8 @@ const Menu = () => {
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-sm font-semibold uppercase text-white ring-1 ring-white/20">
                     {getInitials(user?.name)}
                   </div>
-                  <span className="lg:hidden text-white/60">|</span>
                 </div>
-                <button type="button" onClick={handleLogout} className="text-sm font-medium text-red-200 transition hover:text-red-100">
+                <button type="button" onClick={handleLogout} className="text-sm font-medium text-red-200 transition hover:text-red-100 pl-2">
                   Logout
                 </button>
               </div>
