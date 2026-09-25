@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 import { Button, Input } from '../../components/Form';
 import { DEFAULT_REF_VALUE } from '../../constants';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { CityInput } from '../../graphql/gql/graphql';
 import { SAVE_CITY } from '../../graphql/mutations';
 import { GET_CITY_BY_ID } from '../../graphql/queries';
@@ -90,6 +90,8 @@ export const EditCity: React.FC = () => {
                 <Input {...register('province', { required: 'Province is required' })} defaultValue={DEFAULT_REF_VALUE} label='Province' placeholder='Insert province name' errorMessage={formErrors.province?.message}  />
                 <Input {...register('country', { required: 'Country is required' })} defaultValue={DEFAULT_REF_VALUE} label='Country' placeholder='Insert country name' errorMessage={formErrors.country?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/cities")}/>
             </form>
             <DevTool control={control} />
         </>

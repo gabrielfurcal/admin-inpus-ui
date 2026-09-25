@@ -9,7 +9,7 @@ import { Button, Input } from '../../components/Form';
 import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
 import { DEFAULT_REF_VALUE, DEFAULT_REF_VALUE_NUMERIC } from '../../constants';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { GET_STATION_BY_ID, GET_TIMEZONES } from "../../graphql/queries";
 import { SAVE_STATION } from "../../graphql/mutations";
 import { StationInput, Timezone } from '../../graphql/gql/graphql';
@@ -113,6 +113,8 @@ export const EditStation: React.FC = () => {
                 <Input {...register('imageUrl', { required: 'Image URL is required' })} defaultValue={DEFAULT_REF_VALUE} label='Image URL' placeholder='Insert image url' errorMessage={formErrors.imageUrl?.message} />
                 <Select {...register('timezoneId', { required: 'Timezone is required' })} defaultValue={DEFAULT_REF_VALUE_NUMERIC} label='Timezone' errorMessage={formErrors.timezoneId?.message} options={timezoneOptions} useDefault={true} placeholder='Please select a timezone'/>
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/stations")}/>
             </form>
             <DevTool control={control} />
         </>

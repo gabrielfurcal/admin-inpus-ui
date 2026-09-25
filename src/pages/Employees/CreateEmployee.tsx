@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { Button, Input } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { SAVE_EMPLOYEE } from "../../graphql/mutations";
 import { EmployeeInput } from '../../graphql/gql/graphql';
 
@@ -75,6 +75,8 @@ export const CreateEmployee: React.FC = () => {
                 <Input {...register('phoneNumber', { required: 'Phone Number is required' })} label='Phone Number' placeholder='Insert phone number' errorMessage={formErrors.phoneNumber?.message} />
                 <Input {...register('email', { required: 'Email is required' })} type='email' label='Email' placeholder='Insert email' errorMessage={formErrors.email?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/employees")}/>
             </form>
             <DevTool control={control} />
         </>

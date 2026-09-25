@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GET_WEEKDAY_BY_ID } from "../../graphql/queries";
 import { SAVE_WEEKDAY } from "../../graphql/mutations";
 import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
@@ -77,6 +77,8 @@ export const EditWeekday: React.FC = () => {
             <form onSubmit={handleSubmit(_handleSubmit)}>
                 <Input {...register('name', { required: 'Name is required' })} defaultValue={DEFAULT_REF_VALUE} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/weekdays")}/>
             </form>
             <DevTool control={control} />
         </>

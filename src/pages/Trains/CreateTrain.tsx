@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { Button, Input } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { SAVE_TRAIN } from "../../graphql/mutations";
 import { TrainInput } from '../../graphql/gql/graphql';
 
@@ -72,6 +72,8 @@ export const CreateTrain: React.FC = () => {
                 <Input {...register('capacity', { required: 'Capacity is required' })} type='number' label='Capacity' placeholder='Insert capacity' errorMessage={formErrors.capacity?.message}/>
                 <Input {...register('maxSpeed', { required: 'Max Speed is required' })} type='number' allowDecimals={true} label='Max Speed (Km/h)' placeholder='Insert max speed' errorMessage={formErrors.maxSpeed?.message}/>
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/trains")}/>
             </form>
             <DevTool control={control}/>
         </>

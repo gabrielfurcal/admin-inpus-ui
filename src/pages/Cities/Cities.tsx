@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 import Paginator from "../../components/Paginator";
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
-import { usePageTitle } from "../../contexts/PageTitleContext";
+import { usePageTitle } from "../../contexts/page-title/PageTitleContext";
 import { City } from "../../graphql/gql/graphql";
 import { DELETE_CITY } from "../../graphql/mutations";
 import { GET_CITIES_PAGE } from "../../graphql/queries";

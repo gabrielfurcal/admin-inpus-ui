@@ -5,10 +5,11 @@ import { toast } from 'react-toastify';
 
 import Paginator from "../../components/Paginator";
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
-import { usePageTitle } from "../../contexts/PageTitleContext";
+import { usePageTitle } from "../../contexts/page-title/PageTitleContext";
 import { GET_EMPLOYEES_PAGE } from "../../graphql/queries";
 import { DELETE_EMPLOYEE } from "../../graphql/mutations";
 import { Employee } from "../../graphql/gql/graphql";
+import { useAuth } from "../../contexts/auth/AuthContext";
 
 export const Employees: React.FC = () => {
     const [employees, setEmployees] = useState<Employee[]>([]);
@@ -18,6 +19,7 @@ export const Employees: React.FC = () => {
     const [isDeleted, setIsDeleted] = useState<boolean>();
     const { loading, data, error, refetch } = useQuery(GET_EMPLOYEES_PAGE, { variables: { offset: currentPage - 1, limit } });
     const { setTitle } = usePageTitle();
+    const { hasPermissions } = useAuth();
     const [deleteEmployee] = useMutation(DELETE_EMPLOYEE);
     const totalPages = Math.ceil((data?.employeesPage.totalCount ?? 0) / limit);
 
@@ -80,7 +82,10 @@ export const Employees: React.FC = () => {
                     <Td>{employee.phoneNumber}</Td>
                     <Td>{employee.email}</Td>
                     <Td>
-                        <Link to={`edit/${employee.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;
+                        { hasPermissions(["EMPLOYEE_EDIT"]) ? 
+                            <><Link to={`edit/${employee.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;</> : 
+                            <></> 
+                        }
                         <button className="font-medium underline" onClick={() => handleDeleteClick(+employee.id)}>Delete</button>
                     </Td>
                 </Tr>

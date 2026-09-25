@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { GET_SCHEDULE_BY_ID, GET_ROUTES, GET_WEEKDAYS } from "../../graphql/queries";
 import { SAVE_SCHEDULE } from "../../graphql/mutations";
 import { ScheduleInput, Route, Weekday } from '../../graphql/gql/graphql';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -122,6 +122,8 @@ export const EditSchedule: React.FC = () => {
                 <Input {...register('arrivalTime', { required: 'Arrival Time is required' })} defaultValue={DEFAULT_REF_VALUE} type='datetime-local' label='Arrival Time' placeholder='Insert arrival time' errorMessage={formErrors.arrivalTime?.message} />
                 <Select {...register('arrivalWeekdayId', { required: 'Arrival Weekday is required' })} defaultValue={DEFAULT_REF_VALUE_NUMERIC} label='Arrival Weekday' errorMessage={formErrors.arrivalWeekdayId?.message} options={weekdayOptions} useDefault={true} placeholder='Please select arrival weekday'/>
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/schedules")}/>
             </form>
             <DevTool control={control} />
         </>

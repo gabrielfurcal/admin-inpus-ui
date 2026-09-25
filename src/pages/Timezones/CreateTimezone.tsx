@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 import { Button, Input } from "../../components/Form";
-import { usePageTitle } from "../../contexts/PageTitleContext";
+import { usePageTitle } from "../../contexts/page-title/PageTitleContext";
 import { TimezoneInput } from "../../graphql/gql/graphql";
 import { SAVE_TIMEZONE } from "../../graphql/mutations";
 
@@ -69,6 +69,8 @@ export const CreateTimezone: React.FC = () => {
                 <Input {...register('name', { required: 'Name is required' })} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
                 <Input {...register('region', { required: 'Region is required' })} label='Region' placeholder='Insert region' errorMessage={formErrors.region?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/timezones")}/>
             </form>
             <DevTool control={control} />
         </>

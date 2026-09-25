@@ -5,7 +5,7 @@ import { GET_STATUS_BY_ID } from "../../graphql/queries";
 import { SAVE_STATUS } from "../../graphql/mutations";
 import { StatusInput } from '../../graphql/gql/graphql';
 import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { toast } from 'react-toastify';
 
 import { useForm } from 'react-hook-form';
@@ -82,6 +82,8 @@ export const EditStatus: React.FC = () => {
                 <Input {...register('name', { required: 'Name is required' })} defaultValue={DEFAULT_REF_VALUE} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
                 <Input {...register('description', { required: 'Description is required' })} defaultValue={DEFAULT_REF_VALUE} label='Description' placeholder='Insert description' errorMessage={formErrors.description?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/status")}/>
             </form>
             <DevTool control={control} />
         </>

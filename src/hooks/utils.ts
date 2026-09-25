@@ -8,3 +8,17 @@ export const toPascalCase = (text: string): string => {
 
     return result.trimEnd();
 }
+
+export function decodeJwtPayload<T = Record<string, unknown>>(token: string): T {
+  const payload = token.split('.')[1];
+
+  if (!payload) {
+    throw new Error('Invalid JWT');
+  }
+
+  const decoded = atob(
+    payload.replace(/-/g, '+').replace(/_/g, '/')
+  );
+
+  return JSON.parse(decoded);
+}

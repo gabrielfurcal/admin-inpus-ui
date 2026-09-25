@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { usePageTitle } from '../contexts/PageTitleContext';
+import { usePageTitle } from '../contexts/page-title/PageTitleContext';
 
 const Home: React.FC = () => {
     const { setTitle } = usePageTitle();
