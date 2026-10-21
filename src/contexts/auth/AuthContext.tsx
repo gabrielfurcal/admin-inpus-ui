@@ -1,7 +1,10 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
 
+import { GENERAT_JWT_TOKEN_URL } from '../../constants';
 import { authReducer } from './AuthReducer';
-import { AuthState, User } from './props';
+import { AuthState, AuthStatus, User } from './props';
 
 interface _AuthContextProps extends AuthState {
     login: (user: User, token: string, refreshToken: string) => void;
@@ -13,8 +16,13 @@ const initialState: AuthState = {
     user: null,
     token: null,
     refreshToken: null,
-    isAuthenticated: false,
+    authStatus: AuthStatus.Unauthenticated
 };
+
+type LoginResponse = {
+    jwt: string;
+    refreshToken: string;
+}
 
 const AUTH_CONTEXT = createContext<_AuthContextProps | undefined>(undefined);
 
@@ -35,16 +43,54 @@ export const AuthContext: React.FC<{ children: React.ReactNode }> = ({ children 
         const user = localStorage.getItem("user");
 
         if (token && user) {
-            return {
-                user: JSON.parse(user),
-                token,
-                refreshToken,
-                isAuthenticated: true,
-            };
+            const { exp } = jwtDecode<{ exp?: number }>(token);
+            const expiresAt = typeof exp === 'number' ? new Date(exp * 1000) : null;
+
+            if(expiresAt! <= new Date()) {
+                return {
+                    user: JSON.parse(user),
+                    token,
+                    refreshToken,
+                    authStatus: AuthStatus.TokenExpired
+                }
+
+            } else {
+                return {
+                    user: JSON.parse(user),
+                    token,
+                    refreshToken,
+                    authStatus: AuthStatus.Authenticated
+                };
+            }
         }
 
         return init;
     });
+
+    useEffect(() => {
+        const checkSession = async () => {
+            if(state.authStatus === AuthStatus.TokenExpired) {
+                const response = await axios.post<LoginResponse>(GENERAT_JWT_TOKEN_URL, {
+                    id: null,
+                    tokenHash: state.refreshToken
+                });
+
+                if (response.status === 200) {
+                    localStorage.setItem("token", response.data.jwt);
+                    localStorage.setItem("refreshToken", response.data.refreshToken);
+                    localStorage.setItem("user", JSON.stringify(state.user));
+
+                    dispatch({ type: "LOGIN", payload: { user: state.user, token: response.data.jwt, refreshToken: response.data.refreshToken } });
+                }
+                else {
+                    clearLoginStorage();
+                    dispatch({ type: "LOGOUT" });
+                }
+            }
+        }
+
+        void checkSession();
+    }, []);
 
     const login = (user: any, token: string, refreshToken: string) => {
         localStorage.setItem("token", token);
@@ -55,10 +101,7 @@ export const AuthContext: React.FC<{ children: React.ReactNode }> = ({ children 
     }
 
     const logout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("user");
-
+        clearLoginStorage();
         dispatch({ type: "LOGOUT" });
     }
 
@@ -78,4 +121,10 @@ export const AuthContext: React.FC<{ children: React.ReactNode }> = ({ children 
             { children }
         </AUTH_CONTEXT.Provider>
     )
+}
+
+const clearLoginStorage = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
 }

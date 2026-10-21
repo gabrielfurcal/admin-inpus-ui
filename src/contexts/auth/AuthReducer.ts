@@ -1,4 +1,4 @@
-import { AuthState } from "./props";
+import { AuthState, AuthStatus } from "./props";
 
 type AuthAction =
  | { type: "LOGIN"; payload: { user: any; token: string, refreshToken: string } }
@@ -11,14 +11,14 @@ export const authReducer = (state: AuthState, action: AuthAction): AuthState => 
                 user: action.payload.user,
                 token: action.payload.token,
                 refreshToken: action.payload.refreshToken,
-                isAuthenticated: true,
+                authStatus: AuthStatus.Authenticated,
             };
         case "LOGOUT":
             return {
                 user: null,
                 token: null,
                 refreshToken: null,
-                isAuthenticated: false,
+                authStatus: AuthStatus.Unauthenticated,
             }
         default:
             return state;

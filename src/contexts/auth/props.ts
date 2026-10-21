@@ -8,5 +8,12 @@ export type AuthState = {
     user: User | null;
     token: string | null;
     refreshToken: string | null;
-    isAuthenticated: boolean;
+    authStatus: AuthStatus;
+}
+
+export enum AuthStatus {
+    Initializing = "initializing",
+    Authenticated = "authenticated",
+    Unauthenticated = "unauthenticated",
+    TokenExpired = "tokenExpired",
 }
