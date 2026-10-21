@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useMutation } from "@apollo/client/react";
 import { SAVE_WEEKDAY } from "../../graphql/mutations";
 import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
@@ -65,6 +65,8 @@ export const CreateWeekday: React.FC = () => {
             <form onSubmit={handleSubmit(_handleSubmit)}>
                 <Input {...register('name', { required: 'Name is required' })} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/weekdays")}/>
             </form>
             <DevTool control={control} />
         </>

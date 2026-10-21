@@ -1,5 +1,5 @@
 import React from 'react'
-import { usePageTitle } from '../contexts/PageTitleContext'
+import { usePageTitle } from '../contexts/page-title/PageTitleContext'
 
 export const PageHeader: React.FC = () => {
   const { title } = usePageTitle();

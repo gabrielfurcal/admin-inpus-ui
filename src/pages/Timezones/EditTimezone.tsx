@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@apollo/client/react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { Input, Button } from "../../components/Form";
-import { usePageTitle } from "../../contexts/PageTitleContext";
+import { usePageTitle } from "../../contexts/page-title/PageTitleContext";
 import { GET_TIMEZONE_BY_ID } from "../../graphql/queries";
 import { SAVE_TIMEZONE } from "../../graphql/mutations";
 import { toast } from 'react-toastify';
@@ -80,6 +80,8 @@ export const EditTimezone: React.FC = () => {
                 <Input {...register('name', { required: 'Name is required' })} defaultValue={DEFAULT_REF_VALUE} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
                 <Input {...register('region', { required: 'Region is required' })} defaultValue={DEFAULT_REF_VALUE} label='Region' placeholder='Insert region' errorMessage={formErrors.region?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/timezones")}/>
             </form>
             <DevTool control={control} />
         </>

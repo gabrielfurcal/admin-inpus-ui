@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/client/react";
 import { SAVE_STATUS } from "../../graphql/mutations";
 import { StatusInput } from '../../graphql/gql/graphql';
 import { Input, Button } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -69,6 +69,8 @@ export const CreateStatus: React.FC = () => {
                 <Input {...register('name', { required: 'Name is required' })} label='Name' placeholder='Insert name' errorMessage={formErrors.name?.message} />
                 <Input {...register('description', { required: 'Description is required' })} label='Description' placeholder='Insert description' errorMessage={formErrors.description?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/status")}/>
             </form>
             <DevTool control={control} />
         </>

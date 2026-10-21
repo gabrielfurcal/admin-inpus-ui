@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { Button, Input } from '../../components/Form';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { CityInput } from '../../graphql/gql/graphql';
 import { SAVE_CITY } from '../../graphql/mutations';
 
@@ -71,6 +71,8 @@ export const CreateCity: React.FC = () => {
                 <Input {...register('province', { required: 'Province is required' })} label='Province' placeholder='Insert province name' errorMessage={formErrors.province?.message} />
                 <Input {...register('country', { required: 'Country is required' })} label='Country' placeholder='Insert country name' errorMessage={formErrors.country?.message} />
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/cities")}/>
             </form>
             <DevTool control={control} />
         </>

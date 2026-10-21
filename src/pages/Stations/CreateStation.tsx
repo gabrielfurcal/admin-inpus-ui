@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { Button, Input } from '../../components/Form';
 import { Select } from '../../components/Form/Select';
 import { SelectOption } from '../../components/props';
-import { usePageTitle } from '../../contexts/PageTitleContext';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
 import { StationInput, Timezone } from '../../graphql/gql/graphql';
 import { SAVE_STATION } from "../../graphql/mutations";
 import { GET_TIMEZONES } from "../../graphql/queries";
@@ -98,6 +98,8 @@ export const CreateStation: React.FC = () => {
                 <Input {...register('imageUrl', { required: 'Image URL is required' })} label='Image URL' placeholder='Insert image url' errorMessage={formErrors.imageUrl?.message} />
                 <Select {...register('timezoneId', { required: 'Timezone is required' })} label='Timezone' errorMessage={formErrors.timezoneId?.message} options={timezoneOptions} useDefault={true} placeholder='Please select a timezone'/>
                 <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/stations")}/>
             </form>
             <DevTool control={control} />
         </>
