@@ -1,0 +1,84 @@
+import { DevTool } from '@hookform/devtools';
+import { useMutation } from "@apollo/client/react";
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import { Button, Input } from '../../components/Form';
+import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
+import { SAVE_EMPLOYEE } from "../../graphql/mutations";
+import { EmployeeInput } from '../../graphql/gql/graphql';
+
+type FormValues = {
+    firstName: string;
+    lastName: string;
+    position: string;
+    phoneNumber: string;
+    email: string;
+}
+
+export const CreateEmployee: React.FC = () => {
+    const [isSaved, setIsSaved] = useState<boolean>(false);
+    const [error, setError] = useState<string>();
+    const [saveEmployee] = useMutation(SAVE_EMPLOYEE);
+    const { setTitle } = usePageTitle();
+    const navigate = useNavigate();
+    const { register, control, handleSubmit, formState } = useForm<FormValues>();
+    const { errors: formErrors } = formState;
+    
+    useEffect(() => {
+        setTitle('Create employee');
+    }, [setTitle]);
+
+    useEffect(() => {
+        if(isSaved) {
+            toast.success('Employee created', {
+                theme: 'light'
+            });
+            setIsSaved(false);
+            navigate('/employees');
+        }
+
+        if(error) {
+            toast.error(error, {
+                theme: 'light'
+            })
+        }
+
+    }, [error, isSaved, navigate, setTitle]);
+
+    const _handleSubmit: any = async (data: FormValues) => {
+        const employee: EmployeeInput = { ...data };
+
+        try {
+            const result = await saveEmployee({ variables: {employee: { ...employee }} });
+
+            if(result.error) {
+                throw new Error(result.error.message);
+            } else {
+                setIsSaved(true);
+            }
+        } catch(err) {
+            if(err instanceof Error) {
+                setError(err.message);
+            }
+        }
+    };
+
+    return (
+        <>
+            <form onSubmit={handleSubmit(_handleSubmit)}>
+                <Input {...register('firstName', { required: 'First Name is required' })} label='First Name' placeholder='Insert first name' errorMessage={formErrors.firstName?.message} />
+                <Input {...register('lastName', { required: 'Last Name is required' })} label='Last Name' placeholder='Insert last name' errorMessage={formErrors.lastName?.message} />
+                <Input {...register('position', { required: 'Position is required' })} label='Position' placeholder='Insert position' errorMessage={formErrors.position?.message} />
+                <Input {...register('phoneNumber', { required: 'Phone Number is required' })} label='Phone Number' placeholder='Insert phone number' errorMessage={formErrors.phoneNumber?.message} />
+                <Input {...register('email', { required: 'Email is required' })} type='email' label='Email' placeholder='Insert email' errorMessage={formErrors.email?.message} />
+                <Button type='submit' text='Save'/>
+                &nbsp;&nbsp;
+                <Button type='button' text='Back' handleClick={() => navigate("/employees")}/>
+            </form>
+            <DevTool control={control} />
+        </>
+    )
+};

@@ -21,6 +21,7 @@ import { CreateTrip, EditTrip, Trips } from './pages/Trips';
 import { CreateWeekday, EditWeekday, Weekdays } from './pages/Weekdays';
 
 import './App.css';
+import { Users } from './pages/Users';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -95,6 +96,11 @@ const App: React.FC = () => {
             <Route index element={<Timezones/>}/>
             <Route path="create" element={<CreateTimezone/>}/>
             <Route path="edit/:id" element={<EditTimezone/>}/>
+          </Route>
+          <Route path="users" element={<Outlet/>}>
+            <Route index element={<Users/>}/>
+            {/* <Route path="create" element={<CreateTimezone/>}/>
+            <Route path="edit/:id" element={<EditTimezone/>}/> */}
           </Route>
         </Route>
       </Routes>
