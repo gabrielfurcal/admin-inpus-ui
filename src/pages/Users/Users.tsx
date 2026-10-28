@@ -5,10 +5,11 @@ import { toast } from 'react-toastify';
 
 import Paginator from "../../components/Paginator";
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
-import { DELETE_USER_URL, USERS_URL } from "../../constants";
+import { USERS_URL } from "../../constants";
 import { useAuth } from "../../contexts/auth/AuthContext";
 import { usePageTitle } from "../../contexts/page-title/PageTitleContext";
 import { User } from "../../types/security";
+import { isRequestSuccessful } from "../../hooks/utils";
 
 type UserPageResponse = {
     users: User[],
@@ -34,13 +35,13 @@ export const Users: React.FC = () => {
         try {
             setLoading(true);
 
-            const response = await axios.get<UserPageResponse>(`${USERS_URL}?offset=${currentPage - 1}&limit=${limit}`, {
+            const response = await axios.get<UserPageResponse>(`${USERS_URL}/Paginated?offset=${currentPage - 1}&limit=${limit}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
             });
 
-            if (response.status === 200) {
+            if (isRequestSuccessful(response.status)) {
                 setUsers(response.data.users);
                 setTotalPages(Math.ceil(response.data.totalCount / limit));
             } else {
@@ -69,23 +70,24 @@ export const Users: React.FC = () => {
         }
     }, [currentPage, totalPages]);
 
-    const handleDeactivateClick: any = async (id: number) => {
-        if(await !window.confirm(`Are you sure you want to deactivate User ${id.toString()}?`)) return;
+    const handleDeactivateClick: any = async (id: string) => {
+        if(await !window.confirm(`Are you sure you want to deactivate User ${id}?`)) return;
 
         try {
-            const result = await axios.delete(DELETE_USER_URL, {
+            const result = await axios.delete(`${USERS_URL}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
             });
 
-            if(result.status > 200 || result.status < 299) {
-                throw new Error(result.statusText);
-            } else {
+            if(isRequestSuccessful(result.status)) {
                 toast.success('Employee deleted', {
                     theme: 'light'
                 });
                 void loadUsers();
+                
+            } else {
+                throw new Error(result.statusText);
             }
         } catch(err) {
             if(err instanceof Error) {
