@@ -1,20 +1,14 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
+import { deactivateUser, getUsers } from "../../api/user";
 import Paginator from "../../components/Paginator";
 import { Table, Tbody, Td, Th, Thead, Tr } from "../../components/Table";
-import { USERS_URL } from "../../constants";
 import { useAuth } from "../../contexts/auth/AuthContext";
 import { usePageTitle } from "../../contexts/page-title/PageTitleContext";
-import { User } from "../../types/security";
 import { isRequestSuccessful } from "../../hooks/utils";
-
-type UserPageResponse = {
-    users: User[],
-    totalCount: number
-}
+import { User } from "../../types/security";
 
 export const Users: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -31,15 +25,19 @@ export const Users: React.FC = () => {
         setTitle('Users');
     }, [setTitle]);
 
+    useEffect(() => {
+        void loadUsers();
+    }, []);
+
+    useEffect(() => {
+        void loadUsers();
+    }, [limit, currentPage]);
+
     const loadUsers = async () => {
         try {
             setLoading(true);
 
-            const response = await axios.get<UserPageResponse>(`${USERS_URL}/Paginated?offset=${currentPage - 1}&limit=${limit}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            });
+            const response = await getUsers(currentPage, limit);
 
             if (isRequestSuccessful(response.status)) {
                 setUsers(response.data.users);
@@ -57,14 +55,6 @@ export const Users: React.FC = () => {
     }
 
     useEffect(() => {
-        void loadUsers();
-    }, []);
-
-    useEffect(() => {
-        void loadUsers();
-    }, [limit, currentPage]);
-
-    useEffect(() => {
         if (totalPages > 0 && currentPage > totalPages) {
             setCurrentPage(totalPages);
         }
@@ -74,11 +64,7 @@ export const Users: React.FC = () => {
         if(await !window.confirm(`Are you sure you want to deactivate User ${id}?`)) return;
 
         try {
-            const result = await axios.delete(`${USERS_URL}/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            });
+            const result = await deactivateUser(id);
 
             if(isRequestSuccessful(result.status)) {
                 toast.success('Employee deleted', {
