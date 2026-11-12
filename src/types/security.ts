@@ -47,9 +47,10 @@ export type UserPermission = {
 }
 
 export type User = {
-    id: string;
+    id?: string;
     email: string;
-    createdAt: string;
+    password?: string;
+    createdAt?: string;
     updatedAt?: string;
     refreshTokens?: RefreshToken[];
     userGroups?: UserGroup[];

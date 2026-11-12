@@ -91,7 +91,7 @@ export const Users: React.FC = () => {
                     <Td>{user.createdAt}</Td>
                     <Td>{user.updatedAt}</Td>
                     <Td>
-                        { hasPermissions(["EMPLOYEE_EDIT"]) ? 
+                        { hasPermissions(["USER_EDIT"]) ? 
                             <><Link to={`edit/${user.id}`} className="font-medium underline">View</Link>&nbsp;|&nbsp;</> : 
                             <></> 
                         }

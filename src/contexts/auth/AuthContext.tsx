@@ -70,19 +70,24 @@ export const AuthContext: React.FC<{ children: React.ReactNode }> = ({ children 
     useEffect(() => {
         const checkSession = async () => {
             if(state.authStatus === AuthStatus.TokenExpired) {
-                const response = await axios.post<LoginResponse>(GENERAT_JWT_TOKEN_URL, {
-                    id: null,
-                    tokenHash: state.refreshToken
-                });
+                try {
+                    const response = await axios.post<LoginResponse>(GENERAT_JWT_TOKEN_URL, {
+                        id: null,
+                        tokenHash: state.refreshToken
+                    });
 
-                if (response.status === 200) {
-                    localStorage.setItem("token", response.data.jwt);
-                    localStorage.setItem("refreshToken", response.data.refreshToken);
-                    localStorage.setItem("user", JSON.stringify(state.user));
+                    if (response.status === 200) {
+                        localStorage.setItem("token", response.data.jwt);
+                        localStorage.setItem("refreshToken", response.data.refreshToken);
+                        localStorage.setItem("user", JSON.stringify(state.user));
 
-                    dispatch({ type: "LOGIN", payload: { user: state.user, token: response.data.jwt, refreshToken: response.data.refreshToken } });
-                }
-                else {
+                        dispatch({ type: "LOGIN", payload: { user: state.user, token: response.data.jwt, refreshToken: response.data.refreshToken } });
+                    }
+                    else {
+                        clearLoginStorage();
+                        dispatch({ type: "LOGOUT" });
+                    }
+                } catch {
                     clearLoginStorage();
                     dispatch({ type: "LOGOUT" });
                 }
