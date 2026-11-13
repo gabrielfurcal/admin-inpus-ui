@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/auth/AuthContext'
 
 const Menu = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, hasPermissions } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -104,9 +104,16 @@ const Menu = () => {
                 {/* Timezones link */}
                 <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
                   <Link to={"/timezones"} data-twe-nav-link-ref className="p-0 text-white/90 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
-                    Timezones
+                    Timezones 
                   </Link>
                 </li>
+                {/* Users link */}
+                {hasPermissions(["USER_VIEW"]) ? 
+                <li className="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-item-ref>
+                  <Link to={"/users"} data-twe-nav-link-ref className="p-0 text-white/90 transition duration-200 hover:text-white/100 hover:ease-in-out focus:text-white/100 focus:font-semibold active:text-white/100 active:font-semibold motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2">
+                    Users
+                  </Link>
+                </li> : <> </> }
               </ul>
               <div className="mt-4 flex justify-between items-center border-t border-white/15 pt-4 text-white lg:mt-0 lg:ml-auto lg:border-0 lg:pt-0">
                 <div className="flex items-center gap-3">

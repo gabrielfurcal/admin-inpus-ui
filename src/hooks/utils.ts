@@ -22,3 +22,9 @@ export function decodeJwtPayload<T = Record<string, unknown>>(token: string): T 
 
   return JSON.parse(decoded);
 }
+
+export const isRequestSuccessful = (requestStatusCoode: number): boolean => {
+  if(requestStatusCoode >= 200 && requestStatusCoode < 300) return true;
+
+  return false;
+}
