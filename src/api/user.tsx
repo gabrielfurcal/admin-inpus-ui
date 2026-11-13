@@ -13,8 +13,18 @@ export const getUsers = async (offset: number, limit: number): Promise<AxiosResp
     return response;
 }
 
+export const getUserById = async (id: string): Promise<AxiosResponse<User>> => {
+    const response = await axios.get<User>(`${USERS_URL}/${id}`);
+    return response;
+}
+
 export const createUser = async (user: User): Promise<AxiosResponse<User>> => {
     const response = await axios.post<User>(`${USERS_URL}`, user);
+    return response;
+}
+
+export const updateUser = async (user: User): Promise<AxiosResponse<User>> => {
+    const response = await axios.put<User>(`${USERS_URL}/${user.id}`, user);
     return response;
 }
 

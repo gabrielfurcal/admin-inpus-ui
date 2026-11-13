@@ -21,7 +21,7 @@ import { CreateTrip, EditTrip, Trips } from './pages/Trips';
 import { CreateWeekday, EditWeekday, Weekdays } from './pages/Weekdays';
 
 import './App.css';
-import { CreateUser, Users } from './pages/Users';
+import { CreateUser, EditUser, Users } from './pages/Users';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -100,7 +100,7 @@ const App: React.FC = () => {
           <Route path="users" element={<Outlet/>}>
             <Route index element={<Users/>}/>
             <Route path="create" element={<CreateUser/>}/>
-            {/* <Route path="edit/:id" element={<EditTimezone/>}/> */}
+            <Route path="edit/:id" element={<EditUser/>}/>
           </Route>
         </Route>
       </Routes>

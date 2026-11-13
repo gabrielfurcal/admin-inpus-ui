@@ -115,6 +115,9 @@ export const AuthContext: React.FC<{ children: React.ReactNode }> = ({ children 
 
         if(user) {
             const userObj: User = JSON.parse(user);
+
+            if(!userObj.permissions) return false;
+
             return requiredPermissions.some((permission) => userObj.permissions.includes(permission));
         }
         

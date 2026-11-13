@@ -1,5 +1,4 @@
 import { DevTool } from '@hookform/devtools';
-import { useMutation, useQuery } from "@apollo/client/react";
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,66 +7,79 @@ import { toast } from 'react-toastify';
 import { Button, Input } from '../../components/Form';
 import { DEFAULT_REF_VALUE } from '../../constants';
 import { usePageTitle } from '../../contexts/page-title/PageTitleContext';
-import { GET_EMPLOYEE_BY_ID } from "../../graphql/queries";
-import { SAVE_EMPLOYEE } from "../../graphql/mutations";
-import { EmployeeInput } from '../../graphql/gql/graphql';
+import { User } from '../../types/security';
+import { getUserById, updateUser } from '../../api/user';
 
 type FormValues = {
-    firstName: string;
-    lastName: string;
-    position: string;
-    phoneNumber: string;
     email: string;
+    password: string;
 }
 
-export const EditEmployee: React.FC = () => {
+export const EditUser: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const numericId = id ? parseInt(id) : undefined;
+    const [user, setUser] = useState<User>();
     const [isSaved, setIsSaved] = useState<boolean>(false);
-    const [_error, setError] = useState<string>();
-    const { loading, data, error } = useQuery(GET_EMPLOYEE_BY_ID, {variables: { id: numericId! }});
-    const [saveEmployee] = useMutation(SAVE_EMPLOYEE);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>();
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>();
     const { errors: formErrors } = formState;
 
     useEffect(() => {
-        setTitle('Edit employee');
+        setTitle('Edit user');
     }, [setTitle]);
 
     useEffect(() => {
-        if(data && !isSaved) {
-            setValue('firstName', data.employeeById?.firstName || '');
-            setValue('lastName', data.employeeById?.lastName || '');
-            setValue('position', data.employeeById?.position || '');
-            setValue('phoneNumber', data.employeeById?.phoneNumber || '');
-            setValue('email', data.employeeById?.email || '');
-        }
+        void loadUser();
+    }, []);
 
+    useEffect(() => {
         if(isSaved) {
-            toast.success('Employee saved', {
+            toast.success('User saved', {
                 theme: 'light'
             });
             setIsSaved(false);
-            navigate('/employees');
+            navigate('/users');
         }
 
-        if(_error) {
-            toast.error(_error, {
+        if(error) {
+            toast.error(error, {
                 theme: 'light'
             })
         }
-    }, [data, _error, isSaved, navigate, setValue]);
+    }, [error, isSaved, navigate, setValue]);
 
-    const _handleSubmit: any = async (data: FormValues) => {
-        const employeeToSave: EmployeeInput = { id, ...data };
+    const loadUser = async () => {
+        setLoading(true);
 
         try {
-            const result = await saveEmployee({ variables: { employee: employeeToSave }});
+            const response = await getUserById(id!);
+            
+            if(response.status === 200) {
+                setUser(response.data);
+                if(!isSaved)
+                    setValue('email', response.data.email || '');
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch(err) {
+            if(err instanceof Error) {
+                setError(err.message)
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
 
-            if(result.error) {
-                throw new Error(result.error.message);
+    const _handleSubmit: any = async (data: FormValues) => {
+        const userToSave: User = { id, ...data };
+
+        try {
+            const result = await updateUser(userToSave);
+
+            if(result.status !== 200) {
+                throw new Error(result.statusText);
             } else {
                 setIsSaved(true);
             }
@@ -78,21 +90,18 @@ export const EditEmployee: React.FC = () => {
         }
     }
 
-    if(loading) return <p>Fetching employee...</p>
+    if(loading) return <p>Fetching user...</p>
 
-    if(error) return <p>Error: {error.message}</p>
+    if(error) return <p>Error: {error}</p>
 
     return (
         <>
             <form onSubmit={handleSubmit(_handleSubmit)}>
-                <Input {...register('firstName', { required: 'First Name is required' })} defaultValue={DEFAULT_REF_VALUE} label='First Name' placeholder='Insert first name' errorMessage={formErrors.firstName?.message} />
-                <Input {...register('lastName', { required: 'Last Name is required' })} defaultValue={DEFAULT_REF_VALUE} label='Last Name' placeholder='Insert last name' errorMessage={formErrors.lastName?.message} />
-                <Input {...register('position', { required: 'Position is required' })} defaultValue={DEFAULT_REF_VALUE} label='Position' placeholder='Insert position' errorMessage={formErrors.position?.message} />
-                <Input {...register('phoneNumber', { required: 'Phone Number is required' })} defaultValue={DEFAULT_REF_VALUE} label='Phone Number' placeholder='Insert phone number' errorMessage={formErrors.phoneNumber?.message} />
                 <Input {...register('email', { required: 'Email is required' })} defaultValue={DEFAULT_REF_VALUE} type='email' label='Email' placeholder='Insert email' errorMessage={formErrors.email?.message} />
+                <Input {...register('password')} defaultValue={''} type='password' label='Set new password' placeholder='Set new password' errorMessage={formErrors.password?.message} />
                 <Button type='submit' text='Save'/>
                 &nbsp;&nbsp;
-                <Button type='button' text='Back' handleClick={() => navigate("/employees")}/>
+                <Button type='button' text='Back' handleClick={() => navigate("/users")}/>
             </form>
             <DevTool control={control} />
         </>

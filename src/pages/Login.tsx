@@ -33,11 +33,15 @@ export const Login: React.FC = () => {
     const navigate = useNavigate();
     const { register, handleSubmit, formState } = useForm<FormValues>();
     const { errors: formErrors } = formState;
-    const { login } = useAuth();
+    const { login, logout } = useAuth();
 
     useEffect(() => {
         setTitle('Login');
     }, [setTitle]);
+
+    useEffect(() => {
+        logout();
+    }, []);
 
     useEffect(() => {
         if(error) {
