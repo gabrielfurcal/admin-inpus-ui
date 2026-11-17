@@ -1,12 +1,12 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify'
 
+import { loginUser } from '../api/user';
 import { Button, Input } from '../components/Form';
-import { LOGIN_URL } from '../constants';
 import { useAuth } from "../contexts/auth/AuthContext";
 import { usePageTitle } from '../contexts/page-title/PageTitleContext';
 import { decodeJwtPayload } from '../hooks/utils';
@@ -16,15 +16,12 @@ type FormValues = {
     password: string;
 }
 
-type LoginResponse = {
-    jwt: string;
-    refreshToken: string;
-}
-
 type UserInfo = {
     Email: string;
     ID: string;
     Permissions: string[];
+    FirstName?: string;
+    LastName?: string;
 }
 
 export const Login: React.FC = () => {
@@ -54,7 +51,7 @@ export const Login: React.FC = () => {
 
     const _handleSubmit: any = async (data: FormValues) => {
         try {
-            const loginResponse = await axios.post<LoginResponse>(LOGIN_URL, data);
+            const loginResponse = await loginUser(data);
             const userData: UserInfo = decodeJwtPayload(loginResponse.data.jwt);
 
             login({ id: userData.ID, name: userData.Email, permissions: userData.Permissions }, loginResponse.data.jwt, loginResponse.data.refreshToken);

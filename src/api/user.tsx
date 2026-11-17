@@ -1,11 +1,16 @@
 import axios, { AxiosResponse } from "axios"
 
-import { USERS_URL } from "../constants"
+import { LOGIN_URL, USERS_URL } from "../constants"
 import { User } from "../types/security"
 
 export type UserPageResponse = {
     users: User[],
     totalCount: number
+}
+
+export type LoginResponse = {
+    jwt: string;
+    refreshToken: string;
 }
 
 export const getUsers = async (offset: number, limit: number): Promise<AxiosResponse<UserPageResponse>> => {
@@ -15,6 +20,11 @@ export const getUsers = async (offset: number, limit: number): Promise<AxiosResp
 
 export const getUserById = async (id: string): Promise<AxiosResponse<User>> => {
     const response = await axios.get<User>(`${USERS_URL}/${id}`);
+    return response;
+}
+
+export const loginUser = async(data: any): Promise<AxiosResponse<LoginResponse>> => {
+    const response = await axios.post<LoginResponse>(LOGIN_URL, data);
     return response;
 }
 
