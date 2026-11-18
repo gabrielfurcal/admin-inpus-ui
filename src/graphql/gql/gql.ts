@@ -40,6 +40,7 @@ type Documents = {
     "\n    query getEmployees {\n        employees {\n            id\n            firstName\n            lastName\n            position\n            phoneNumber\n            email\n        }\n    }\n": typeof types.GetEmployeesDocument,
     "\n    query getEmployeesPage($offset: Int, $limit: Int) {\n        employeesPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                firstName\n                lastName\n                position\n                phoneNumber\n                email\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n": typeof types.GetEmployeesPageDocument,
     "\n    query getEmployeeById($id: Int!) {\n        employeeById(id: $id) {\n            id\n            firstName\n            lastName\n            position\n            phoneNumber\n            email\n        }\n    }\n": typeof types.GetEmployeeByIdDocument,
+    "\n    query getEmployeeByUserId($userId: String!) {\n        employeeByUserId(userId: $userId) {\n            id\n            firstName\n            lastName\n            position\n            phoneNumber\n            email\n            userId\n        }\n    }\n": typeof types.GetEmployeeByUserIdDocument,
     "\n    query getStatusById($id: Int!) {\n        statusById(id: $id) {\n            id\n            name\n            description\n        }\n    }\n": typeof types.GetStatusByIdDocument,
     "\n    query getStatus {\n        status {\n            id\n            name\n            description\n        }\n    }\n": typeof types.GetStatusDocument,
     "\n    query getStatusPage($offset: Int, $limit: Int) {\n        statusPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n                description\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n": typeof types.GetStatusPageDocument,
@@ -62,7 +63,7 @@ type Documents = {
     "\n    query getWeekdaysPage($offset: Int, $limit: Int) {\n        weekdaysPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n": typeof types.GetWeekdaysPageDocument,
     "\n    query getWeekdayById($id: Int!) {\n        weekdayById(id: $id) {\n            id\n            name\n        }\n    }\n": typeof types.GetWeekdayByIdDocument,
     "\n    query getTimezones {\n        timezones {\n            id\n            name\n            region\n        }\n    }\n": typeof types.GetTimezonesDocument,
-    "\n    query getTimezones($offset: Int, $limit: Int) {\n        timezonesPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n                region\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n": typeof types.GetTimezonesPageDocument,
+    "\n    query getTimezonesPage($offset: Int, $limit: Int) {\n        timezonesPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n                region\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n": typeof types.GetTimezonesPageDocument,
     "\n    query getTimezoneById($id: Int!) {\n        timezoneById(id: $id) {\n            id\n            name\n            region\n        }\n    }\n": typeof types.GetTimezoneByIdDocument,
 };
 const documents: Documents = {
@@ -92,6 +93,7 @@ const documents: Documents = {
     "\n    query getEmployees {\n        employees {\n            id\n            firstName\n            lastName\n            position\n            phoneNumber\n            email\n        }\n    }\n": types.GetEmployeesDocument,
     "\n    query getEmployeesPage($offset: Int, $limit: Int) {\n        employeesPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                firstName\n                lastName\n                position\n                phoneNumber\n                email\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n": types.GetEmployeesPageDocument,
     "\n    query getEmployeeById($id: Int!) {\n        employeeById(id: $id) {\n            id\n            firstName\n            lastName\n            position\n            phoneNumber\n            email\n        }\n    }\n": types.GetEmployeeByIdDocument,
+    "\n    query getEmployeeByUserId($userId: String!) {\n        employeeByUserId(userId: $userId) {\n            id\n            firstName\n            lastName\n            position\n            phoneNumber\n            email\n            userId\n        }\n    }\n": types.GetEmployeeByUserIdDocument,
     "\n    query getStatusById($id: Int!) {\n        statusById(id: $id) {\n            id\n            name\n            description\n        }\n    }\n": types.GetStatusByIdDocument,
     "\n    query getStatus {\n        status {\n            id\n            name\n            description\n        }\n    }\n": types.GetStatusDocument,
     "\n    query getStatusPage($offset: Int, $limit: Int) {\n        statusPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n                description\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n": types.GetStatusPageDocument,
@@ -114,7 +116,7 @@ const documents: Documents = {
     "\n    query getWeekdaysPage($offset: Int, $limit: Int) {\n        weekdaysPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n": types.GetWeekdaysPageDocument,
     "\n    query getWeekdayById($id: Int!) {\n        weekdayById(id: $id) {\n            id\n            name\n        }\n    }\n": types.GetWeekdayByIdDocument,
     "\n    query getTimezones {\n        timezones {\n            id\n            name\n            region\n        }\n    }\n": types.GetTimezonesDocument,
-    "\n    query getTimezones($offset: Int, $limit: Int) {\n        timezonesPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n                region\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n": types.GetTimezonesPageDocument,
+    "\n    query getTimezonesPage($offset: Int, $limit: Int) {\n        timezonesPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n                region\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n": types.GetTimezonesPageDocument,
     "\n    query getTimezoneById($id: Int!) {\n        timezoneById(id: $id) {\n            id\n            name\n            region\n        }\n    }\n": types.GetTimezoneByIdDocument,
 };
 
@@ -239,6 +241,10 @@ export function graphql(source: "\n    query getEmployeeById($id: Int!) {\n     
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n    query getEmployeeByUserId($userId: String!) {\n        employeeByUserId(userId: $userId) {\n            id\n            firstName\n            lastName\n            position\n            phoneNumber\n            email\n            userId\n        }\n    }\n"): (typeof documents)["\n    query getEmployeeByUserId($userId: String!) {\n        employeeByUserId(userId: $userId) {\n            id\n            firstName\n            lastName\n            position\n            phoneNumber\n            email\n            userId\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n    query getStatusById($id: Int!) {\n        statusById(id: $id) {\n            id\n            name\n            description\n        }\n    }\n"): (typeof documents)["\n    query getStatusById($id: Int!) {\n        statusById(id: $id) {\n            id\n            name\n            description\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -327,7 +333,7 @@ export function graphql(source: "\n    query getTimezones {\n        timezones {
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query getTimezones($offset: Int, $limit: Int) {\n        timezonesPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n                region\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n"): (typeof documents)["\n    query getTimezones($offset: Int, $limit: Int) {\n        timezonesPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n                region\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n"];
+export function graphql(source: "\n    query getTimezonesPage($offset: Int, $limit: Int) {\n        timezonesPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n                region\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n"): (typeof documents)["\n    query getTimezonesPage($offset: Int, $limit: Int) {\n        timezonesPage(offset: $offset, limit: $limit) {\n            items {\n                id\n                name\n                region\n            }\n            totalCount\n            hasNextPage\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

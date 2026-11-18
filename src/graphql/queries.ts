@@ -80,6 +80,20 @@ export const GET_EMPLOYEE_BY_ID = graphql(`
     }
 `)
 
+export const GET_EMPLOYEE_BY_USER_ID = graphql(`
+    query getEmployeeByUserId($userId: String!) {
+        employeeByUserId(userId: $userId) {
+            id
+            firstName
+            lastName
+            position
+            phoneNumber
+            email
+            userId
+        }
+    }
+`)
+
 export const GET_STATUS_BY_ID = graphql(`
     query getStatusById($id: Int!) {
         statusById(id: $id) {
@@ -488,7 +502,7 @@ export const GET_TIMEZONES = graphql(`
 `)
 
 export const GET_TIMEZONES_PAGE = graphql(`
-    query getTimezones($offset: Int, $limit: Int) {
+    query getTimezonesPage($offset: Int, $limit: Int) {
         timezonesPage(offset: $offset, limit: $limit) {
             items {
                 id

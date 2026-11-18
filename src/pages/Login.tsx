@@ -4,12 +4,14 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify'
+import { useApolloClient } from '@apollo/client/react';
 
 import { loginUser } from '../api/user';
 import { Button, Input } from '../components/Form';
 import { useAuth } from "../contexts/auth/AuthContext";
 import { usePageTitle } from '../contexts/page-title/PageTitleContext';
 import { decodeJwtPayload } from '../hooks/utils';
+import { getEmployeeForCurrentUser } from '../api/employee';
 
 type FormValues = {
     email: string;
@@ -20,14 +22,13 @@ type UserInfo = {
     Email: string;
     ID: string;
     Permissions: string[];
-    FirstName?: string;
-    LastName?: string;
 }
 
 export const Login: React.FC = () => {
     const [error, setError] = useState<string>();
     const { setTitle } = usePageTitle();
     const navigate = useNavigate();
+    const apolloClient = useApolloClient();
     const { register, handleSubmit, formState } = useForm<FormValues>();
     const { errors: formErrors } = formState;
     const { login, logout } = useAuth();
@@ -53,8 +54,10 @@ export const Login: React.FC = () => {
         try {
             const loginResponse = await loginUser(data);
             const userData: UserInfo = decodeJwtPayload(loginResponse.data.jwt);
+            const employeeData = await getEmployeeForCurrentUser(apolloClient, userData.ID);
+            const userFullname = employeeData ? `${employeeData.firstName} ${employeeData.lastName}` : userData.Email;
 
-            login({ id: userData.ID, name: userData.Email, permissions: userData.Permissions }, loginResponse.data.jwt, loginResponse.data.refreshToken);
+            login({ id: userData.ID, name: userFullname, permissions: userData.Permissions }, loginResponse.data.jwt, loginResponse.data.refreshToken);
             
             toast.success("Login successful", {
                 theme: "light"
@@ -64,6 +67,8 @@ export const Login: React.FC = () => {
         } catch(err) {
             if(err instanceof AxiosError) {
                 setError(err.response?.data);
+            } else if (err instanceof Error) {
+                setError(err.message);
             }
         }
     }

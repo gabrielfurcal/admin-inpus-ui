@@ -1,10 +1,20 @@
-import { ApolloClient } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import type { ApolloClient } from "@apollo/client";
 
-import { GET_EMPLOYEE_BY_ID } from "../graphql/queries";
+import { GET_EMPLOYEE_BY_USER_ID } from "../graphql/queries";
 
 export const getEmployeeForCurrentUser = async (
+    client: ApolloClient,
     userId: string
 ) => {
-    // const { data } = useQuery(GET_EMPLOYEE_BY_ID, { variables: { id: userId } })
+    try {
+        const { data } = await client.query({
+            query: GET_EMPLOYEE_BY_USER_ID,
+            variables: { userId }
+        });
+
+        return data!.employeeByUserId;
+    } catch(err) {
+        console.error(err);
+        return null;
+    }
 }
